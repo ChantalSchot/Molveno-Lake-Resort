@@ -5,10 +5,10 @@ import java.util.Date;
 public class Booking {
     private int bookingNumber;
     private Guest guest;
-    private int nrOfPeople;
+    private int totalGuests;
     private Room[] bookedRooms; //ToDo : Is this needed?
     //ToDo private Invoice invoice;
-    private String status;
+    private Status status;
     private Date checkInDate;
     private Date checkOutDate;
     private RoomBooking roomBooking;
@@ -22,19 +22,19 @@ public class Booking {
         this.guest = guest;
     }
 
-    public int getNrOfPeople() {
-        return nrOfPeople;
+    public int getTotalGuests() {
+        return totalGuests;
     }
 
-    public void setNrOfPeople(int nrOfPeople) {
-        this.nrOfPeople = nrOfPeople;
+    public void setTotalGuests(int totalGuests) {
+        this.totalGuests = totalGuests;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
