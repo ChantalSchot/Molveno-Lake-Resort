@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import Model.Room;
 
 public class RoomController {
@@ -14,14 +15,13 @@ public class RoomController {
     }
 
     //Get one Room object with the RoomID of the Room
-    public Room getRoom(int ID) {
-        for (int i = 0; i < roomList.size(); i++)
-        {
-            if ( roomList.get(i).getRoomID() == ID ) {
+    public Room getRoom(int ID) throws EntityNotFoundException {
+        for (int i = 0; i < roomList.size(); i++) {
+            if (roomList.get(i).getRoomID() == ID) {
                 return roomList.get(i);  //We found it, return the Room object
             }
         }
-        return null; //Room is not available
+        throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for ID: " + ID);
     }
 
     public List<Room> getRoomList() {
@@ -29,36 +29,34 @@ public class RoomController {
     }
 
     //Modify room with roomID with all the new info of newRoomInfo
-    public int putRoom(Room newRoomInfo, int roomID) {
-        for (int i = 0; i < roomList.size(); i++)
-        {
-            if (roomList.get(i).getRoomID() == roomID) {
-                roomList.get(i).setRoomNumber(newRoomInfo.getRoomNumber());
-                roomList.get(i).setAvailable(newRoomInfo.isAvailable());
-                roomList.get(i).setNumberOfSingleBeds(newRoomInfo.getNumberOfSingleBeds());
-                roomList.get(i).setNumberOfDoubleBeds(newRoomInfo.getNumberOfDoubleBeds());
-                roomList.get(i).setNumberOfBabyBeds(newRoomInfo.getNumberOfBabyBeds());
-                roomList.get(i).setDisabledRoom(newRoomInfo.isDisabledRoom());
-                return 0; //We found it, return 0 because everything went alright
+    public void putRoom(Room newRoomInfo, int ID) throws EntityNotFoundException {
+        for (Room room : roomList) {
+            if (room.getRoomID() == ID) {
+                room.setRoomNumber(newRoomInfo.getRoomNumber());
+                room.setAvailable(newRoomInfo.isAvailable());
+                room.setNumberOfSingleBeds(newRoomInfo.getNumberOfSingleBeds());
+                room.setNumberOfDoubleBeds(newRoomInfo.getNumberOfDoubleBeds());
+                room.setNumberOfBabyBeds(newRoomInfo.getNumberOfBabyBeds());
+                room.setDisabledRoom(newRoomInfo.isDisabledRoom());
+                return;
             }
         }
-        return -1; //Room is not available
+        throw new EntityNotFoundException("RoomController::putRoom() Room not found in the list for ID: " + ID);
     }
 
     //Create room
-    public void postRoom(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
-        roomList.add(new Room(roomNumber, singleBeds, doubleBeds, babyBeds, disabled));
+    public void postRoom(Room room) {
+        roomList.add(room);
     }
 
     //Delete room
-    public int deleteRoom(int ID) {
-        for (int i = 0; i < roomList.size(); i++)
-        {
-            if ( roomList.get(i).getRoomID() == ID ) {
-                roomList.remove(roomList.get(i));  //We found it, delete the Room object
-                return 0; // Delete went well
+    public void deleteRoom(int ID) throws EntityNotFoundException {
+        for (Room room : roomList) {
+            if (room.getRoomID() == ID) {
+                roomList.remove(room.getRoomID());  //We found it, delete the Room object
+                return;
             }
         }
-        return -1; // Didn't delete the object, object not available
+        throw new EntityNotFoundException("RoomController::deleteRoom() Room not found in the list for ID: " + ID);
     }
 }
