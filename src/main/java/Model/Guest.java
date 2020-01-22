@@ -10,6 +10,11 @@ public class Guest {
     private String city;
     private Booking[] bookings;
 
+    @Override
+    public String toString(){
+        return "id: " + " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
+    }
+
     public int getId() {
         return id;
     }
