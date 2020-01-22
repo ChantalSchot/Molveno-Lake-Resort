@@ -27,6 +27,16 @@ public class Guest {
         this.city = "Utrecht";
     }
 
+    public Guest(String name, String mail, String phone, String passportNr, String address, String city) {
+        this.guestID = guestIDgenerator++;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.passportNr = passportNr;
+        this.address = address;
+        this.city = city;
+    }
+
     public int getGuestID() {
         return guestID;
     }

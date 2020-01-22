@@ -35,6 +35,11 @@ public class GuestController {
 		guestList.add(newGuest);
 	}
 
+	public void postGuest(String name, String mail, String phone, String passportNr, String address, String city) {
+		Guest newGuest = new Guest(name, mail, phone, passportNr, address, city);
+		guestList.add(newGuest);
+	}
+
 	public void putGuest(Guest guest) throws EntityNotFoundException {
 		for (Guest guestIterator : guestList) {
 			if (guestIterator.getGuestID() == guest.getGuestID()) {
