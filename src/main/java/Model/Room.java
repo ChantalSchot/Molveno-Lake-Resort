@@ -2,20 +2,20 @@ package Model;
 
 public class Room {
     static int roomIDGenerator = 1;
-    int roomID;
-    String roomNumber;
-    boolean available;
-    int numberOfSingleBeds;
-    int numberOfDoubleBeds;
-    int numberOfBabyBeds;
-    boolean disabledRoom;
+    private int roomID;
+    private String roomNumber;
+    private boolean available;
+    private int numberOfSingleBeds;
+    private int numberOfDoubleBeds;
+    private int numberOfBabyBeds;
+    private boolean disabledRoom;
 
-    Room() {
+    public Room() {
         roomID = roomIDGenerator++;
         available = true;
     }
 
-    Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
+    public Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
         roomID = roomIDGenerator++;
         available = true;
         this.roomNumber = roomNumber;
