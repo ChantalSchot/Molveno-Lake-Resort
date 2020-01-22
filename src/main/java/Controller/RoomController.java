@@ -1,9 +1,9 @@
 package Controller;
 
+import Model.Room;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import Model.Room;
 
 public class RoomController {
     private List<Room> roomList = new ArrayList<Room>();
