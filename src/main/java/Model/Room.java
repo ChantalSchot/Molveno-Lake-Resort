@@ -1,3 +1,5 @@
+package Model;
+
 public class Room {
     static int roomIDGenerator = 1;
     int roomID;

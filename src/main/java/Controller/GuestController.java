@@ -13,12 +13,13 @@ public class GuestController {
     }
 
 
-    public Guest getGuest(int id){
+    public Guest getGuest(int id) throws EntityNotFoundException {
         for (Guest g : guests){
-            if(g.getId() == id){
+            if (g.getId() == id) {
                 return g;
             }
         }
+        throw new EntityNotFoundException("Guest was not found for ID: " + id);
     }
 
     public List<Guest> getGuests(){
