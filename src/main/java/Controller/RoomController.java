@@ -9,6 +9,7 @@ public class RoomController {
     private List<Room> roomList = new ArrayList<Room>();
 
     public RoomController() {
+        //TESTROOMS!!!!!!
         roomList.add(new Room("101", 1, 0, 0, false));
         roomList.add(new Room("102", 0, 1, 0, false));
         roomList.add(new Room("103", 1, 0, 1, false));
@@ -16,9 +17,9 @@ public class RoomController {
 
     //Get one Room object with the RoomID of the Room
     public Room getRoom(int ID) throws EntityNotFoundException {
-        for (int i = 0; i < roomList.size(); i++) {
-            if (roomList.get(i).getRoomID() == ID) {
-                return roomList.get(i);  //We found it, return the Room object
+        for (Room room : roomList) {
+            if (room.getRoomID() == ID) {
+                return room;  //We found it, return the Room object
             }
         }
         throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for ID: " + ID);

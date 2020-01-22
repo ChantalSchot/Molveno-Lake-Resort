@@ -9,28 +9,28 @@ public class Room {
     private int numberOfDoubleBeds;
     private int numberOfBabyBeds;
     private boolean disabledRoom;
+    private Facilities facilities;
 
     public Room() {
         roomID = roomIDGenerator++;
         available = true;
+        facilities = new Facilities();
     }
 
     public Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
-        roomID = roomIDGenerator++;
-        available = true;
+        this.roomID = roomIDGenerator++;
+        this.available = true;
+        this.facilities = new Facilities();
         this.roomNumber = roomNumber;
         this.numberOfSingleBeds = singleBeds;
         this.numberOfDoubleBeds = doubleBeds;
         this.numberOfBabyBeds = babyBeds;
         this.disabledRoom = disabled;
+
     }
 
     public int getRoomID() {
         return roomID;
-    }
-
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
     }
 
     public String getRoomNumber() {
@@ -79,5 +79,9 @@ public class Room {
 
     public void setDisabledRoom(boolean disabledRoom) {
         this.disabledRoom = disabledRoom;
+    }
+
+    public Facilities getFacilities() {
+        return facilities;
     }
 }
