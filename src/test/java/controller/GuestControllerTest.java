@@ -17,17 +17,18 @@ class GuestControllerTest {
 
 	@Test
 	void getGuest() throws EntityNotFoundException {
+		// Gastinformatie ophalen:
+		try {
+			System.out.println("Informatie wordt opgehaald van guest ID 1...\n");
+			Guest guest;
+			guest = guestController.getGuest(1);
+			System.out.println("Gastinformatie: \nNaam: " + guest.getName() + "\nGeboortedatum: " + guest.getBirthDate() + "\nStad: " + guest.getCity() + "\nBoekingen: " + guest.getBookings().length);
 
-		System.out.println("Informatie wordt opgehaald van guest ID 1...\n");
-		Guest guest;
-		guest = guestController.getGuest(1);
-		System.out.println("Gastinformatie: \nNaam: " + guestController.getGuest(1).getName() + "\nGeboortedatum: " + guestController.getGuest(1).getBirthDate() + "\nStad: " + guestController.getGuest(1).getCity() + "\nBoekingen: " + guestController.getGuest(1).getBookings().length);
-
-		// Guest information can be requested through the Guest Controller:
-		// Get guest name from 3rd guest in dummy GuestController guestList
-		assertEquals("Bob", guestController.getGuest(3).getName());
+			assertEquals("Bob", guestController.getGuest(3).getName());
+		} catch (EntityNotFoundException e) {
+			assertEquals(e.toString(),"");
+		}
 	}
-
 
 	@Test
 	void getGuestList() {
@@ -40,6 +41,24 @@ class GuestControllerTest {
 
 	@Test
 	void postGuest() {
+		try {
+			System.out.println("Registreer een nieuwe gast: Jane Appleseed, geboren in 2002, afkomstig uit New York. \n");
+			guestController.postGuest("Jane Appleseed", "January 24th, 2002", "Jane@email.com", "0316 - 23454321", "AB1234DE", "Chicago Street", "New York");
+
+			System.out.print("Nieuwe gast geregistreerd. ");
+			Guest guest = guestController.getGuest(4);
+			System.out.println("Gastinformatie: \nNaam: " + guest.getName() + "\nGeboortedatum: " + guest.getBirthDate() + "\nStad: " + guest.getCity() + "\nBoekingen: " + guest.getBookings().length);
+
+			System.out.println("\nNieuwe gastenlijst:");
+			for (Guest guestIterator : guestController.getGuestList()) {
+				System.out.println(guestIterator.getGuestID() + ". " + guestIterator.getName() + ", " + guestIterator.getCity() + ", " + guestIterator.getBookings().length + " boekingen.");
+			}
+			assertEquals("Jane Appleseed", guestController.getGuestList().get(3).getName());
+		}
+		catch (EntityNotFoundException e) {
+			assertEquals(e.toString(),"");
+		}
+
 	}
 
 	@Test
