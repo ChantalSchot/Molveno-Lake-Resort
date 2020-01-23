@@ -54,7 +54,7 @@ public class RoomController {
 	public void deleteRoom(int id) throws EntityNotFoundException {
 		for (Room room : roomList) {
 			if (room.getRoomID() == id) {
-				roomList.remove(room.getRoomID());  //We found it, delete the Room object
+				roomList.remove(getRoom(room.getRoomNumber()));  //We found it, delete the Room object
 				return;
 			}
 		}
