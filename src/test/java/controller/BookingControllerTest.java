@@ -38,7 +38,7 @@ class BookingControllerTest {
             assertEquals("101", booking.getBookedRooms()[0].getRoomNumber());
             assertEquals(1, booking.getBookingNumber());
             assertEquals(1, booking.getGuest().getGuestID());
-            System.out.println("De booking die is opgehaald heeft kamernummer " + booking.getBookedRooms()[0].getRoomNumber()
+            System.out.println("De boeking die is opgehaald heeft kamernummer " + booking.getBookedRooms()[0].getRoomNumber()
                     + ", geboekt door de klant " + booking.getGuest().getName());
 
         }
@@ -63,14 +63,34 @@ class BookingControllerTest {
 
     @Test
     void putBooking() {
+
     }
 
     @Test
     void postBooking() {
+
     }
 
     @Test
     void deleteBooking() {
+        System.out.println("Boeking 1 word verwijderd");
 
+        try {
+            Booking booking = bookingController.getBooking(1);
+            bookingController.deleteBooking(1);
+        } catch(EntityNotFoundException e) {
+            System.out.println(e);
+            assertEquals(e.toString(), "");
+        }
+
+        List<Booking> list= bookingController.GetBookings();
+        assertEquals(2, list.size());
+        if(!list.isEmpty()) {
+            System.out.println("Lijst van boekingen:");
+            for(Booking booking : list) {
+                System.out.println("Boeking " + booking.getBookingNumber()
+                        + ", geboekt door de klant " + booking.getGuest().getName());
+            }
+        }
     }
 }

@@ -15,13 +15,13 @@ public class BookingController {
 
     }
 
-    public Booking getBooking(int id) throws EntityNotFoundException {
+    public Booking getBooking(int bookingId) throws EntityNotFoundException {
         for (Booking booking : bookingList){
-            if(booking.getBookingNumber() == id){
+            if(booking.getBookingNumber() == bookingId){
                 return booking;
             }
         }
-        throw new EntityNotFoundException("Booking was not found for ID: " + id);
+        throw new EntityNotFoundException("Booking was not found for ID: " + bookingId);
     }
 
     public List<Booking> GetBookings(){
@@ -33,7 +33,7 @@ public class BookingController {
             if (bookingIterator.getBookingNumber() == booking.getBookingNumber()) {
                 bookingList.remove(booking);
                 bookingList.add(booking);
-                break;
+                return;
             }
         }
         throw new EntityNotFoundException("Booking was not found for ID: " + booking.getBookingNumber());
@@ -43,13 +43,14 @@ public class BookingController {
         bookingList.add(booking);
     }
 
-    public void deleteBooking(int id) throws EntityNotFoundException {
+    public void deleteBooking(int bookingId) throws EntityNotFoundException {
         for(Booking g : bookingList){
-            if(id == g.getBookingNumber()){
+            if(bookingId == g.getBookingNumber()){
                 bookingList.remove(g);
+                return;
             }
         }
-        throw new EntityNotFoundException("Booking was not found for ID: " + id);
+        throw new EntityNotFoundException("Booking was not found for ID: " + bookingId);
     }
 
 }
