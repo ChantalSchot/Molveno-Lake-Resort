@@ -16,13 +16,13 @@ public class RoomController {
 	}
 
 	//Get one Room object with the RoomID of the Room
-	public Room getRoom(int id) throws EntityNotFoundException {
+	public Room getRoom(String number) throws EntityNotFoundException {
 		for (Room room : roomList) {
-			if (room.getRoomID() == id) {
+			if (room.getRoomNumber() == number) {
 				return room;  //We found it, return the Room object
 			}
 		}
-		throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for ID: " + id);
+		throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for roomNumber: " + number);
 	}
 
 	public List<Room> getRoomList() {
