@@ -1,34 +1,36 @@
+package Model;
+
 public class Room {
     static int roomIDGenerator = 1;
-    int roomID;
-    String roomNumber;
-    boolean available;
-    int numberOfSingleBeds;
-    int numberOfDoubleBeds;
-    int numberOfBabyBeds;
-    boolean disabledRoom;
+    private int roomID;
+    private String roomNumber;
+    private boolean available;
+    private int numberOfSingleBeds;
+    private int numberOfDoubleBeds;
+    private int numberOfBabyBeds;
+    private boolean disabledRoom;
+    private Facilities facilities;
 
-    Room() {
+    public Room() {
         roomID = roomIDGenerator++;
         available = true;
+        facilities = new Facilities();
     }
 
-    Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
-        roomID = roomIDGenerator++;
-        available = true;
+    public Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
+        this.roomID = roomIDGenerator++;
+        this.available = true;
+        this.facilities = new Facilities();
         this.roomNumber = roomNumber;
         this.numberOfSingleBeds = singleBeds;
         this.numberOfDoubleBeds = doubleBeds;
         this.numberOfBabyBeds = babyBeds;
         this.disabledRoom = disabled;
+
     }
 
     public int getRoomID() {
         return roomID;
-    }
-
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
     }
 
     public String getRoomNumber() {
@@ -77,5 +79,9 @@ public class Room {
 
     public void setDisabledRoom(boolean disabledRoom) {
         this.disabledRoom = disabledRoom;
+    }
+
+    public Facilities getFacilities() {
+        return facilities;
     }
 }
