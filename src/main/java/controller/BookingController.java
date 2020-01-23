@@ -1,8 +1,9 @@
 package controller;
 
-import Model.Booking;
-import Model.Guest;
+import model.Booking;
+import model.Guest;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
