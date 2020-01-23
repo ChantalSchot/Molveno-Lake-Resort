@@ -13,6 +13,10 @@ public class RoomController {
 		roomList.add(new Room("101", 1, 0, 0, false));
 		roomList.add(new Room("102", 0, 1, 0, false));
 		roomList.add(new Room("103", 1, 0, 1, false));
+
+		Room newRoom = new Room("104", 1, 1, 0, false);
+		newRoom.setAvailable(false);
+		roomList.add(newRoom);
 	}
 
 	//Get one Room object with the RoomID of the Room
@@ -27,6 +31,16 @@ public class RoomController {
 
 	public List<Room> getRoomList() {
 		return roomList;
+	}
+
+	public List<Room> getAvailableRooms() {
+		List<Room> availableRooms = new ArrayList<Room>();
+		for (Room room : roomList) {
+			if (room.isAvailable()) {
+				availableRooms.add(room);
+			}
+		}
+		return availableRooms;
 	}
 
 	//Modify room with roomID with all the new info of newRoomInfo
