@@ -15,7 +15,7 @@ public class Guest {
 
     @Override
     public String toString(){
-        return  " Name: " + name + "Birth date: " + birthDate + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
+        return  "Name: " + name + ". Birth date: " + birthDate + ". Mail: " + mail + ". Phone: " + phone + ".\nPassportnumber: " + passportNr + ". Address: " + address + ". City: " + city + ".";
     }
 
 
@@ -32,7 +32,7 @@ public class Guest {
         this.mail = "address@email.com";
         this.phone = "06-12345678";
         this.passportNr = "AB12C34D5";
-        this.address = "Main Street 1, AAAA 11";
+        this.address = "Main Street 1, 1234 AB";
         this.city = "Utrecht";
     }
 

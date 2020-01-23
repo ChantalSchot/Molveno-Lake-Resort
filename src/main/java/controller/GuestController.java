@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GuestController {
 	private List<Guest> guestList;
-	private String exceptionError = "Guest was not found for ID: ";
+	public String exceptionError = "Guest was not found for ID: ";
 
 	public GuestController() {
 		guestList = new ArrayList<>();
@@ -42,15 +42,38 @@ public class GuestController {
 		guestList.add(newGuest);
 	}
 
-	public void putGuest(Guest guest) throws EntityNotFoundException {
-		for (Guest guestIterator : guestList) {
-			if (guestIterator.getGuestID() == guest.getGuestID()) {
-				guestList.remove(guest);
-				guestList.add(guest);
+	public void putGuest(int guestID, String name, String birthDate, String mail, String phone, String passportNr, String address, String city) throws EntityNotFoundException {
+		for (Guest guest : guestList) {
+			if (guest.getGuestID() == guestID) {
+				// Change if fields are changed and if new field is not empty
+				System.out.print("Updated: ");
+				if (!(guest.getName() == name) && !(name.isEmpty())) {
+					guest.setName(name);
+					System.out.print("name ");
+				} if (!(guest.getBirthDate() == birthDate) && !(birthDate.isEmpty())) {
+					guest.setBirthDate(birthDate);
+					System.out.print("birth date ");
+				} if (!(guest.getMail() == mail) && !(mail.isEmpty())) {
+					guest.setMail(mail);
+					System.out.print("mail ");
+				} if (!(guest.getPhone() == phone) && !(phone.isEmpty())) {
+					guest.setPhone(phone);
+					System.out.print("phone ");
+				} if (!(guest.getPassportNr() == passportNr) && !(passportNr.isEmpty())) {
+					guest.setPassportNr(passportNr);
+					System.out.print("passport number ");
+				} if (!(guest.getAddress() == address) && !(address.isEmpty())) {
+					guest.setAddress(address);
+					System.out.print("address ");
+				} if (!(guest.getCity() == city) && !(city.isEmpty())) {
+					guest.setCity(city);
+					System.out.print("city ");
+				}
+				
 				return;
 			}
 		}
-		throw new EntityNotFoundException(exceptionError + guest.getGuestID());
+		throw new EntityNotFoundException(exceptionError + guestID);
 	}
 
 	public void deleteGuest(int guestID) throws EntityNotFoundException {
