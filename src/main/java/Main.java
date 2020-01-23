@@ -1,6 +1,5 @@
-import Controller.EntityNotFoundException;
-import Controller.GuestController;
-import Model.Guest;
+import controller.EntityNotFoundException;
+import controller.GuestController;
 
 public class Main {
 	public static void main(String[] args) throws EntityNotFoundException {

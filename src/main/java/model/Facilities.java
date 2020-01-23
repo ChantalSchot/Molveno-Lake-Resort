@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Facilities {
     boolean miniBar = true;
