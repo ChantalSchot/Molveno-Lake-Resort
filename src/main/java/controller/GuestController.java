@@ -1,15 +1,20 @@
-package Controller;
+package controller;
 
-import Model.Guest;
+import model.Guest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuestController {
 	private List<Guest> guestList;
+	private String exceptionError = "Guest was not found for ID: ";
 
 	public GuestController() {
 		guestList = new ArrayList<>();
+
+		// Om meerdere tests te laten runnen met correcte ID-waarde, moet de ID generator
+		// gereset worden zodra de guestController opnieuw wordt opgeroepen.
+		Guest.setGuestIDgenerator(1);
 
 		//TEST GUEST LIST (ID
 		guestList.add(new Guest("Jan Janssen"));
@@ -23,7 +28,7 @@ public class GuestController {
 				return guest;
 			}
 		}
-		throw new EntityNotFoundException("Guest was not found for ID: " + guestID);
+		throw new EntityNotFoundException(exceptionError + guestID);
 	}
 
 	public List<Guest> getGuestList() {
@@ -43,12 +48,12 @@ public class GuestController {
 	public void putGuest(Guest guest) throws EntityNotFoundException {
 		for (Guest guestIterator : guestList) {
 			if (guestIterator.getGuestID() == guest.getGuestID()) {
-			    guestList.remove(guest);
+				guestList.remove(guest);
 				guestList.add(guest);
 				return;
 			}
 		}
-		throw new EntityNotFoundException("Guest was not found for ID: " + guest.getGuestID());
+		throw new EntityNotFoundException(exceptionError + guest.getGuestID());
 	}
 
 	public void deleteGuest(int guestID) throws EntityNotFoundException {
@@ -58,6 +63,6 @@ public class GuestController {
 				return;
 			}
 		}
-        throw new EntityNotFoundException("Guest was not found for ID: " + guestID);
+		throw new EntityNotFoundException(exceptionError + guestID);
 	}
 }

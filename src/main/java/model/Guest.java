@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Guest {
     static int guestIDgenerator = 1;
@@ -42,6 +42,10 @@ public class Guest {
         this.passportNr = passportNr;
         this.address = address;
         this.city = city;
+    }
+
+    public static void setGuestIDgenerator(int guestIDgenerator) {
+        Guest.guestIDgenerator = guestIDgenerator;
     }
 
     public int getGuestID() {

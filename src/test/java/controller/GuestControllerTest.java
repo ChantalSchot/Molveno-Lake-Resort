@@ -1,27 +1,28 @@
-package Controller;
+package controller;
 
-import Model.Guest;
+import model.Guest;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GuestControllerTest {
 
+
 	@Test
 	void getGuest() throws EntityNotFoundException {
 		GuestController guestController = new GuestController();
 		// Get guest name from 3rd guest in dummy GuestController guestList
-		assertEquals("Bob", guestController.getGuest(3).getName());
+		assertEquals("Alice", guestController.getGuest(2).getName());
 	}
 
 	@Test
 	void getGuestList() {
 		GuestController guestController = new GuestController();
-
-
-
+		guestController.getGuestList().listIterator();
+		for (Guest guest : guestController.getGuestList()) {
+			System.out.println(guest.getName() + ", " + guest.getCity() + ", ID: " + guest.getGuestID());
+		}
+		assertEquals("Jan Janssen", guestController.getGuestList().get(0).getName());
 	}
 
 	@Test
