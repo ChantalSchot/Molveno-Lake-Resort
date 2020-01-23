@@ -1,7 +1,8 @@
 package Model;
 
 public class Guest {
-    private int id;
+    static int guestIDgenerator = 1;
+    private int guestID;
     private String name;
     private String mail;
     private String phone;
@@ -10,12 +11,41 @@ public class Guest {
     private String city;
     private Booking[] bookings;
 
-    public int getId() {
-        return id;
+
+    @Override
+    public String toString(){
+        return  " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    // Guest constructors
+    public Guest() {
+        this("Default name");
+
+    }
+
+    public Guest(String name) {
+        this.guestID = guestIDgenerator++;
+        this.name = name;
+        this.mail = "address@email.com";
+        this.phone = "06-12345678";
+        this.passportNr = "AB12C34D5";
+        this.address = "Main Street 1, AAAA 11";
+        this.city = "Utrecht";
+    }
+
+    public Guest(String name, String mail, String phone, String passportNr, String address, String city) {
+        this.guestID = guestIDgenerator++;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
+        this.passportNr = passportNr;
+        this.address = address;
+        this.city = city;
+    }
+
+    public int getGuestID() {
+        return guestID;
     }
 
     public String getName() {
