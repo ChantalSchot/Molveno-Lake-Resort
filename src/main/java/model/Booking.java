@@ -19,8 +19,10 @@ public class Booking {
     @Override
     public String toString(){
         String rooms = printRooms(bookedRooms);
-        return  " Guest: " + guest.getName() + " Total Guests: " + totalGuests + " Check in date : " + checkInDate
-                + " Check out date: " + checkOutDate + " Status: " + status + "rooms: " +  rooms;
+        return  " Guest: " + guest.getName() + " Total Guests: " + totalGuests + " Check in date : "
+                + checkInDate.getDate()+ "-" + checkInDate.getMonth()+ "-"  + (checkInDate.getYear()+1900)
+                + " Check out date: " + checkOutDate.getDate()+ "-" + checkOutDate.getMonth()+ "-"  + (checkOutDate.getYear()+1900)
+                + " Status: " + status + "rooms: " +  rooms;
     }
 
     private String printRooms(Room[] bookedRooms) {

@@ -62,13 +62,43 @@ class BookingControllerTest {
     }
 
     @Test
-    void putBooking() {
+    void putBooking() throws EntityNotFoundException {
+        Booking booking = bookingController.getBooking(3);
+        Guest guest = new Guest("Niet Bob");
+        System.out.println(booking.toString());
+
+        Room[] list = booking.getBookedRooms();
+        Room[] NList = {list[0], list[1]};
+        booking.setBookedRooms(NList);
+        booking.setGuest(guest);
+
+        bookingController.putBooking(booking);
+        Booking NBooking = bookingController.getBooking(3);
+
+        assertEquals("Niet Bob", NBooking.getGuest().getName() );
+        assertEquals(2, NBooking.getBookedRooms().length );
+        System.out.println(NBooking.toString());
 
     }
 
     @Test
-    void postBooking() {
+    void postBooking() throws ParseException {
+        Guest guest = new Guest("Willem Alexander");
+        Room[] rooms = roomController.getRoomList().toArray(new Room[0]);
 
+
+        Booking nBooking = new Booking(guest, rooms);
+        bookingController.postBooking(nBooking);
+
+
+        List<Booking> bookingList= bookingController.GetBookings();
+        assertEquals(4, bookingList.size());
+        if(!bookingList.isEmpty()) {
+            System.out.println("Lijst van Boekingen:");
+            for(Booking booking : bookingList) {
+                System.out.println(booking.toString());
+            }
+        }
     }
 
     @Test
