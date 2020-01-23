@@ -48,7 +48,7 @@ public class GuestController {
 				return;
 			}
 		}
-		throw new EntityNotFoundException("Guest was not found for ID: " + guest);
+		throw new EntityNotFoundException("Guest was not found for ID: " + guest.getGuestID());
 	}
 
 	public void deleteGuest(int guestID) throws EntityNotFoundException {

@@ -14,7 +14,7 @@ public class Guest {
 
     @Override
     public String toString(){
-        return "id: " + " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
+        return  " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
     }
 
 
