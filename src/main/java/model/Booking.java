@@ -1,5 +1,7 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Booking {
@@ -16,26 +18,27 @@ public class Booking {
 
     @Override
     public String toString(){
+        String rooms = printRooms(bookedRooms);
         return  " Guest: " + guest.getName() + " Total Guests: " + totalGuests + " Check in date : " + checkInDate
-                + " Check out date: " + checkOutDate + " Status: " + status + "rooms: " + printRooms(bookedRooms);
+                + " Check out date: " + checkOutDate + " Status: " + status + "rooms: " +  rooms;
     }
 
     private String printRooms(Room[] bookedRooms) {
         String rooms = "";
         for(Room r :bookedRooms ){
-            rooms.concat(r.getRoomNumber() + ", ");
+            rooms = rooms.concat(r.getRoomNumber() + ", ");
         }
         return rooms;
     }
 
-    public Booking(Guest guest, Room[] bookedRoom ) {
+    public Booking(Guest guest, Room[] bookedRoom ) throws ParseException {
         this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = 3;
         this.bookedRooms = bookedRoom;
         this.status = Status.booked;
-        this.checkInDate = new Date(2020, 03, 05);
-        this.checkOutDate = new Date(2020, 03, 15);
+        this.checkInDate = new SimpleDateFormat("dd/MM/yyyy").parse("12/05/2020");
+        this.checkOutDate = new SimpleDateFormat("dd/MM/yyyy").parse("19/05/2020");
         //this.roomBooking = ;
     }
 
