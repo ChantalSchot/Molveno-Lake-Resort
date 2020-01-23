@@ -11,6 +11,13 @@ public class Guest {
     private String city;
     private Booking[] bookings;
 
+
+    @Override
+    public String toString(){
+        return  " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
+    }
+
+
     // Guest constructors
     public Guest() {
         this("Default name");

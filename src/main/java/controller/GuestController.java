@@ -53,7 +53,7 @@ public class GuestController {
 				return;
 			}
 		}
-		throw new EntityNotFoundException(exceptionError + guest);
+		throw new EntityNotFoundException(exceptionError + guest.getGuestID());
 	}
 
 	public void deleteGuest(int guestID) throws EntityNotFoundException {
