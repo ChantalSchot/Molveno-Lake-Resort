@@ -4,17 +4,18 @@ public class Guest {
     static int guestIDgenerator = 1;
     private int guestID;
     private String name;
+    private String birthDate;
     private String mail;
     private String phone;
     private String passportNr;
     private String address;
     private String city;
-    private Booking[] bookings;
+    private Booking[] bookings = {};
 
 
     @Override
     public String toString(){
-        return  " Name: " + name + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
+        return  " Name: " + name + "Birth date: " + birthDate + " Mail: " + mail + " Phone: " + phone + " Passportnumber: " + passportNr + " Address: " + address + " City: " + city;
     }
 
 
@@ -27,6 +28,7 @@ public class Guest {
     public Guest(String name) {
         this.guestID = guestIDgenerator++;
         this.name = name;
+        this.birthDate = "January 1st, 1980";
         this.mail = "address@email.com";
         this.phone = "06-12345678";
         this.passportNr = "AB12C34D5";
@@ -34,8 +36,9 @@ public class Guest {
         this.city = "Utrecht";
     }
 
-    public Guest(String name, String mail, String phone, String passportNr, String address, String city) {
+    public Guest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) {
         this.guestID = guestIDgenerator++;
+        this.birthDate = birthDate;
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -58,6 +61,14 @@ public class Guest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getMail() {
@@ -102,7 +113,7 @@ public class Guest {
 
     public Booking[] getBookings() {
         return bookings;
-    }
+        }
 
     public void setBookings(Booking[] bookings) {
         this.bookings = bookings;

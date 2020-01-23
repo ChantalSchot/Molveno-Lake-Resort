@@ -1,5 +1,6 @@
 package controller;
 
+import model.Booking;
 import model.Guest;
 
 import java.util.ArrayList;
@@ -12,11 +13,7 @@ public class GuestController {
 	public GuestController() {
 		guestList = new ArrayList<>();
 
-		// Om meerdere tests te laten runnen met correcte ID-waarde, moet de ID generator
-		// gereset worden zodra de guestController opnieuw wordt opgeroepen.
-		Guest.setGuestIDgenerator(1);
-
-		//TEST GUEST LIST (ID
+		//TEST GUEST LIST :
 		guestList.add(new Guest("Jan Janssen"));
 		guestList.add(new Guest("Alice"));
 		guestList.add(new Guest("Bob"));
@@ -40,8 +37,8 @@ public class GuestController {
 		guestList.add(newGuest);
 	}
 
-	public void postGuest(String name, String mail, String phone, String passportNr, String address, String city) {
-		Guest newGuest = new Guest(name, mail, phone, passportNr, address, city);
+	public void postGuest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) {
+		Guest newGuest = new Guest(name, birthDate, mail, phone, passportNr, address, city);
 		guestList.add(newGuest);
 	}
 
@@ -65,4 +62,15 @@ public class GuestController {
 		}
 		throw new EntityNotFoundException(exceptionError + guestID);
 	}
+
+	public Booking[] getGuestBookings(int guestID) throws EntityNotFoundException{
+		if (getGuest(guestID).getBookings().length != 0) {
+			return getGuest(guestID).getBookings();
+		}
+		else {
+			throw new EntityNotFoundException(getGuest(guestID).getName() + " currently has no bookings.");
+		}
+
+	}
+
 }
