@@ -34,9 +34,21 @@ class RoomControllerTest {
     @Test
     public void getRoomList() {
         List<Room> list= roomController.getRoomList();
-        assertEquals(3, list.size());
+        assertEquals(4, list.size());
         if(!list.isEmpty()) {
             System.out.println("Lijst van kamers:");
+            for(Room room : list) {
+                System.out.println("Kamer " + room.getRoomNumber() + " is " + (room.isAvailable() ? "Available" : "Not available."));
+            }
+        }
+    }
+
+    @Test
+    void getAvailableRooms() {
+        List<Room> list= roomController.getAvailableRooms();
+        assertEquals(3, list.size());
+        if(!list.isEmpty()) {
+            System.out.println("Lijst van beschikbare kamerskamers:");
             for(Room room : list) {
                 System.out.println("Kamer " + room.getRoomNumber() + " is " + (room.isAvailable() ? "Available" : "Not available."));
             }
@@ -48,12 +60,12 @@ class RoomControllerTest {
         //Modify a room
         try {
             Room room = roomController.getRoom("101");
-            Room newRoom = new Room("104", 1, 1, 0, false);
-            System.out.println("Room with number: " + room.getRoomNumber() + " will be modified to have roomnumber 104");
+            Room newRoom = new Room("105", 1, 1, 0, false);
+            System.out.println("Room with number: " + room.getRoomNumber() + " will be modified to have roomnumber 105");
             roomController.putRoom(newRoom, room.getRoomID());
 
             List<Room> list= roomController.getRoomList();
-            assertEquals(3, list.size());
+            assertEquals(4, list.size());
             if(!list.isEmpty()) {
                 System.out.println("Lijst van kamers:");
                 for(Room roomIt : list) {
@@ -68,6 +80,7 @@ class RoomControllerTest {
 
     @Test
     public void postRoom() {
+        System.out.println("Nieuwe kamer toevoegen:");
         Room room = new Room();
         room.setNumberOfSingleBeds(1);
         room.setRoomNumber("201");
@@ -75,7 +88,7 @@ class RoomControllerTest {
         roomController.postRoom(room);
 
         List<Room> list= roomController.getRoomList();
-        assertEquals(4, list.size());
+        assertEquals(5, list.size());
         if(!list.isEmpty()) {
             System.out.println("Lijst van kamers:");
             for(Room roomIt : list) {
@@ -97,7 +110,7 @@ class RoomControllerTest {
         }
 
         List<Room> list= roomController.getRoomList();
-        assertEquals(2, list.size());
+        assertEquals(3, list.size());
         if(!list.isEmpty()) {
             System.out.println("Lijst van kamers:");
             for(Room roomIt : list) {
