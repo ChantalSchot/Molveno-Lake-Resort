@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import controller.EntityNotFoundException;
 import controller.RoomController;
@@ -48,7 +48,7 @@ class RoomControllerTest {
         List<Room> list= roomController.getAvailableRooms();
         assertEquals(3, list.size());
         if(!list.isEmpty()) {
-            System.out.println("Lijst van beschikbare kamerskamers:");
+            System.out.println("Lijst van beschikbare kamers:");
             for(Room room : list) {
                 System.out.println("Kamer " + room.getRoomNumber() + " is " + (room.isAvailable() ? "Available" : "Not available."));
             }
@@ -61,7 +61,7 @@ class RoomControllerTest {
         try {
             Room room = roomController.getRoom("101");
             Room newRoom = new Room("105", 1, 1, 0, false);
-            System.out.println("Room with number: " + room.getRoomNumber() + " will be modified to have roomnumber 105");
+            System.out.println("Kamer met nummer " + room.getRoomNumber() + " wordt aangepast naar kamer 105");
             roomController.putRoom(newRoom, room.getRoomID());
 
             List<Room> list= roomController.getRoomList();
@@ -99,7 +99,7 @@ class RoomControllerTest {
 
     @Test
     public void deleteRoom() {
-        System.out.println("Kamer 101 word verwijderd");
+        System.out.println("Kamer 101 wordt verwijderd...");
 
         try {
             Room room = roomController.getRoom("101");
