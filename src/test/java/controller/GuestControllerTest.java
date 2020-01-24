@@ -88,7 +88,7 @@ class GuestControllerTest {
 			
 		} catch (EntityNotFoundException e) {
 			System.out.println(e);
-			assertEquals(e,e);
+			assertEquals("controller.EntityNotFoundException: Guest was not found for ID: 3",e.toString());
 		}
 		
 	}
