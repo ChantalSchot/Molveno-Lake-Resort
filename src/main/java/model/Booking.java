@@ -33,7 +33,7 @@ public class Booking {
         return rooms;
     }
 
-    public Booking(Guest guest, Room[] bookedRoom ) throws ParseException {
+    public Booking(Guest guest, Room[] bookedRoom, String checkI  ) throws ParseException {
         this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = 3;
@@ -44,14 +44,14 @@ public class Booking {
         //this.roomBooking = ;
     }
 
-    public Booking(Guest guest, int totalGuests,  Room[] bookedRooms, Status status,  Date checkInDate,Date checkOutDate) {
+    public Booking(Guest guest, int totalGuests,  Room[] bookedRooms,  String checkInDate,String checkOutDate) throws ParseException {
         this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = totalGuests;
         this.bookedRooms = bookedRooms;
-        this.status = status;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
+        this.status = Status.booked;
+        this.checkInDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkInDate);
+        this.checkOutDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkOutDate);
 
     }
 

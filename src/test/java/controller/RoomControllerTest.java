@@ -22,8 +22,8 @@ class RoomControllerTest {
     public void getRoom() {
         try {
             Room room;
-            room = roomController.getRoom("101");
-            assertEquals(room.getRoomNumber(), "101");
+            room = roomController.getRoom("safari");
+            assertEquals(room.getRoomNumber(), "safari");
             System.out.println("De kamer die is opgehaald heeft kamernummer " + room.getRoomNumber() + ".\nAvailable: " + room.isAvailable() + "\n" + room.getFacilities());
         } catch(EntityNotFoundException e) {
             System.out.println(e);
@@ -60,7 +60,7 @@ class RoomControllerTest {
         //Modify a room
         try {
             Room room = roomController.getRoom("101");
-            Room newRoom = new Room("105", 1, 1, 0, false);
+            Room newRoom = new Room("safari", 1, 1, 0, false);
             System.out.println("Kamer met nummer " + room.getRoomNumber() + " wordt aangepast naar kamer 105");
             roomController.putRoom(newRoom, room.getRoomID());
 

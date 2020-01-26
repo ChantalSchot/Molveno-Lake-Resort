@@ -22,12 +22,15 @@ class BookingControllerTest {
         bookingController = new BookingController();
         roomController = new RoomController();
         guestcontroller = new GuestController();
-        Room[] rooms = roomController.getRoomList().toArray(new Room[0]);
+        Room[] rooms1 = roomController.getRoomList().subList(0,2).toArray(new Room[0]);
+        Room[] rooms2 = roomController.getRoomList().subList(2,3).toArray(new Room[0]);
+        Room[] rooms3 = roomController.getRoomList().subList(3,4).toArray(new Room[0]);
+
         List<Guest> guests = guestcontroller.getGuestList();
 
-        bookingController.postBooking(new Booking( guests.get(0), rooms));
-        bookingController.postBooking(new Booking( guests.get(1), rooms));
-        bookingController.postBooking(new Booking( guests.get(2), rooms));
+        bookingController.postBooking(new Booking( guests.get(0), 4, rooms1,"12/02/2020" , "20/02/2020"));
+        bookingController.postBooking(new Booking( guests.get(1), 1, rooms2, "20/03/2020", "23/02/2020"));
+        bookingController.postBooking(new Booking( guests.get(2),2, rooms3, "06/07/2020", "15/07/2020"));
 }
 
     @Test
@@ -35,6 +38,7 @@ class BookingControllerTest {
         try {
             Booking booking = bookingController.getBooking(1);
 
+            System.out.println("Boeking 1 wordt opgehaald.");
             assertEquals("101", booking.getBookedRooms()[0].getRoomNumber());
             assertEquals(1, booking.getBookingNumber());
             assertEquals(1, booking.getGuest().getGuestID());
@@ -51,6 +55,7 @@ class BookingControllerTest {
 
     @Test
     void getBookings() {
+        System.out.println("Alle boekingen worden opgehaald.");
         List<Booking> bookingList = bookingController.GetBookings();
         assertEquals(3, bookingList.size());
         if(!bookingList.isEmpty()) {
@@ -63,31 +68,32 @@ class BookingControllerTest {
 
     @Test
     void putBooking() throws EntityNotFoundException {
-        Booking booking = bookingController.getBooking(3);
-        Guest guest = new Guest("Niet Bob");
+        System.out.println("Boeking van Jan Janssen wordt opgehaald. ");
+        Booking booking = bookingController.getBooking(1);
+        Guest guest = new Guest("Niet Jan");
         System.out.println(booking.toString());
-
+        System.out.println("Boeking van Jan Janssen wordt gewijzigd. Gast wordt gewijzigd en booking voor kamer 102 wordt geannuleerd. ");
         Room[] list = booking.getBookedRooms();
-        Room[] NList = {list[0], list[1]};
+        Room[] NList = {list[0]};
         booking.setBookedRooms(NList);
         booking.setGuest(guest);
 
         bookingController.putBooking(booking);
-        Booking NBooking = bookingController.getBooking(3);
+        Booking NBooking = bookingController.getBooking(1);
 
-        assertEquals("Niet Bob", NBooking.getGuest().getName() );
-        assertEquals(2, NBooking.getBookedRooms().length );
+        assertEquals("Niet Jan", NBooking.getGuest().getName() );
+        assertEquals(1, NBooking.getBookedRooms().length );
         System.out.println(NBooking.toString());
 
     }
 
     @Test
     void postBooking() throws ParseException {
+        System.out.println("Er wordt een nieuwe booking aangemaakt voor Willem Alexander");
         Guest guest = new Guest("Willem Alexander");
         Room[] rooms = roomController.getRoomList().toArray(new Room[0]);
 
-
-        Booking nBooking = new Booking(guest, rooms);
+        Booking nBooking = new Booking(guest,8 ,rooms,"18/12/2020","23/12/2020");
         bookingController.postBooking(nBooking);
 
 
@@ -103,10 +109,9 @@ class BookingControllerTest {
 
     @Test
     void deleteBooking() {
-        System.out.println("Boeking 1 word verwijderd");
+        System.out.println("Boeking van Jan Janssen wordt verwijderd.");
 
         try {
-            Booking booking = bookingController.getBooking(1);
             bookingController.deleteBooking(1);
         } catch(EntityNotFoundException e) {
             System.out.println(e);
@@ -118,8 +123,7 @@ class BookingControllerTest {
         if(!list.isEmpty()) {
             System.out.println("Lijst van boekingen:");
             for(Booking booking : list) {
-                System.out.println("Boeking " + booking.getBookingNumber()
-                        + ", geboekt door de klant " + booking.getGuest().getName());
+                System.out.println(booking.toString());
             }
         }
     }
