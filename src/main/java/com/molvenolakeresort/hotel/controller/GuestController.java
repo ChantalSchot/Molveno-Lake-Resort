@@ -1,7 +1,7 @@
-package controller;
+package com.molvenolakeresort.hotel.controller;
 
-import model.Booking;
-import model.Guest;
+import com.molvenolakeresort.hotel.model.Booking;
+import com.molvenolakeresort.hotel.model.Guest;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,11 @@
-package controller;
+package com.molvenolakeresort.hotel.controller;
 
-import model.Booking;
-import model.Guest;
-import model.Room;
+import com.molvenolakeresort.hotel.model.Booking;
+import com.molvenolakeresort.hotel.model.Guest;
+import com.molvenolakeresort.hotel.model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.print.Book;
 import java.text.ParseException;
 import java.util.List;
 

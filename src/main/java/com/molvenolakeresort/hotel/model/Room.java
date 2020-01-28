@@ -1,4 +1,4 @@
-package model;
+package com.molvenolakeresort.hotel.model;
 
 public class Room {
     static int roomIDGenerator = 1;

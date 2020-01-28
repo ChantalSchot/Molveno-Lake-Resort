@@ -1,4 +1,4 @@
-package model;
+package com.molvenolakeresort.hotel.model;
 
 public class Guest {
     static int guestIDgenerator = 1;
@@ -32,7 +32,7 @@ public class Guest {
         this.mail = "address@email.com";
         this.phone = "06-12345678";
         this.passportNr = "AB12C34D5";
-        this.address = "Main Street 1, 1234 AB";
+        this.address = "com.molvenolakeresort.hotel.Main Street 1, 1234 AB";
         this.city = "Utrecht";
     }
 

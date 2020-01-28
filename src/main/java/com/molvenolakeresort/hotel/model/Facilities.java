@@ -1,4 +1,4 @@
-package model;
+package com.molvenolakeresort.hotel.model;
 
 public class Facilities {
     boolean miniBar = true;

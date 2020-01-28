@@ -1,6 +1,6 @@
-package controller;
+package com.molvenolakeresort.hotel.controller;
 
-import model.Guest;
+import com.molvenolakeresort.hotel.model.Guest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -88,7 +88,7 @@ class GuestControllerTest {
 			
 		} catch (EntityNotFoundException e) {
 			System.out.println(e);
-			assertEquals("controller.EntityNotFoundException: Guest was not found for ID: 3",e.toString());
+			assertEquals("com.molvenolakeresort.hotel.controller.EntityNotFoundException: Guest was not found for ID: 3",e.toString());
 		}
 		
 	}

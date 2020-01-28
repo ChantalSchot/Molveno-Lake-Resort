@@ -1,8 +1,6 @@
-package controller;
+package com.molvenolakeresort.hotel.controller;
 
-import controller.EntityNotFoundException;
-import controller.RoomController;
-import model.Room;
+import com.molvenolakeresort.hotel.model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
