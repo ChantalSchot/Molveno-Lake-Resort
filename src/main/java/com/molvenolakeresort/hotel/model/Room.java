@@ -1,6 +1,8 @@
 package com.molvenolakeresort.hotel.model;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
     static int roomIDGenerator = 1;
     private int roomID;
     private String roomNumber;
@@ -27,6 +29,10 @@ public class Room {
         this.numberOfBabyBeds = babyBeds;
         this.disabledRoom = disabled;
 
+    }
+
+    public void setFacilities(Facilities facilities) {
+        this.facilities = facilities;
     }
 
     public int getRoomID() {
@@ -79,6 +85,10 @@ public class Room {
 
     public void setDisabledRoom(boolean disabledRoom) {
         this.disabledRoom = disabledRoom;
+    }
+
+    public void setRoomID(int roomID) {
+        this.roomID = roomID;
     }
 
     public Facilities getFacilities() {

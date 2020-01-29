@@ -1,15 +1,17 @@
 package com.molvenolakeresort.hotel.model;
 
-public class Facilities {
-    boolean miniBar = true;
-    boolean airConditioning = true;
-    boolean television = true;
-    boolean sonos = true;
-    boolean bath = true;
-    boolean toilet = true;
-    boolean safe = true;
-    boolean wifi = true;
-    boolean phone = true;
+import java.io.Serializable;
+
+public class Facilities implements Serializable  {
+    private boolean miniBar = true;
+    private  boolean airConditioning = true;
+    private boolean television = true;
+    private boolean sonos = true;
+    private boolean bath = true;
+    private boolean toilet = true;
+    private boolean safe = true;
+    private boolean wifi = true;
+    private boolean phone = true;
 
     @Override
     public String toString() {
@@ -91,6 +93,42 @@ public class Facilities {
     }
 
     public boolean hasPhone() {
+        return phone;
+    }
+
+    public boolean isMiniBar() {
+        return miniBar;
+    }
+
+    public boolean isAirConditioning() {
+        return airConditioning;
+    }
+
+    public boolean isTelevision() {
+        return television;
+    }
+
+    public boolean isSonos() {
+        return sonos;
+    }
+
+    public boolean isBath() {
+        return bath;
+    }
+
+    public boolean isToilet() {
+        return toilet;
+    }
+
+    public boolean isSafe() {
+        return safe;
+    }
+
+    public boolean isWifi() {
+        return wifi;
+    }
+
+    public boolean isPhone() {
         return phone;
     }
 
