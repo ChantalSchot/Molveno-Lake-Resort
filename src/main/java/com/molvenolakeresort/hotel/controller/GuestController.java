@@ -12,7 +12,6 @@ public class GuestController {
 
 	public GuestController() {
 		guestList = new ArrayList<>();
-		Guest.setGuestIDgenerator(1);
 
 		//TEST GUEST LIST :
 		guestList.add(new Guest("Jan Janssen"));

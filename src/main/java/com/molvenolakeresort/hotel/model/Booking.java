@@ -3,6 +3,7 @@ package com.molvenolakeresort.hotel.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Booking {
     static int guestIDgenerator = 1;
@@ -10,7 +11,7 @@ public class Booking {
     private Guest guest;
     private int totalGuests;
     private Room[] bookedRooms; //ToDo : Is this needed?
-    //ToDo private Invoice invoice;
+    private Invoice invoice;
     private Status status;
     private Date checkInDate;
     private Date checkOutDate;
@@ -117,5 +118,13 @@ public class Booking {
 
     public void setRoombooking(RoomBooking roomBooking) {
         this.roomBooking = roomBooking;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }
