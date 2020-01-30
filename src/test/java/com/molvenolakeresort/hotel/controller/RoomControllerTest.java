@@ -1,6 +1,7 @@
 package com.molvenolakeresort.hotel.controller;
 
 import com.molvenolakeresort.hotel.model.Room;
+import com.molvenolakeresort.hotel.model.RoomType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +59,7 @@ class RoomControllerTest {
         //Modify a room
         try {
             Room room = roomController.getRoom("101");
-            Room newRoom = new Room("105", 1, 1, 0, false);
+            Room newRoom = new Room("101",RoomType.doubleRoom,2,1,0,2,1,false);
             System.out.println("Kamer met nummer " + room.getRoomNumber() + " wordt aangepast naar kamer 105");
             roomController.putRoom(newRoom, room.getRoomID());
 
