@@ -1,6 +1,7 @@
 package com.molvenolakeresort.hotel.controller;
 
 import com.molvenolakeresort.hotel.model.Room;
+import com.molvenolakeresort.hotel.model.RoomType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,16 +14,17 @@ public class RoomController {
 
 	public RoomController() {
 		//TESTROOMS!!!!!!
-		roomList.add(new Room("101", 1, 0, 0, false));
-		roomList.add(new Room("102", 0, 1, 0, false));
-		roomList.add(new Room("103", 1, 0, 1, false));
+		//String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
+		roomList.add(new Room("101", RoomType.doubleRoom,2,1,0,2,1,false));
+		roomList.add(new Room("102", RoomType.singleRoom, 1, 1, 0, 1, 0,  false));
+		roomList.add(new Room("103", RoomType.doubleRoom, 2, 0,2,0,0,false));
 
-		Room newRoom = new Room("104", 1, 1, 0, false);
+		Room newRoom = new Room("104", RoomType.familyRoom, 4, 2, 1, 2, 1, false);
 		newRoom.setAvailable(false);
 		roomList.add(newRoom);
 	}
 
-	//Get one Room object with the RoomID of the Room
+	//Get one Room object with the Room number of the Room
 	@GetMapping("{number}")
 	public Room getRoom(@PathVariable String number) throws EntityNotFoundException {
 		for (Room room : roomList) {
@@ -56,6 +58,9 @@ public class RoomController {
 			if (room.getRoomID() == id) {
 				room.setRoomNumber(newRoomInfo.getRoomNumber());
 				room.setAvailable(newRoomInfo.isAvailable());
+				room.setRoomType(newRoomInfo.getRoomType());
+				room.setNoOfAdults(newRoomInfo.getNoOfAdults());
+				room.setNoOfChildren(newRoomInfo.getNoOfChildren());
 				room.setNumberOfSingleBeds(newRoomInfo.getNumberOfSingleBeds());
 				room.setNumberOfDoubleBeds(newRoomInfo.getNumberOfDoubleBeds());
 				room.setNumberOfBabyBeds(newRoomInfo.getNumberOfBabyBeds());

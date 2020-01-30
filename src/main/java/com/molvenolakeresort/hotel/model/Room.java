@@ -12,6 +12,10 @@ public class Room implements Serializable {
     private int numberOfBabyBeds;
     private boolean disabledRoom;
     private Facilities facilities;
+    private int noOfAdults;
+    private int noOfChildren;
+    private RoomType roomType;
+    private RoomStatus roomStatus;
 
     public Room() {
         roomID = roomIDGenerator++;
@@ -19,16 +23,18 @@ public class Room implements Serializable {
         facilities = new Facilities();
     }
 
-    public Room(String roomNumber, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
+    public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
         this.roomID = roomIDGenerator++;
         this.available = true;
         this.facilities = new Facilities();
+        this.roomType = roomType;
         this.roomNumber = roomNumber;
+        this.noOfAdults = noOfAdults;
+        this.noOfChildren = noOfChildren;
         this.numberOfSingleBeds = singleBeds;
         this.numberOfDoubleBeds = doubleBeds;
         this.numberOfBabyBeds = babyBeds;
         this.disabledRoom = disabled;
-
     }
 
     public void setFacilities(Facilities facilities) {
@@ -93,5 +99,28 @@ public class Room implements Serializable {
 
     public Facilities getFacilities() {
         return facilities;
+    }
+
+    public int getNoOfAdults() {
+        return noOfAdults;
+    }
+
+    public void setNoOfAdults(int noOfAdults) {
+        this.noOfAdults = noOfAdults;
+    }
+
+    public int getNoOfChildren() {
+        return noOfChildren;
+    }
+    public void setNoOfChildren(int noOfChildren) {
+        this.noOfChildren = noOfChildren;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 }
