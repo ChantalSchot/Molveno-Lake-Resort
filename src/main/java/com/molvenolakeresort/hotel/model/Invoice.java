@@ -1,5 +1,6 @@
 package com.molvenolakeresort.hotel.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Invoice {
@@ -10,12 +11,12 @@ public class Invoice {
 	private String paymentMethod;
 	private List<InvoiceItem> invoiceItems;
 
-	public int getTotalCost() {
-		return totalCost;
+	Invoice() {
+		invoiceItems = new ArrayList<>();
 	}
 
-	public void setTotalCost(int totalCost) {
-		this.totalCost = totalCost;
+	public int getTotalCost() {
+		return totalCost;
 	}
 
 	public int getTotalPaid() {
@@ -34,6 +35,21 @@ public class Invoice {
 		this.paymentComplete = paymentComplete;
 	}
 
+	public void pay() {
+		if(isPaymentComplete()) {
+			System.out.println("Customer already paid.");
+		} else if(getTotalCost() <= getTotalPaid()) {
+			System.out.println("Customer already paid.");
+			setPaymentComplete(true);
+		} else if(paymentMethod.isEmpty()) {
+			System.out.println("Payment method not yet set!");
+		} else {
+			System.out.println("Paying with " + this.getPaymentMethod() + " a total of " + getTotalCost());
+			this.setTotalPaid(getTotalCost());
+			this.setPaymentComplete(true);
+		}
+	}
+
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -46,13 +62,9 @@ public class Invoice {
 		return invoiceItems;
 	}
 
-	public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
-		this.invoiceItems = invoiceItems;
-	}
-
 	public InvoiceItem getInvoiceItem(String itemName) {
 		for(InvoiceItem item : invoiceItems) {
-			if(item.getName() == itemName) {
+			if(item.getName().equals(itemName)) {
 				return item;
 			}
 		}
@@ -64,18 +76,23 @@ public class Invoice {
 		for(InvoiceItem item : invoiceItems) {
 			if(item.getName() == itemName) {
 				putInvoiceItem(itemName, cost, amount);
+				break;
 			}
 		}
 		InvoiceItem invoiceItem = new InvoiceItem(itemName, cost, amount);
 		this.invoiceItems.add(invoiceItem);
+		totalCost += invoiceItem.getPrice()*invoiceItem.getAmount();
+		setPaymentComplete(false);
 	}
 
 	public void putInvoiceItem(String itemName, int cost, int amount) {
 		//Cost is in cents! Devide by 100 to get full cost
 		for(InvoiceItem item : invoiceItems) {
 			if(item.getName() == itemName) {
-				item.setAmount(amount+item.getAmount());
+				item.setAmount(amount);
 				item.setPrice(cost);
+				setPaymentComplete(false);
+				totalCost += item.getPrice();
 			}
 		}
 	}
