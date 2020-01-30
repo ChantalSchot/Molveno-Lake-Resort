@@ -5,10 +5,17 @@ function getRoomList() {
         type: "get",
         dataType: "json",
         contentType: "application/json",
-        success: function(data){
+        success: function (data) {
             let string = "";
-            $.each( data, function( index, value ){
-                string+="<p>"+ value.roomNumber + " , "+ value.available + "</p>"
+            $.each(data, function (index, value) {
+                let availability = "unavailable";
+
+                if(value.available == true){
+                    availability = "available";
+                }
+                
+                let link = "<a href=\"/admin/roomUpdate.html?id="+ value.roomID  +"\">update</a>";
+                string += "<p>" + value.roomNumber + " , " + availability +" , " + link + "</p>"
             });
             $('#rooms').html(string);
         },
@@ -19,6 +26,6 @@ function getRoomList() {
     });
 }
 
-function createRoom(){
+function roomCreate() {
     window.location.replace("/Admin/roomCreate.html");
 }

@@ -4,13 +4,6 @@ function roomList(){
 
 
 function postRoom() {
-    var one = $('#name').val();
-    var two = $('#single').val();
-    var two = $('#double').val();
-    var two = $('#baby').val();
-    var two = $('#available').val();
-    var two = $('#disabled').val();
-
 var room = {
     roomNumber : $('#name').val(),
     numberOfSingleBeds : $('#single').val(),

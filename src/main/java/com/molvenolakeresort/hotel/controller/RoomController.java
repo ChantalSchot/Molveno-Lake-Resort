@@ -35,6 +35,16 @@ public class RoomController {
 		throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for roomNumber: " + number);
 	}
 
+	@GetMapping("{id}")
+	public Room getRoom(@PathVariable int id) throws EntityNotFoundException {
+		for (Room room : roomList) {
+			if (room.getRoomID() == id) {
+				return room;  //We found it, return the Room object
+			}
+		}
+		throw new EntityNotFoundException("RoomController::getRoom() Room not found in the list for roomNumber: " + id);
+	}
+
 	@GetMapping
 	public List<Room> getRoomList() {
 		return roomList;
@@ -79,10 +89,10 @@ public class RoomController {
 
 	//Delete room
 	@DeleteMapping("{id}")
-	public void deleteRoom(int id) throws EntityNotFoundException {
+	public void deleteRoom(@PathVariable int id) throws EntityNotFoundException {
 		for (Room room : roomList) {
 			if (room.getRoomID() == id) {
-				roomList.remove(getRoom(room.getRoomNumber()));  //We found it, delete the Room object
+				roomList.remove(room);  //We found it, delete the Room object
 				return;
 			}
 		}

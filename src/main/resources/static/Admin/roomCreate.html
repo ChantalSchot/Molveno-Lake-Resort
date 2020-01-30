@@ -11,8 +11,11 @@
 </head>
 
 <body>
+    <div class="container">
     <button onClick="roomList();">Rooms</button>
-
+    <form>
+        <div class="row">
+            <div class="col-sm">
         <div class="form-group">
             <label for="exampleInputEmail1">Room name</label>
             <input type="text" class="form-control" id="name" placeholder="Enter room name">
@@ -25,6 +28,8 @@
             <label for="exampleInputEmail1">Number of double beds</label>
             <input type="number" class="form-control" id="double" placeholder="Enter number of double beds">
         </div>
+    </div>
+    <div class="col-sm">
         <div class="form-group">
             <label for="exampleInputEmail1">Number of baby beds</label>
             <input type="number" class="form-control" id="baby" placeholder="Enter number of baby beds">
@@ -37,11 +42,14 @@
             <input type="checkbox" class="form-check-input" id="disabled">
             <label class="form-check-label" for="exampleCheck2">Disabled</label>
         </div>
-
         <button  onClick="postRoom();" type="submit" class="btn btn-primary">Submit</button>
+    </div>
 
+    </div>
+   
 
-
+    </form>
+</div>
 
 
     <script src="http://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
