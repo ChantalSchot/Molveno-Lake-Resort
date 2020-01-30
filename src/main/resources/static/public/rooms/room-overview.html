@@ -5,11 +5,12 @@
     <title>Rooms - Molveno Lake Resort</title>
 
     <!-- Fonts    -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,400,800,900|Ubuntu:400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,400,500,800,900|Ubuntu:400,500,700&display=swap" rel="stylesheet">
 
     <!-- CSS Stylesheets    -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/rooms.css">
 
     <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css" integrity="sha384-wxqG4glGB3nlqX0bi23nmgwCSjWIW13BdLUEYC4VIMehfbcro/ATkyDsF/AbIOVe" crossorigin="anonymous">
@@ -25,7 +26,7 @@
 <body>
 
 <!--NAVBAR -->
-<div class="container-fluid gradient-bg">
+<div class="container-fluid gradient-bg sticky-top">
     <nav class="navbar navbar-expand-md navbar-light col-md-10 m-auto">
         <a class="navbar-brand h1" href="../../index.html"><img class="pr-5" src="../../img/Company%20Logo_small.png" height="80px">Molveno Lake Resort</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,81 +56,146 @@
     </nav>
 </div>
 
-<!--HOTEL STOCK PHOTO -->
+<!--ROOM STOCK PHOTO -->
 <div class="index-picture">
-    <img class="stockhotel img-fluid" src="../../img/stockhotel2.jpg">
+		<img class="stockhotel img-fluid" src="../../img/stockroom.jpg">
 </div>
 
+<!-- INPUT SECTION -->
+<div class="input-section">
+    <form class="form-inline">
+
+				<div class="form-group">
+					<label class="mr-2" for="check-in">Check-in:</label>
+					<input type="date" class="date-input form-control mb-2 mr-sm-2" id="check-in" name="check-in" placeholder="">
+				</div>
+				<div class="form-group">
+					<label class="mr-2" for="check-out">Check-out:</label>
+					<input type="date" class="date-input form-control mb-2 mr-sm-2" id="check-out" name="check-out" placeholder="">
+				</div>
+
+			<div class="form-group">
+
+				<div class="form-group">
+	        <label class="mr-2" for="adults">Adults:</label>
+	        <input type="number" class="number-input form-control mb-2 mr-sm-2" id="adults" name="adults" placeholder="0" min="0">
+				</div>
+				<div class="form-group">
+	        <label class="mr-2" for="children">Children:</label>
+	        <input type="number" class="number-input form-control mb-2 mr-sm-2" id="children" name="children" placeholder="0" min="0">
+				</div>
+
+        <div class="form-check mb-2 mr-sm-2">
+          <input class="form-check-input" type="checkbox" id="disabled">
+          <label class="form-check-label" for="disabled">Disability only</label>
+        </div>
+			</div>
+
+    </form>
+    <button type="submit" class="btn btn-primary mb-2">Find available rooms!</button>
+</div>
 
 
 <!--PAGE CONTENT HERE -->
 
-<div class="card-deck">
-    <div class="card">
-        <img src="../../img/roomsingle.png" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Single Room</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"></p>
-        </div>
-    </div>
-    <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
-    <div class="card">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
+
+<div class="card-container">
+	<div class="row">
+
+<!-- Single room -->
+		<div class="col-md-6 col-xl-3 mx-0 d-flex align-items-stretch card-column justify-content-center">
+			<div class="card shadow">
+	        <img src="../../img/roomsingle.png" class="card-img-top" alt="Single Room">
+	        <div class="card-body">
+						<h5 class="card-title">Single Room</h5>
+						<p><i class="fas fa fa-male"></i> &nbsp;&nbsp; <i class="fas fa-baby"></i></p>
+						<p>Free Wi-Fi</p>
+						<p>Bath and shower</p>
+						<p class="available"><small>Available: 8</small></p>
+						<p class="icon-row d-flex justify-content-between">
+							<span><i class="fas fa-wifi"></i> <i class="fas fa-shower"></i> <i class="fas fa-blind"></i>&nbsp;</span>
+							<span><button type="button" class="btn btn-primary add-room" id="addSingleRoom">+</button></span>
+						</p>
+	        </div>
+	    </div>
+		</div>
+
+<!-- Double room -->
+		<div class="col-md-6 col-xl-3 mx-0  d-flex align-items-stretch card-column justify-content-center">
+			<div class="card shadow">
+					<img src="../../img/roomdouble.png" class="card-img-top" alt="Single Room">
+					<div class="card-body">
+							<h5 class="card-title">Double Room</h5>
+							<p><i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> &nbsp;&nbsp; <i class="fas fa-baby"></i> <i class="fas fa-baby"></i></p>
+							<p>Airconditioning</p>
+							<p>Private safe</p>
+							<p class="available"><small>Available: 6</small></p>
+							<p class="icon-row d-flex justify-content-between">
+								<span><i class="fas fa-wifi"></i> <i class="fas fa-fan"></i> <i class="fas fa-key"></i> <i class="fas fa-blind"></i>&nbsp;</span>
+								<span><button type="button" class="btn btn-primary add-room" id="addDoubleRoom">+</button></span>
+							</p>
+					</div>
+			</div>
+		</div>
+<!-- Family room -->
+		<div class="col-md-6 col-xl-3 mx-0 d-flex align-items-stretch card-column justify-content-center">
+			<div class="card shadow">
+					<img src="../../img/roomfamily.png" class="card-img-top" alt="Single Room">
+					<div class="card-body">
+							<h5 class="card-title">Family Room</h5>
+							<p><i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> &nbsp;&nbsp; <i class="fas fa-baby"></i> <i class="fas fa-baby"></i></p>
+							<p>Sonos Sound System</p>
+							<p>Television</p>
+							<p class="available"><small>Available: 4</small></p>
+							<p class="icon-row d-flex justify-content-between">
+								<span><i class="fas fa-wifi"></i> <i class="fas fa-volume-up"></i> <i class="fas fa-tv"></i> &nbsp;</span>
+								<span><button type="button" class="btn btn-primary add-room" id="addFamilyRoom">+</button></span>
+							</p>
+					</div>
+			</div>
+		</div>
+<!-- Penthouse -->
+		<div class="col-md-6 col-xl-3 mx-0 d-flex align-items-stretch card-column justify-content-center">
+			<div class="card shadow">
+					<img src="../../img/roompenthouse.png" class="card-img-top" alt="Single Room">
+					<div class="card-body">
+							<h5 class="card-title">Penthouse</h5>
+							<p><i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> &nbsp;&nbsp; <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> <i class="fas fa fa-male"></i> &nbsp;&nbsp; <i class="fas fa-baby"></i> <i class="fas fa-baby"></i></p>
+							<p>Minibar</p>
+							<p>Ultimate luxury</p>
+							<p class="available"><small>Available: 2</small></p>
+							<p class="icon-row d-flex justify-content-between">
+								<span><i class="fas fa-wifi"></i> <i class="fas fa-wine-glass-alt"></i> <i class="fas fa-medal"></i>&nbsp;</span>
+								<span><button type="button" class="btn btn-primary add-room" id="addPenthouseRoom">+</button></span>
+							</p>
+					</div>
+			</div>
+		</div>
+
+	</div>
 </div>
 
 
 
 <!-- FOOTER -->
 <div class="container-fluid footer gradient-bg-rev">
-    <div class="row pt-5">
-
-        <div class="col-md-3"></div>
-
-        <div class="col-md-3">
-            <h5>Location</h5>
-            <img src="../../img/map.png" alt="Location map" height="200">
+    <div class="row ">
+        <div class="d-flex col-md-6 justify-content-center footer-phone ">
+            <i class="fas fa-phone-alt"></i>&nbsp; +86 10 1234 5678
         </div>
-
-        <div class="col-md-3">
-            <h5>Contact us</h5>
-            <div>
-                Address line 1<br>
-                Address line 2<br>
-                Postal code<br>
-                City<br>
-                State / country<br>
-            </div>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="mx-auto mt-2">
-            <ul>
+        <div class="d-flex col-md-6 justify-content-center">
+            <ul class="d-flex p-0">
                 <li><a href="#">Privacy</a></li>
                 <li><a href="#">Terms</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
+        <div class="d-flex col-12 justify-content-center "><small>© Copyright Molveno Lake Resort 2020</small></div>
     </div>
 </div>
 
 
-<script src="js/index.js" charset="utf-8"></script>
+<script src="../../js/index.js" charset="utf-8"></script>
 
 </body>
 </html>
