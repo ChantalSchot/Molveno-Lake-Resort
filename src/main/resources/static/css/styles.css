@@ -99,6 +99,13 @@ hr {
 	width: 100%;
 }
 
+.wide-indicators li {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
+
+
 
 /* MEDIA BREAKPOINTS */
 
@@ -117,12 +124,20 @@ hr {
     }
 }
 
-@media screen and (max-width: 768px) {
-	.navbar .navbar-brand {
-		font-weight: 400;
-		font-size: 1.3rem;
+@media screen and (max-width: 992px) {
+	.flag-div {
+		display: inline-block;
+		width: 29px;
 	}
+}
 
+@media screen and (min-width: 992px) {
+	.nav-flag {
+		margin-left: 3rem;
+	}
+}
+
+@media screen and (max-width: 768px) {
 	.textcolumn {
 		width: 100%;
 		padding: 0 3rem;
@@ -138,10 +153,6 @@ hr {
         height: auto;
         }
 
-	.flag-div {
-		display: inline;
-		margin: 5px;
-	}
 
 	.footer {
     	width: 100%;
@@ -149,19 +160,7 @@ hr {
     }
 
 	.footer ul {
-    	/*justify-content: center;*/
     	margin-top: 1rem;
     }
-
-}
-
-@media screen and (min-width: 769px) {
-	.nav-flag {
-		margin-left: 3rem;
-	}
-
-	.navbar-login {
-		display: none;
-	}
 
 }
