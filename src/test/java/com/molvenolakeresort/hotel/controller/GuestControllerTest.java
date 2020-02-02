@@ -12,6 +12,11 @@ class GuestControllerTest {
 	@BeforeEach
 	void init() {
 		guestController = new GuestController();
+		
+		//TEST GUEST LIST :
+		guestController.postGuest(new Guest("Jan Janssen"));
+		guestController.postGuest(new Guest("Alice"));
+		guestController.postGuest(new Guest("Bob"));
 	}
 
 	@Test
@@ -42,7 +47,7 @@ class GuestControllerTest {
 	void postGuest() {
 		try {
 			System.out.println("Registreer nieuwe gast: Jane Appleseed, geboren in 2002, afkomstig uit New York. \n");
-			guestController.postGuest("Jane Appleseed", "January 24th, 2002", "Jane@email.com", "0316 - 23454321", "AB1234DE", "Chicago Street", "New York");
+			guestController.postGuest(new Guest("Jane Appleseed", "January 24th, 2002", "Jane@email.com", "0316 - 23454321", "AB1234DE", "Chicago Street", "New York"));
 
 			System.out.print("Nieuwe gast geregistreerd. ");
 			Guest guest = guestController.getGuest(4);

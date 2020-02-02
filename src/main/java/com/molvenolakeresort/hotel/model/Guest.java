@@ -2,7 +2,7 @@ package com.molvenolakeresort.hotel.model;
 
 public class Guest {
     static int guestIDgenerator = 1;
-    private int guestID;
+    private long guestID;
     private String name;
     private String birthDate;
     private String mail;
@@ -51,7 +51,7 @@ public class Guest {
         Guest.guestIDgenerator = guestIDgenerator;
     }
 
-    public int getGuestID() {
+    public long getGuestID() {
         return guestID;
     }
 
@@ -118,4 +118,7 @@ public class Guest {
     public void setBookings(Booking[] bookings) {
         this.bookings = bookings;
     }
+    
+    
+
 }

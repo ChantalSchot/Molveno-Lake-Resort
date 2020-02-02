@@ -2,21 +2,29 @@ package com.molvenolakeresort.hotel.controller;
 
 import com.molvenolakeresort.hotel.model.Booking;
 import com.molvenolakeresort.hotel.model.Guest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@RestController
+@RequestMapping("controller/guests")
 public class GuestController {
-	private List<Guest> guestList;
+	
+	private List<Guest> guestList = new ArrayList<>();
 	public String exceptionError = "Guest was not found for ID: ";
 
 	public GuestController() {
-		guestList = new ArrayList<>();
+//		guestList = new ArrayList<>();
 
 		//TEST GUEST LIST :
-		guestList.add(new Guest("Jan Janssen"));
-		guestList.add(new Guest("Alice"));
-		guestList.add(new Guest("Bob"));
+//		guestList.add(new Guest("Jan Janssen"));
+//		guestList.add(new Guest("Alice"));
+//		guestList.add(new Guest("Bob"));
 	}
 
 	public Guest getGuest(int guestID) throws EntityNotFoundException {
@@ -28,18 +36,114 @@ public class GuestController {
 		throw new EntityNotFoundException(exceptionError + guestID);
 	}
 
+	// Get list of guests
+	@GetMapping
 	public List<Guest> getGuestList() {
 		return guestList;
 	}
-
-	public void postGuest(String name) {
-		Guest newGuest = new Guest(name);
-		guestList.add(newGuest);
+	
+	// Find guest by ID
+	public 	Optional<Guest> findById(long id) {
+		for (Guest guest : guestList) {
+			if (id == guest.getGuestID()) {
+				return Optional.of(guest);
+			}
+		}
+		return Optional.empty();
+	}
+	
+	// Get by ID
+	@GetMapping("{id}")
+	public ResponseEntity<Guest> getGuestById(@PathVariable long id) {
+		Optional<Guest> optionalGuest = findById(id);
+		
+		if (optionalGuest.isPresent()) {
+			Guest guest = optionalGuest.get();
+			return ResponseEntity.ok(guest);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	public void postGuest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) {
-		Guest newGuest = new Guest(name, birthDate, mail, phone, passportNr, address, city);
-		guestList.add(newGuest);
+	// Create new guest
+	@PostMapping
+	public void createGuest(@RequestBody Guest guest) {
+		this.guestList.add(guest);
+	}
+	
+	// Get new updated printer by ID
+	public Optional<Guest> updateById(long id, Guest newGuest) {
+		Optional<Guest> optionalGuest = findById(id);
+		
+		if (optionalGuest.isPresent()) {
+			Guest guest = optionalGuest.get();
+			guest.setName(newGuest.getName());
+			guest.setBirthDate(newGuest.getBirthDate());
+			guest.setMail(newGuest.getMail());
+			guest.setPhone(newGuest.getPhone());
+			guest.setAddress(newGuest.getAddress());
+			guest.setCity(newGuest.getCity());
+			return Optional.of(guest);
+		} else {
+			return Optional.empty();
+		}
+	}
+	
+	// Update printer by ID
+	@PutMapping("{id}")
+	public ResponseEntity<Guest> updateGuestById(@PathVariable long id, @RequestBody Guest newGuest) {
+		Optional<Guest> optionalGuest = updateById(id,newGuest);
+		
+		if (optionalGuest.isPresent()) {
+			return ResponseEntity.ok(optionalGuest.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	// Delete by ID
+	public boolean deleteById(long id) {
+		Optional<Guest> optionalGuest = findById(id);
+		
+		if (optionalGuest.isPresent()) {
+			Guest guest = optionalGuest.get();
+			guestList.remove(guest);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<?> deleteGuestById(@PathVariable long id) {
+		boolean success = deleteById(id);
+		
+		if (success) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	// Add some guests to the list when application starts
+	@PostConstruct
+	public void init() {
+		guestList.add(new Guest("Jane Doe", "31-01-1990","janedoe@email.com","+31 6 1234 5678",
+				"AB9381B39","Main Street 99","New York"));
+		guestList.add(new Guest("Jan Janssen","02-10-1990","jjanssen@email.com","+31 72 5712345",
+				"KH9274027","Dorpsstraat 83","Dordrecht"));
+		guestList.add(new Guest("Nicholas Wiley","09-01-1959","nicwiley@email.com","042 2934813",
+				"IT392K382","Ellsworth Summit","Howemouth"));
+		guestList.add(new Guest("Ervin Howell","19-05-1978","ervinh@email.com","010 9320 592",
+				"ABE382915","Victor Plains 391","Gwenborough"));
+		guestList.add(new Guest("Patricia Lebsack","29-11-1993","patleb@email.com","063 298 492143",
+				"IW938G913", "Hager Mall","Corkshire"));
+	}
+	
+	
+	public void postGuest(Guest guest) {
+//		Guest newGuest = new Guest(name, birthDate, mail, phone, passportNr, address, city);
+		guestList.add(guest);
 	}
 
 	public void putGuest(int guestID, String name, String birthDate, String mail, String phone, String passportNr, String address, String city) throws EntityNotFoundException {
