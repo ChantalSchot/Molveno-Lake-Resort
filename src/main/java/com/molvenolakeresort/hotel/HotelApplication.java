@@ -22,5 +22,4 @@ public class HotelApplication extends SpringBootServletInitializer {
 					.addResourceLocations("classpath:/static/").setCachePeriod(0);
 		}
 	}
-
 }
