@@ -1,20 +1,29 @@
 package com.molvenolakeresort.hotel.model;
 
+import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
+@Entity
 public class Booking {
-    static int guestIDgenerator = 1;
-    private int bookingNumber;
+    //static int guestIDgenerator = 1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @ManyToOne
     private Guest guest;
     private int totalGuests;
+
+    @ManyToMany
     private Room[] bookedRooms; //ToDo : Is this needed?
     private Invoice invoice;
     private Status status;
     private Date checkInDate;
     private Date checkOutDate;
+
+    @ManyToMany
     private RoomBooking roomBooking;
 
     @Override
@@ -35,7 +44,7 @@ public class Booking {
     }
 
     public Booking(Guest guest, Room[] bookedRoom, String checkI  ) throws ParseException {
-        this.bookingNumber = guestIDgenerator++;
+        //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = 3;
         this.bookedRooms = bookedRoom;
@@ -46,14 +55,13 @@ public class Booking {
     }
 
     public Booking(Guest guest, int totalGuests,  Room[] bookedRooms,  String checkInDate,String checkOutDate) throws ParseException {
-        this.bookingNumber = guestIDgenerator++;
+        //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = totalGuests;
         this.bookedRooms = bookedRooms;
         this.status = Status.booked;
         this.checkInDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkInDate);
         this.checkOutDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkOutDate);
-
     }
 
     public Guest getGuest() {
@@ -80,12 +88,12 @@ public class Booking {
         this.status = status;
     }
 
-    public int getBookingNumber() {
-        return bookingNumber;
+    public long getId() {
+        return id;
     }
 
-    public void setBookingNumber(int bookingNumber) {
-        this.bookingNumber = bookingNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Room[] getBookedRooms() {
