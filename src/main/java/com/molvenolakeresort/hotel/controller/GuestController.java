@@ -111,10 +111,10 @@ public class GuestController {
 	}
 	
 
-	public void postGuest(Guest guest) {
+//	public void postGuest(Guest guest) {
 //		Guest newGuest = new Guest(name, birthDate, mail, phone, passportNr, address, city);
 //		guestList.add(guest);
-	}
+//	}
 
 	public void putGuest(int guestID, String name, String birthDate, String mail, String phone, String passportNr, String address, String city) throws EntityNotFoundException {
 		for (Guest guest : this.guestRepository.findAll()) {
@@ -160,15 +160,15 @@ public class GuestController {
 		throw new EntityNotFoundException(exceptionError + guestID);
 	}
 
-//	public List<Booking> getGuestBookings(long guestID) throws EntityNotFoundException{
-//		Guest guest = this.guestRepository.findById(guestID).get();
-//		if (guest.getBookings().toArray().length != 0) {
-//			return guest.getBookings();
-//		}
-//		else {
-//			throw new EntityNotFoundException(guest.getName() + " currently has no bookings.");
-//		}
-//
-//	}
+	public List<Booking> getGuestBookings(long guestID) throws EntityNotFoundException{
+		Guest guest = this.guestRepository.findById(guestID).get();
+		if (guest.getBookings().toArray().length != 0) {
+			return guest.getBookings();
+		}
+		else {
+			throw new EntityNotFoundException(guest.getName() + " currently has no bookings.");
+		}
+
+	}
 
 }
