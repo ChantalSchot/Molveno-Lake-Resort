@@ -16,6 +16,7 @@ public class Room implements Serializable {
     private int numberOfDoubleBeds;
     private int numberOfBabyBeds;
     private boolean disabledRoom;
+    @OneToOne
     private Facilities facilities;
     private int noOfAdults;
     private int noOfChildren;
@@ -27,12 +28,12 @@ public class Room implements Serializable {
 
     public Room() {
         available = true;
-        facilities = new Facilities();
+        facilities = new Facilities(this);
     }
 
     public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
         this.available = true;
-        this.facilities = new Facilities();
+        //this.facilities = new Facilities(this);
         this.roomType = roomType;
         this.roomNumber = roomNumber;
         this.noOfAdults = noOfAdults;
@@ -49,6 +50,10 @@ public class Room implements Serializable {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getRoomNumber() {
@@ -130,4 +135,6 @@ public class Room implements Serializable {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
+
+
 }
