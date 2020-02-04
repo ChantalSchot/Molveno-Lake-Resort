@@ -40,7 +40,7 @@ class BookingControllerTest {
 
             System.out.println("Boeking 1 wordt opgehaald.");
             assertEquals("101", booking.getBookedRooms()[0].getRoomNumber());
-            assertEquals(1, booking.getId());
+            assertEquals(1, booking.getBookingNumber());
             assertEquals(1, booking.getGuest().getGuestID());
             System.out.println("De boeking die is opgehaald heeft kamernummer " + booking.getBookedRooms()[0].getRoomNumber()
                     + ", geboekt door de klant " + booking.getGuest().getName());
@@ -127,4 +127,5 @@ class BookingControllerTest {
             }
         }
     }
-}*/
+}
+*/
