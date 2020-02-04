@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Room implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String roomNumber;
     private boolean available;

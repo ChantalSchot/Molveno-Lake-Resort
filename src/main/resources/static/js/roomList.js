@@ -1,3 +1,30 @@
+$(document).ready(function() {
+        
+        initRoomTable();
+        getRoomList();
+});
+
+var roomtable;
+
+function initRoomTable() {
+        columns = [
+            { "title":  "Room ID",
+            "data": "id" },
+            { "title":  "Room Name",
+            "data": "roomNumber" },
+            { "title":  "Availability",
+            "data": "available" },
+        ];
+    
+        // Define new table with above columns
+        roomtable = $("#roomTable").DataTable( {
+            "order": [[ 0, "asc" ]],
+            "columns": columns
+        } );
+    }
+
+
+
 function getRoomList() {
     let api = "/api/rooms";
     $.ajax({
@@ -6,18 +33,12 @@ function getRoomList() {
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
-            let string = "";
-            $.each(data, function (index, value) {
-                let availability = "unavailable";
+            if (data) {
 
-                if(value.available == true){
-                    availability = "available";
-                }
-                
-                let link = "<a href=\"/admin/roomUpdate.html?id="+ value.roomID  +"\">update</a>";
-                string += "<p>" + value.roomNumber + " , " + availability +" , " + link + "</p>"
-            });
-            $('#rooms').html(string);
+                roomtable.clear();
+                roomtable.rows.add(data);
+                roomtable.columns.adjust().draw();
+            }
         },
 
         error: function (error) {
@@ -29,3 +50,5 @@ function getRoomList() {
 function roomCreate() {
     window.location.replace("/Admin/roomCreate.html");
 }
+
+

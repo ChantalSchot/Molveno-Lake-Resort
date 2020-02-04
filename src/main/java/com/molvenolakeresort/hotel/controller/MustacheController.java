@@ -30,5 +30,10 @@ public class MustacheController {
 	public String getGuests() {
 		return "/admin/guests/guests";
 	}
+
+	@GetMapping("/admin/rooms/rooms")
+	public String getRooms() {
+		return "/admin/rooms/rooms";
+	}
 	
 }

@@ -1,0 +1,31 @@
+{{>admin/header-admin}}
+
+
+        <p><b>Room, Available</b></p>
+            <div id="rooms">
+        
+
+            </div>
+            <div class="guest-table mx-auto my-5">
+                    <table id="roomTable" class="display mx-auto">
+                    </table>
+
+                <!--Buttons underneath table for viewing, editing, deleting or adding guests
+                    <button id="fetchList" class="btn btn-primary">Fetch</button>
+                    <button id="clearList" class="btn btn-warning">Clear</button>-->
+
+                    <!--Opens modal and gets guest details from selected row -->
+                    <button id="viewGuest" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">View</button>
+
+                    <!--Opens modal to edit guest details from selected row -->
+                    <button type="button" class="btn btn-warning editGuest" data-toggle="modal" data-target="#editModal">Edit</button>
+
+                    <!--Opens modal to delete guest from selected row -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                    <button id="addGuest" class="btn btn-success">New</button>
+                    <hr>
+            </div>
+        <button onClick="roomCreate();">New room</button>
+
+
+{{>admin/footer-admin}}
