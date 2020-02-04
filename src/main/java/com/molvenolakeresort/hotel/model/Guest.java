@@ -23,8 +23,8 @@ public class Guest implements Serializable {
     private String address;
     private String city;
     
-//    @OneToMany
-//    private Array<> bookings;
+    @OneToMany
+    private List<Booking> bookings;
 
 
     @Override
@@ -63,7 +63,6 @@ public class Guest implements Serializable {
     public Long getId() {
         return id;
     }
-
 
     public long setId(Long id) {
         return this.id = id;
@@ -125,14 +124,12 @@ public class Guest implements Serializable {
         this.city = city;
     }
 
-//    public List<Booking> getBookings() {
-//        return bookings;
-//        }
-//
-//    public void setBookings(List<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
-//
-    
+    public List<Booking> getBookings() {
+        return bookings;
+        }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 
 }
