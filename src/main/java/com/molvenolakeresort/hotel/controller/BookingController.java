@@ -25,17 +25,14 @@ public class BookingController {
 
     @GetMapping("{id}")
     public ResponseEntity<Booking> getBooking(@PathVariable long id) throws EntityNotFoundException {
-        Booking booking =  bookingRepository.findById(id);
-        return ResponseEntity.ok(booking);
+        Optional<Booking> optionalBooking =  bookingRepository.findById(id);
 
-        /*
-        for (Booking booking : bookingList){
-            if(booking.getId() == id){
-                return booking;
-            }
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            return ResponseEntity.ok(booking);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        throw new EntityNotFoundException("Booking was not found for ID: " + id);
-        */
     }
 
     public Iterable<Booking> GetBookings(){
@@ -44,39 +41,24 @@ public class BookingController {
     }
 
     @PutMapping
-    public void putBooking(@RequestBody Booking booking) throws EntityNotFoundException {
-        bookingRepository.save(booking);
+    public ResponseEntity<Booking> putBooking(@RequestBody Booking newBooking) throws EntityNotFoundException {
 
-        /*
-        for (Booking bookingIterator : bookingList) {
-            if (bookingIterator.getId() == booking.getId()) {
-                bookingList.remove(booking);
-                bookingList.add(booking);
-                return;
-            }
-        }
-        throw new EntityNotFoundException("Booking was not found for ID: " + booking.getId());*/
+
+        Booking booking = this.bookingRepository.save(newBooking);
+
+        return ResponseEntity.ok(booking);
+
     }
 
     @PostMapping
-    public void postBooking(@RequestBody Booking booking){
-        bookingRepository.save(booking);
-        //bookingList.add(booking);
+    public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
+        return ResponseEntity.ok(this.bookingRepository.save(booking));
     }
 
     @DeleteMapping("{id}")
     public void deleteBooking(long id) throws EntityNotFoundException {
         bookingRepository.deleteById(id);
 
-        /*
-        for(Booking g : bookingList){
-            if(id == g.getId()){
-                bookingList.remove(g);
-                return;
-            }
-        }
-        throw new EntityNotFoundException("Booking was not found for ID: " + id);
-         */
     }
 
 }

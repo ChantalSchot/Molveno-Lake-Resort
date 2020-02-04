@@ -4,27 +4,27 @@ import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Booking {
     //static int guestIDgenerator = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @ManyToOne
     private Guest guest;
     private int totalGuests;
 
     @ManyToMany
-    private Room[] bookedRooms; //ToDo : Is this needed?
+    private List<Room> bookedRooms; //ToDo : Is this needed?
+
+    @OneToOne
     private Invoice invoice;
     private Status status;
     private Date checkInDate;
     private Date checkOutDate;
-
-    @ManyToMany
-    private RoomBooking roomBooking;
 
     @Override
     public String toString(){
@@ -35,7 +35,7 @@ public class Booking {
                 + " Status: " + status + "rooms: " +  rooms;
     }
 
-    private String printRooms(Room[] bookedRooms) {
+    private String printRooms(List<Room> bookedRooms) {
         String rooms = "";
         for(Room r :bookedRooms ){
             rooms = rooms.concat(r.getRoomNumber() + ", ");
@@ -43,7 +43,7 @@ public class Booking {
         return rooms;
     }
 
-    public Booking(Guest guest, Room[] bookedRoom, String checkI  ) throws ParseException {
+    public Booking(Guest guest, List<Room> bookedRoom, String checkI  ) throws ParseException {
         //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = 3;
@@ -54,7 +54,7 @@ public class Booking {
         //this.roomBooking = ;
     }
 
-    public Booking(Guest guest, int totalGuests,  Room[] bookedRooms,  String checkInDate,String checkOutDate) throws ParseException {
+    public Booking(Guest guest, int totalGuests,  List<Room> bookedRooms,  String checkInDate,String checkOutDate) throws ParseException {
         //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = totalGuests;
@@ -88,19 +88,19 @@ public class Booking {
         this.status = status;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Room[] getBookedRooms() {
+    public List<Room> getBookedRooms() {
         return bookedRooms;
     }
 
-    public void setBookedRooms(Room[] bookedRooms) {
+    public void setBookedRooms(List<Room> bookedRooms) {
         this.bookedRooms = bookedRooms;
     }
 
@@ -120,13 +120,7 @@ public class Booking {
         this.checkInDate = checkInDate;
     }
 
-    public RoomBooking getRoombooking() {
-        return roomBooking;
-    }
 
-    public void setRoombooking(RoomBooking roomBooking) {
-        this.roomBooking = roomBooking;
-    }
 
     public Invoice getInvoice() {
         return invoice;

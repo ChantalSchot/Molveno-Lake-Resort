@@ -1,15 +1,41 @@
 package com.molvenolakeresort.hotel.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Invoice {
 	//Cost is in cents, 100 means 1 value of currency (e.g. Dollar or Chinese Yuan)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private int totalCost;
 	private int totalPaid;
 	private boolean paymentComplete;
 	private String paymentMethod;
+
+	@OneToMany
 	private List<InvoiceItem> invoiceItems;
+
+	@OneToOne
+	private Booking booking;
+
+	public Booking getBooking() {
+		return booking;
+	}
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	Invoice() {
 		invoiceItems = new ArrayList<>();

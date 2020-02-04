@@ -1,16 +1,43 @@
 package com.molvenolakeresort.hotel.model;
 
+import javax.persistence.*;
+
+@Entity
 public class InvoiceItem {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String name;
 	private int piecePrice; // Price is in cents
 	private int totalPrice; // Price is in cents
 	private int amount;
+
+	@ManyToOne
+	private Invoice invoice;
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
+
 
 	public InvoiceItem(String name, int price, int amount) {
 		this.name = name;
 		this.piecePrice = price;
 		this.amount = amount;
 		this.totalPrice = price * amount;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
