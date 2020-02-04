@@ -2,12 +2,14 @@
 
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
 <div class="guest-table mx-auto my-5">
+    <button id="fetchList" class="btn btn-primary">Fetch data</button>
+    <button id="clearList" class="btn btn-warning">Clear data</button>
+
     <table id="dataTable" class="display mx-auto">
     </table>
 
-<!--Buttons underneath table for viewing, editing, deleting or adding guests
-    <button id="fetchList" class="btn btn-primary">Fetch</button>
-    <button id="clearList" class="btn btn-warning">Clear</button>-->
+<!--Buttons underneath table for viewing, editing, deleting or adding guests -->
+
 
     <!--Opens modal and gets guest details from selected row -->
     <button id="viewGuest" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">View</button>
@@ -132,7 +134,7 @@
                                 <label for="editGuestName">Guest Name: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editGuestName" class="form-control" name="editGuestName">
+                                <input type="text" id="editGuestName" class="form-control" name="editGuestName" required>
                             </div>
                         </div>
 
@@ -165,7 +167,7 @@
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editPassportNr">E-mail: </label>
+                                <label for="editPassportNr">Passport Number: </label>
                             </div>
                             <div class="col-8 text-left">
                                 <input type="text" id="editPassportNr" class="form-control" name="editPassportNr">
@@ -194,7 +196,7 @@
             </div>
             <div class="modal-footer">
                 <!--            Save edit of guest    -->
-                <button type="button" id="saveEdit" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" id="saveGuest" class="btn btn-success" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
             </div>
         </div>

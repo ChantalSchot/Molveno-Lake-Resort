@@ -1,10 +1,7 @@
 package com.molvenolakeresort.hotel.model;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +10,7 @@ public class Guest implements Serializable {
 
     @javax.persistence.Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     
     private String name;
     private String birthDate;
@@ -60,12 +57,12 @@ public class Guest implements Serializable {
     }
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public long setId(Long id) {
-        return this.id = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

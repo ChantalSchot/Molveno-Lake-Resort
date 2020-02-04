@@ -104,9 +104,9 @@ public class Room implements Serializable {
         this.disabledRoom = disabledRoom;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public Facilities getFacilities() {
         return facilities;

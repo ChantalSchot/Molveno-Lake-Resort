@@ -5,10 +5,19 @@ import com.molvenolakeresort.hotel.model.Guest;
 import com.molvenolakeresort.hotel.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +62,7 @@ public class GuestController {
 	}
 
 	// Create new guest
-	@PostMapping
+	@PostMapping (consumes = "application/json;charset=UTF-8" )
 	public ResponseEntity<Guest> createGuest(@RequestBody Guest guest) {
 		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
@@ -86,7 +95,7 @@ public class GuestController {
 
 
 	@DeleteMapping
-	public void deleteGuestById(@RequestBody Guest guest) {
+	public void deleteGuest(@RequestBody Guest guest) {
 		this.guestRepository.delete(guest);
 	}
 
