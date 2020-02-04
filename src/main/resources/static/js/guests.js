@@ -1,4 +1,4 @@
-const api = "http://localhost:8080/controller/guests";
+const api = "http://localhost:8080/api/guests";
 
 var table;
 
@@ -41,8 +41,12 @@ $(document).ready(function() {
     // View guest details: get ID from selected row
     $(".editGuest").click(function() {
         // Get guest info by ID
-        editGuest(table.row($('.selected')).data());
+        editGuestModal(table.row($('.selected')).data());
         console.log("Editing guest: " + row.name);
+    });
+
+    $("#saveGuest").click(function() {
+        saveGuest();
     });
 
     // Delete guest that is currently selected
@@ -134,15 +138,23 @@ function showGuest(result){
     $("#viewPassportNr").html(result.passportNr);
     $("#viewAddress").html(result.address);
     $("#viewCity").html(result.city);
-
 };
 
+
+function editGuestModal(guest) {
+    // Add guest information to View modal fields
+    $("#editId").val(guest.id);
+    $("#editGuestName").val(guest.name);
+    $("#editBirthDate").val(guest.birthDate);
+    $("#editMail").val(guest.mail);
+    $("#editPhone").val(guest.phone);
+    $("#editPassportNr").val(guest.passportNr);
+    $("#editAddress").val(guest.address);
+    $("#editCity").val(guest.city);
+}
+
+// function saveGuest() {
 //
-// function editGuest(id) {
-//     var updatedGuest = {
-//        id: $("#viewGuestName").val(result.id);
-//
-//     }
 // }
 
 
@@ -153,7 +165,7 @@ function deleteGuest(guest) {
 
     // Delete guest, then refresh table with updated data
     $.ajax({
-        url: api + "/" + guest.id,
+        url: api,
         type:"delete",
         dataType: "json",
         contentType: "application/json",
@@ -168,7 +180,7 @@ function deleteGuest(guest) {
 
 // Empty modals after closing
 function emptyModals() {
-    // Add guest information to View modal fields
+    // Remove guest information from View modal fields
     $("#viewId").html("No guest selected.");
     $("#viewGuestName").empty();
     $("#viewBirthDate").empty();
@@ -177,4 +189,14 @@ function emptyModals() {
     $("#viewPassportNr").empty();
     $("#viewAddress").empty();
     $("#viewCity").empty();
+
+    // Remove guest information from Edit modal fields
+    $("#editId").val("");
+    $("#editGuestName").val("");
+    $("#editBirthDate").val("");
+    $("#editMail").val("");
+    $("#editPhone").val("");
+    $("#editPassportNr").val("");
+    $("#editAddress").val("");
+    $("#editCity").val("");
 };

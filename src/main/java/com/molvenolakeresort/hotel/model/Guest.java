@@ -12,7 +12,7 @@ public class Guest implements Serializable {
 //    static int guestIDgenerator = 1;
 
     @javax.persistence.Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     
     private String name;
