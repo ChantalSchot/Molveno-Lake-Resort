@@ -22,28 +22,41 @@ $(document).ready(function() {
     $("#dataTable tbody").on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
           $(this).removeClass('selected');
+          emptyModals();
         }
         else {
           table.$('tr.selected').removeClass('selected');
-          $(this).addClass('selected');
+            emptyModals();
+            $(this).addClass('selected');
         }
       });
 
     // View guest details: get ID from selected row
      $("#viewGuest").click(function() {
-        var row = table.row($('.selected')).data();
-        console.log("Viewing guest: " + row.name);
         // Get guest info by ID
-        viewGuest(row.guestID);
+        viewGuest(table.row($('.selected')).data().guestID);
+        console.log("Viewing guest: " + row.name);
       });
+
+    // View guest details: get ID from selected row
+    $(".editGuest").click(function() {
+        // Get guest info by ID
+        editGuest(table.row($('.selected')).data().guestID);
+        console.log("Editing guest: " + row.name);
+    });
 
     // Delete guest that is currently selected
      $("#deleteGuest").click(function() {
-        var row = table.row($('.selected')).data();
-        console.log("Deleting guest: " + row.name);
         // Delete guest from database & datatable
-        deleteGuest(row.guestID);
+        deleteGuest(table.row($('.selected')).data().guestID);
+         console.log("Deleting guest: " + row.name);
       });
+
+     // When a modal is closed, the fields inside should be emptied
+    $(".close-button").click(function() {
+        // Empty modal fields
+        emptyModals();
+    });
 
 });
 
@@ -110,6 +123,7 @@ function viewGuest(id) {
     });
 };
 
+// Enter guest information in the 'view guest' modal
 function showGuest(result){
     // Add guest information to View modal fields
     $("#viewId").html(result.guestID);
@@ -122,6 +136,15 @@ function showGuest(result){
     $("#viewCity").html(result.city);
 
 };
+
+//
+// function editGuest(id) {
+//     var updatedGuest = {
+//        guestID: $("#viewGuestName").val(result.guestID);
+//
+//     }
+// }
+
 
 // Delete selected guest with ID from datatable & database
 function deleteGuest(id) {
@@ -143,3 +166,15 @@ function deleteGuest(id) {
     });
 };
 
+// Empty modals after closing
+function emptyModals() {
+    // Add guest information to View modal fields
+    $("#viewId").html("No guest selected.");
+    $("#viewGuestName").empty();
+    $("#viewBirthDate").empty();
+    $("#viewMail").empty();
+    $("#viewPhone").empty();
+    $("#viewPassportNr").empty();
+    $("#viewAddress").empty();
+    $("#viewCity").empty();
+};
