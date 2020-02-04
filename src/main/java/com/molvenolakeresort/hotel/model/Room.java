@@ -1,10 +1,15 @@
 package com.molvenolakeresort.hotel.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Room implements Serializable {
-    static int roomIDGenerator = 1;
-    private int roomID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String roomNumber;
     private boolean available;
     private int numberOfSingleBeds;
@@ -17,14 +22,15 @@ public class Room implements Serializable {
     private RoomType roomType;
     private RoomStatus roomStatus;
 
+    @ManyToMany
+    List<Booking> bookings = new ArrayList<>();
+
     public Room() {
-        roomID = roomIDGenerator++;
         available = true;
         facilities = new Facilities();
     }
 
     public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
-        this.roomID = roomIDGenerator++;
         this.available = true;
         this.facilities = new Facilities();
         this.roomType = roomType;
@@ -41,8 +47,8 @@ public class Room implements Serializable {
         this.facilities = facilities;
     }
 
-    public int getRoomID() {
-        return roomID;
+    public long getId() {
+        return id;
     }
 
     public String getRoomNumber() {
@@ -93,8 +99,8 @@ public class Room implements Serializable {
         this.disabledRoom = disabledRoom;
     }
 
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Facilities getFacilities() {
@@ -112,6 +118,7 @@ public class Room implements Serializable {
     public int getNoOfChildren() {
         return noOfChildren;
     }
+
     public void setNoOfChildren(int noOfChildren) {
         this.noOfChildren = noOfChildren;
     }
