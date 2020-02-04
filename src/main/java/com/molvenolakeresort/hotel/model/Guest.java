@@ -1,8 +1,20 @@
 package com.molvenolakeresort.hotel.model;
 
-public class Guest {
-    static int guestIDgenerator = 1;
-    private long guestID;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+public class Guest implements Serializable {
+//    static int guestIDgenerator = 1;
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+    
     private String name;
     private String birthDate;
     private String mail;
@@ -10,7 +22,9 @@ public class Guest {
     private String passportNr;
     private String address;
     private String city;
-    private Booking[] bookings = {};
+    
+//    @OneToMany
+//    private Array<> bookings;
 
 
     @Override
@@ -21,12 +35,10 @@ public class Guest {
 
     // Guest constructors
     public Guest() {
-        this("Default name");
-
     }
 
     public Guest(String name) {
-        this.guestID = guestIDgenerator++;
+//        this.id = guestIDgenerator++;
         this.name = name;
         this.birthDate = "January 1st, 1980";
         this.mail = "address@email.com";
@@ -37,7 +49,7 @@ public class Guest {
     }
 
     public Guest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) {
-        this.guestID = guestIDgenerator++;
+//        this.id = guestIDgenerator++;
         this.birthDate = birthDate;
         this.name = name;
         this.mail = mail;
@@ -47,12 +59,14 @@ public class Guest {
         this.city = city;
     }
 
-    public static void setGuestIDgenerator(int guestIDgenerator) {
-        Guest.guestIDgenerator = guestIDgenerator;
+
+    public Long getId() {
+        return id;
     }
 
-    public long getGuestID() {
-        return guestID;
+
+    public long setId(Long id) {
+        return this.id = id;
     }
 
     public String getName() {
@@ -111,14 +125,14 @@ public class Guest {
         this.city = city;
     }
 
-    public Booking[] getBookings() {
-        return bookings;
-        }
-
-    public void setBookings(Booking[] bookings) {
-        this.bookings = bookings;
-    }
-    
+//    public List<Booking> getBookings() {
+//        return bookings;
+//        }
+//
+//    public void setBookings(List<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
+//
     
 
 }
