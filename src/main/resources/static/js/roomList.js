@@ -11,7 +11,7 @@ $(document).ready(function() {
               emptyRoomModals();
             }
             else {
-              table.$('tr.selected').removeClass('selected');
+                roomtable.$('tr.selected').removeClass('selected');
               emptyRoomModals();
                 $(this).addClass('selected');
             }
@@ -24,6 +24,35 @@ $(document).ready(function() {
         getRoom(roomtable.row($('.selected')).data());
         // console.log("Viewing guest: " + row.name);
       });
+
+          // View guest details: get ID from selected row
+    $(".editRoom").click(function() {
+        // Get guest info by ID
+        editRoomModal(roomtable.row($('.selected')).data());
+        //console.log("Editing guest: " + row.name);
+    });
+
+    $("#saveRoom").click(function() {
+        updateRoom();
+    });
+
+    $("#deleteRoom").click(function() {
+        // Check if guest is selected
+        if (roomtable.row($('.selected')).data() == undefined) {
+            $("#noRoomSelectedModal").modal("show");
+        } else {
+            $("#deleteRoomModal").modal("show");
+        }
+    });
+
+    // Delete guest that is currently selected
+     $("#deleteRoomConfirm").click(function() {
+        // Delete guest from database & datatable
+        deleteRoom(roomtable.row($('.selected')).data());
+        // console.log("Deleting guest: " + row.name);
+      });
+
+      
 });
 
 
@@ -96,6 +125,8 @@ function getRoom(room){
 }
 };
 
+
+
 // Enter guest information in the 'view guest' modal
 function showRoom(result){
     // Add guest information to View modal fields
@@ -124,10 +155,93 @@ function emptyRoomModals() {
     $("#viewDoubleBeds").empty();
     $("#viewBabyBeds").empty();
     $("#viewDisabledRoom").empty();
-    $("#viewFacilities").empty();
+ //   $("#viewFacilities").empty();
     $("#viewNoAdults").empty();
     $("#viewNoChildren").empty();
     $("#viewroomType").empty();
-    $("#viewStatus").empty();
+  //  $("#viewStatus").empty();
 };
 
+function editRoomModal(room) {
+    // Check if guest is selected
+    if (room == undefined) {
+        $("#noRoomSelectedModal").modal("show");
+    } else {
+
+        if(room.available){
+            document.getElementById('editRoomAvailability').checked = true;
+        }
+        if(room.disabledRoom){
+            document.getElementById('editDisabledRoom').checked = true;
+        }
+
+        $("#editRoomModal").modal("show");
+        // Add guest information to View modal fields
+        $("#editRoomId").val(room.id);
+        $("#editRoomName").val(room.roomNumber);
+        $("#editSingleBeds").val(room.numberOfSingleBeds);
+        $("#editDoubleBeds").val(room.numberOfDoubleBeds);
+        $("#editBabyBeds").val(room.numberOfBabyBeds);
+      //  $("#editFacilities").val(room.facilities);
+        $("#editNoAdults").val(room.noOfAdults);
+        $("#editNoChildren").val(room.noOfChildren);
+        $("#editroomType").val(room.roomType);
+      //  $("#editStatus").val(room.roomStatus);
+    }
+
+
+}
+
+function updateRoom(){
+    var room = {
+        id : +$("#editRoomId").val(),
+        roomNumber : $('#editRoomName').val(),
+        numberOfSingleBeds : +$('#editSingleBeds').val(),
+        numberOfDoubleBeds : +$('#editDoubleBeds').val(),
+        numberOfBabyBeds : +$('#editBabyBeds').val(),
+        available : $('#editRoomAvailability').prop('checked'),
+        disabledRoom : $('#editDisabledRoom').prop('checked'),
+        noOfAdults :  +$("#editNoAdults").val(),
+        noOfChildren : +$("#editNoChildren").val(),
+        roomType : $("#editroomType").val()
+    };
+
+    
+    var jsonObject =JSON.stringify(room);
+    
+    let api = "/api/rooms/";
+    $.ajax({
+        url: api,
+        type: "put",
+        data: jsonObject,
+        contentType: "application/json",
+        success: function(data){
+            alert("Room is successfully updated.")
+            getRoomList();
+        },
+    
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    
+}
+
+
+function deleteRoom(data){
+    $("#deleteRoomModal").modal("show");
+    let api = "/api/rooms/" + data.id;
+    $.ajax({
+        url: api,
+        type: "delete",
+        contentType: "application/json",
+        success: function(data){
+            window.location.replace("/Admin/roomList.html");
+        },
+    
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}

@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Room implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String roomNumber;
     private boolean available;
@@ -16,25 +16,24 @@ public class Room implements Serializable {
     private int numberOfDoubleBeds;
     private int numberOfBabyBeds;
     private boolean disabledRoom;
+    //@OneToOne
+   // private Facilities facilities;
     private int noOfAdults;
     private int noOfChildren;
     private RoomType roomType;
-    private RoomStatus roomStatus;
-
-    //@OneToOne
-    private Facilities facilities;
+    //private RoomStatus roomStatus;
 
     @ManyToMany
     List<Booking> bookings = new ArrayList<>();
 
     public Room() {
         available = true;
-        facilities = new Facilities();
+        //facilities = new Facilities(this);
     }
 
     public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
         this.available = true;
-        this.facilities = new Facilities();
+        //this.facilities = new Facilities(this);
         this.roomType = roomType;
         this.roomNumber = roomNumber;
         this.noOfAdults = noOfAdults;
@@ -45,9 +44,9 @@ public class Room implements Serializable {
         this.disabledRoom = disabled;
     }
 
-    public void setFacilities(Facilities facilities) {
-        this.facilities = facilities;
-    }
+    //public void setFacilities(Facilities facilities) {
+       // this.facilities = facilities;
+    //}
 
     public long getId() {
         return id;
@@ -109,9 +108,9 @@ public class Room implements Serializable {
 //        this.id = id;
 //    }
 
-    public Facilities getFacilities() {
-        return facilities;
-    }
+   // public Facilities getFacilities() {
+   //     return facilities;
+   // }
 
     public int getNoOfAdults() {
         return noOfAdults;
