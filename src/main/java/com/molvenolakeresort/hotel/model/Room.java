@@ -16,24 +16,25 @@ public class Room implements Serializable {
     private int numberOfDoubleBeds;
     private int numberOfBabyBeds;
     private boolean disabledRoom;
-    @OneToOne
-    private Facilities facilities;
     private int noOfAdults;
     private int noOfChildren;
     private RoomType roomType;
     private RoomStatus roomStatus;
+
+    //@OneToOne
+    private Facilities facilities;
 
     @ManyToMany
     List<Booking> bookings = new ArrayList<>();
 
     public Room() {
         available = true;
-        facilities = new Facilities(this);
+        facilities = new Facilities();
     }
 
     public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
         this.available = true;
-        //this.facilities = new Facilities(this);
+        this.facilities = new Facilities();
         this.roomType = roomType;
         this.roomNumber = roomNumber;
         this.noOfAdults = noOfAdults;

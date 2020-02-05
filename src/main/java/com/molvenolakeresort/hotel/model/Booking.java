@@ -43,6 +43,9 @@ public class Booking {
         return rooms;
     }
 
+    public Booking() {
+    }
+
     public Booking(Guest guest, List<Room> bookedRoom, String checkI  ) throws ParseException {
         //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
@@ -54,7 +57,7 @@ public class Booking {
         //this.roomBooking = ;
     }
 
-    public Booking(Guest guest, int totalGuests,  List<Room> bookedRooms,  String checkInDate,String checkOutDate) throws ParseException {
+    public Booking(Guest guest, int totalGuests, List<Room> bookedRooms, String checkInDate, String checkOutDate) throws ParseException {
         //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = totalGuests;

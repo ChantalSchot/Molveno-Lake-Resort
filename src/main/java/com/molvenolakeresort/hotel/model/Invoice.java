@@ -70,7 +70,7 @@ public class Invoice {
 		} else if(paymentMethod.isEmpty()) {
 			System.out.println("Payment method not yet set!");
 		} else {
-			System.out.println("Paying with " + this.getPaymentMethod() + " a total of " + getTotalCost());
+			System.out.println("Paying with " + this.getPaymentMethod() + " a total of " + (getTotalCost()/100) + " RMB");
 			this.setTotalPaid(getTotalCost());
 			this.setPaymentComplete(true);
 		}

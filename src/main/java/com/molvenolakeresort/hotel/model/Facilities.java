@@ -18,12 +18,12 @@ public class Facilities implements Serializable  {
     private boolean wifi = true;
     private boolean phone = true;
 
-    @OneToOne
-    private Room room;
-
-    Facilities(Room room) {
-        this.room = room;
-    }
+//    @OneToOne
+//    private Room room;
+//
+//    Facilities(Room room) {
+//        setRoom(room);
+//    }
 
     @Override
     public String toString() {
@@ -48,13 +48,13 @@ public class Facilities implements Serializable  {
         this.id = id;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
+//    public Room getRoom() {
+//        return room;
+//    }
+//
+//    public void setRoom(Room room) {
+//        this.room = room;
+//    }
 
     public boolean isMiniBar() {
         return miniBar;

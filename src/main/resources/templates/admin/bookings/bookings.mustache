@@ -1,0 +1,24 @@
+{{>admin/header-admin}}
+
+<!-- Data table die wordt ingelezen vanuit Datatable Library -->
+<div class="booking-table mx-auto my-5">
+    <table id="bookingTable" class="display mx-auto">
+    </table>
+
+    <!--Buttons underneath table for viewing, editing, deleting or adding guests -->
+    <!--Opens modal and gets guest details from selected row
+    Open modal through jQuery -->
+    <button id="viewBookingButton" type="button" class="btn btn-primary">View</button>
+    <button type="button" class="btn btn-warning">Edit</button>
+    <button id="deleteBookingButton" type="button" class="btn btn-danger">Delete</button>
+    <button id="newBookingButton" type="button" class="btn btn-success">New</button>
+
+    <div>
+        <button id="fetchList" class="btn btn-primary mt-4">Fetch data</button>
+        <button id="clearList" class="btn btn-warning mt-4">Clear data</button>
+    </div>
+
+    <hr>
+</div>
+
+{{>admin/footer-admin}}

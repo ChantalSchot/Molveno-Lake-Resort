@@ -21,7 +21,7 @@ public class InvoiceTest {
 	@Test
 	void getTotalCost() {
 		assertEquals(65000, invoice.getTotalCost());
-		System.out.println("Invoice total: " + invoice.getTotalCost()/100 + "$");
+		System.out.println("Invoice total: " + invoice.getTotalCost()/100 + " RMB");
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class InvoiceTest {
 		final int paid = 3000;
 		invoice.setTotalPaid(paid);
 		assertEquals(paid, invoice.getTotalPaid());
-		System.out.println("Invoice total: " + (invoice.getTotalCost()/100) + "$\nTotal paid: " + (invoice.getTotalPaid()/100) + "$\nStill to pay: " + ((invoice.getTotalCost() - invoice.getTotalPaid())/100) + "$");
+		System.out.println("Invoice total: " + (invoice.getTotalCost()/100) + " RMB\nTotal paid: " + (invoice.getTotalPaid()/100) + " RMB\nStill to pay: " + ((invoice.getTotalCost() - invoice.getTotalPaid())/100) + " RMB");
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class InvoiceTest {
 		List<InvoiceItem> items = invoice.getInvoiceItems();
 		assertEquals(items.size(), 3);
 		for(InvoiceItem item : items) {
-			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + "$ = " + (item.getTotalPrice() / 100) + "$");
+			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + " RMB = " + (item.getTotalPrice() / 100) + " RMB");
 		}
 	}
 
@@ -60,7 +60,7 @@ public class InvoiceTest {
 		assertEquals(item.getAmount(), 2);
 		assertEquals(item.getTotalPrice(), 5000);
 
-		System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice()/100) + "$ = " + (item.getTotalPrice()/100) + "$");
+		System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice()/100) + " RMB = " + (item.getTotalPrice()/100) + " RMB");
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class InvoiceTest {
 		System.out.println("Deleting Roomservice item from invoice:");
 		List<InvoiceItem> items = invoice.getInvoiceItems();
 		for(InvoiceItem item : items) {
-			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + "$ = " + (item.getTotalPrice() / 100) + "$");
+			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + " RMB = " + (item.getTotalPrice() / 100) + " RMB");
 		}
 
 		invoice.deleteInvoiceItem("Roomservice");
@@ -94,7 +94,7 @@ public class InvoiceTest {
 		System.out.println("\nNew invoice:");
 		List<InvoiceItem> items2 = invoice.getInvoiceItems();
 		for(InvoiceItem item : items2) {
-			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + "$ = " + (item.getTotalPrice() / 100) + "$");
+			System.out.println(item.getAmount() + "x " + item.getName() + " a " + (item.getPrice() / 100) + " RMB = " + (item.getTotalPrice() / 100) + " RMB");
 		}
 	}
 }
