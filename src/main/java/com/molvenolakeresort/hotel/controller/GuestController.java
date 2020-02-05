@@ -49,7 +49,7 @@ public class GuestController {
 
 
 	// Get by ID
-	@GetMapping("{id}")
+	@GetMapping(value = "{id}", produces = "application/json")
 	public ResponseEntity<Guest> findById(@PathVariable long id) {
 		Optional<Guest> optionalGuest = this.guestRepository.findById(id);
 
@@ -62,7 +62,7 @@ public class GuestController {
 	}
 
 	// Create new guest
-	@PostMapping (consumes = "application/json;charset=UTF-8" )
+	@PostMapping (consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Guest> createGuest(@RequestBody Guest guest) {
 		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
@@ -86,7 +86,7 @@ public class GuestController {
 //	}
 
 	// Update  by ID
-	@PutMapping
+	@PutMapping (consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Guest> updateById(@RequestBody Guest newGuest) {
 		Guest guest = this.guestRepository.save(newGuest);
 
@@ -94,7 +94,7 @@ public class GuestController {
 	}
 
 
-	@DeleteMapping
+	@DeleteMapping (consumes = "application/json")
 	public void deleteGuest(@RequestBody Guest guest) {
 		this.guestRepository.delete(guest);
 	}

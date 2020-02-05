@@ -50,8 +50,17 @@ $(document).ready(function() {
         getData();
     });
 
+    $("#deleteGuest").click(function() {
+        // Check if guest is selected
+        if (table.row($('.selected')).data() == undefined) {
+            $("#noGuestSelectedModal").modal("show");
+        } else {
+            $("#deleteModal").modal("show");
+        }
+    });
+
     // Delete guest that is currently selected
-     $("#deleteGuest").click(function() {
+     $("#deleteGuestConfirm").click(function() {
         // Delete guest from database & datatable
         deleteGuest(table.row($('.selected')).data());
         // console.log("Deleting guest: " + row.name);
@@ -61,7 +70,6 @@ $(document).ready(function() {
     $(".close-button").click(function() {
         // Empty modal fields
         emptyModals();
-        getData();
     });
 
 });
@@ -113,7 +121,10 @@ function getData() {
 function viewGuest(guest) {
     // Ensure that guest ID is a number (not string)
     // let guestId = +id;
-    if (guest.id != null) {
+    if (guest == undefined) {
+        $("#noGuestSelectedModal").modal("show");
+    } else {
+        $("#viewModal").modal("show");
         $.ajax({
             url: api + "/" + guest.id,
             type: "get",
@@ -146,8 +157,12 @@ function showGuest(result){
 
 
 function editGuestModal(guest) {
-    // Add guest information to View modal fields (if not empty0
-    if (guest !== undefined && guest !== "") {
+    // Check if guest is selected
+    if (guest == undefined) {
+        $("#noGuestSelectedModal").modal("show");
+    } else {
+        $("#editModal").modal("show");
+        // Fill in guest to modal fields
         $("#editId").val(guest.id);
         $("#editGuestName").val(guest.name);
         $("#editBirthDate").val(guest.birthDate);
@@ -189,6 +204,10 @@ function saveGuest() {
             console.log("Guest posted / edited: " + result);
             emptyModals();
             getData();
+        },
+        error: function (error) {
+            console.log(error);
+            getData();
         }
     });
 
@@ -198,28 +217,23 @@ function saveGuest() {
 
 // Delete selected guest with ID from datatable & database
 function deleteGuest(guest) {
-    // Ensure that guest ID is a number (not string)
-    // let guestId = +id;
-    // var guestObject = guest;
-    // var jsonObject = JSON.stringify(guestObject);
-
-    // Delete guest, then refresh table with updated data
-    $.ajax({
-        url: api,
-        type:"delete",
-        dataType: "json",
-        data: JSON.stringify(guest),
-        contentType: "application/json",
-        success: function() {
-            getData();
-        },
-        error: function (error) {
-            console.log(error);
-            getData();
-        }
-    });
 
 
+        $("#deleteModal").modal("show");
+        $.ajax({
+            url: api,
+            type: "delete",
+            dataType: "json",
+            data: JSON.stringify(guest),
+            contentType: "application/json",
+            success: function () {
+                getData();
+            },
+            error: function (error) {
+                console.log(error);
+                getData();
+            }
+        });
 };
 
 // Empty modals after closing
