@@ -2,24 +2,29 @@
 
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
 <div class="guest-table mx-auto my-5">
-    <button id="fetchList" class="btn btn-primary">Fetch data</button>
-    <button id="clearList" class="btn btn-warning">Clear data</button>
-
     <table id="dataTable" class="display mx-auto">
     </table>
 
 <!--Buttons underneath table for viewing, editing, deleting or adding guests -->
 
 
-    <!--Opens modal and gets guest details from selected row -->
-    <button id="viewGuest" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">View</button>
+    <!--Opens modal and gets guest details from selected row
+    Open modal through jQuery -->
+    <button id="viewGuest" type="button" class="btn btn-primary">View</button>
 
-    <!--Opens modal to edit guest details from selected row -->
-    <button type="button" class="btn btn-warning editGuest" data-toggle="modal" data-target="#editModal">Edit</button>
+    <!--Opens modal to edit guest details from selected row
+     Open modal through jQuery-->
+    <button type="button" class="btn btn-warning editGuest">Edit</button>
 
     <!--Opens modal to delete guest from selected row -->
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+    <button id="deleteGuest" type="button" class="btn btn-danger">Delete</button>
     <button id="addGuest" class="btn btn-success">New</button>
+
+<div>
+    <button id="fetchList" class="btn btn-primary mt-4">Fetch data</button>
+    <button id="clearList" class="btn btn-warning mt-4">Clear data</button>
+</div>
+
     <hr>
 </div>
 
@@ -218,7 +223,28 @@
                 Are you sure you wish to delete this guest?
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" id="deleteGuest" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" id="deleteGuestConfirm" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- No guest selected Modal -->
+<div class="modal fade" id="noGuestSelectedModal" tabindex="-1" role="dialog" aria-labelledby="noGuestSelectedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noGuestSelectedModalLabel">Guest selection</h5>
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                No guest selected.
+            </div>
+            <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
 
             </div>
