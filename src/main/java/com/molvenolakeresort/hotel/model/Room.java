@@ -24,7 +24,7 @@ public class Room implements Serializable {
     //private RoomStatus roomStatus;
 
     @ManyToMany
-    List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings;
 
     public Room() {
         available = true;
@@ -135,6 +135,12 @@ public class Room implements Serializable {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
-
-
+    
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+    
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 }

@@ -3,6 +3,7 @@ const guestApi = "http://localhost:8080/api/guests";
 var guestTable;
 
 $(document).ready(function() {
+
     initGuestTable();
 
     getGuestData();
@@ -65,6 +66,8 @@ $(document).ready(function() {
         emptyGuestModals();
     });
 
+    console.log(new Date());
+
 });
 
 function initGuestTable() {
@@ -75,7 +78,10 @@ function initGuestTable() {
         { "title":  "Guest Name",
         "data": "name" },
         { "title":  "Date of Birth",
-        "data": "birthDate" },
+        "data": "birthDate",
+        "render": function(data) {
+         return $.format.date(data,"dd-MM-yyyy");
+         }},
         { "title":  "City",
         "data": "city"},
     ];
@@ -140,7 +146,7 @@ function showGuestDetails(result){
     // Add guest information to View modal fields
     $("#viewGuestId").html(result.id);
     $("#viewGuestName").html(result.name);
-    $("#viewGuestBirthDate").html(result.birthDate);
+    $("#viewGuestBirthDate").html($.format.date(result.birthDate,"dd-MM-yyyy"));
     $("#viewGuestMail").html(result.mail);
     $("#viewGuestPhone").html(result.phone);
     $("#viewGuestPassportNr").html(result.passportNr);
@@ -158,7 +164,7 @@ function editGuestModal(guest) {
         // Fill in guest to modal fields
         $("#editGuestId").val(guest.id);
         $("#editGuestName").val(guest.name);
-        $("#editGuestBirthDate").val(guest.birthDate);
+        $("#editGuestBirthDate").val($.format.date(guest.birthDate,"dd-MM-yyyy"));
         $("#editGuestMail").val(guest.mail);
         $("#editGuestPhone").val(guest.phone);
         $("#editGuestPassportNr").val(guest.passportNr);
@@ -168,11 +174,25 @@ function editGuestModal(guest) {
 }
 
 function saveGuest() {
+// Need to optimise date with datepicker instead of text input -
+// https://stackoverflow.com/questions/12346381/set-date-in-input-type-date (datepicker info)
+// https://www.scriptol.com/javascript/dates-difference.php (comparing years)
+// Get current date: new Date();
+// toDo: birthdate input -> datePicker with valid input for JSON object
+
+    // Create string that can be read from JSON parser (yyyy-MM-dd)
+    var inputBirthDate = $("#editGuestBirthDate").val().split('-'); // currently dd-MM-yyyy
+    var parsedBirthDate = inputBirthDate[2] + '-' + inputBirthDate[1] + '-' + inputBirthDate[0].slice(-2); // now yyyy-MM-dd
+
+    // var convertedEighteenDate = (+stringBirthDate[2]+18) + '-' + stringBirthDate[1] + '-' + stringBirthDate[0].slice(-2);
+
+
+
 
     let guestObject = {
         id: +$("#editGuestId").val(),
         name: $("#editGuestName").val(),
-        birthDate: $("#editGuestBirthDate").val(),
+        birthDate: parsedBirthDate,
         mail: $("#editGuestMail").val(),
         phone: $("#editGuestPhone").val(),
         passportNr: $("#editGuestPassportNr").val(),

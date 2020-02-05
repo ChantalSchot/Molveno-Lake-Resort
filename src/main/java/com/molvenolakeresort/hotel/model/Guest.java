@@ -2,6 +2,9 @@ package com.molvenolakeresort.hotel.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,7 +16,7 @@ public class Guest implements Serializable {
     private long id;
     
     private String name;
-    private String birthDate;
+    private Date birthDate;
     private String mail;
     private String phone;
     private String passportNr;
@@ -33,10 +36,10 @@ public class Guest implements Serializable {
     public Guest() {
     }
 
-    public Guest(String name) {
+    public Guest(String name) throws ParseException {
 //        this.id = guestIDgenerator++;
         this.name = name;
-        this.birthDate = "January 1st, 1980";
+        this.birthDate = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990");
         this.mail = "address@email.com";
         this.phone = "06-12345678";
         this.passportNr = "AB12C34D5";
@@ -44,9 +47,9 @@ public class Guest implements Serializable {
         this.city = "Utrecht";
     }
 
-    public Guest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) {
+    public Guest(String name, String birthDate, String mail, String phone, String passportNr, String address, String city) throws ParseException {
 //        this.id = guestIDgenerator++;
-        this.birthDate = birthDate;
+        this.birthDate = new SimpleDateFormat("dd-MM-yyyy").parse(birthDate);
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -72,11 +75,11 @@ public class Guest implements Serializable {
         this.name = name;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.xml.ws.Response;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -100,8 +101,8 @@ public class GuestController {
 
 	// Add some guests to the list when application starts
 	@PostConstruct
-	public void init() {
-		Guest one = new Guest("Jane Doe", "31-01-1990", "janedoe@email.com", "+31 6 1234 5678",
+	public void init() throws ParseException {
+		Guest one = new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
 				"AB9381B39", "Main Street 99", "New York");
 		this.guestRepository.save(one);
 		Guest two = new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
