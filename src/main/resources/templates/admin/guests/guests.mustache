@@ -1,40 +1,40 @@
 {{>admin/header-admin}}
 
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
-<div class="guest-table mx-auto my-5">
-    <table id="dataTable" class="display mx-auto">
-    </table>
+<div class="data-table mx-auto my-5">
+    <table id="guestTable" class="display mx-auto">
+</table>
 
 <!--Buttons underneath table for viewing, editing, deleting or adding guests -->
 
 
     <!--Opens modal and gets guest details from selected row
     Open modal through jQuery -->
-    <button id="viewGuest" type="button" class="btn btn-primary">View</button>
+    <button id="viewGuestButton" type="button" class="btn btn-primary">View</button>
 
     <!--Opens modal to edit guest details from selected row
      Open modal through jQuery-->
-    <button type="button" class="btn btn-warning editGuest">Edit</button>
+    <button type="button" type="button" class="btn btn-warning editGuestButton">Edit</button>
 
     <!--Opens modal to delete guest from selected row -->
-    <button id="deleteGuest" type="button" class="btn btn-danger">Delete</button>
-    <button id="addGuest" class="btn btn-success">New</button>
+    <button id="deleteGuestButton" type="button" class="btn btn-danger">Delete</button>
+    <button id="newGuestButton" type="button" class="btn btn-success" data-toggle="modal" data-target="#editGuestModal">New</button>
 
 <div>
-    <button id="fetchList" class="btn btn-primary mt-4">Fetch data</button>
-    <button id="clearList" class="btn btn-warning mt-4">Clear data</button>
+    <button id="fetchGuestList" class="btn btn-primary mt-4">Fetch data</button>
+    <button id="clearGuestList" class="btn btn-warning mt-4">Clear data</button>
 </div>
 
     <hr>
 </div>
 
 <!-- Guest: VIEW Details Modal -->
-<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewGuestModal" tabindex="-1" role="dialog" aria-labelledby="viewGuestModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewModalLabel">Guest Details</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="viewGuestModalLabel">Guest Details</h5>
+                <button type="button" class="close guest-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -46,65 +46,49 @@
                         <div class="col-6 text-right">
                             <b>Guest ID:</b>
                         </div>
-                        <div id="viewId" class="col-6 text-left">
-                            <i>Currently no guest selected.</i>
-                        </div>
+                        <div id="viewGuestId" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Guest name:</b>
                         </div>
-                        <div id="viewGuestName" class="col-6 text-left">
-                            <i></i>
-                        </div>
+                        <div id="viewGuestName" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Date of Birth:</b>
                         </div>
-                        <div id="viewBirthDate" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestBirthDate" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>E-mail address:</b>
                         </div>
-                        <div id="viewMail" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestMail" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Phone number:</b>
                         </div>
-                        <div id="viewPhone" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestPhone" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Passport number:</b>
                         </div>
-                        <div id="viewPassportNr" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestPassportNr" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Street address:</b>
                         </div>
-                        <div id="viewAddress" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestAddress" class="col-6 text-left"></div>
 
                         <div class="col-6 text-right">
                             <b>Current city:</b>
                         </div>
-                        <div id="viewCity" class="col-6 text-left">
-
-                        </div>
+                        <div id="viewGuestCity" class="col-6 text-left"></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
 <!--            Edit button to open the edit modal:    -->
-                <button type="button" class="btn btn-warning editGuest" data-dismiss="modal" data-toggle="modal" data-target="#editModal">Edit</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning editGuestButton" data-dismiss="modal" data-toggle="modal" data-target="#editGuestModal">Edit</button>
+                <button type="button" class="btn btn-secondary guest-close-button" data-dismiss="modal">Close</button>
 
             </div>
         </div>
@@ -112,25 +96,25 @@
 </div>
 
 <!-- Guest: EDIT Details Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editGuestModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Guest</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="editModalLabel">Enter Guest Details</h5>
+                <button type="button" class="close guest-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
                 <div class="container-fluid w-75">
-                        <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
-                        <div class="form-group row">
+                        <!-- All guest information input fields, filled in with JQuery from selected guest ID or create new-->
+                        <div class="form-group row d-none">
                             <div class="col-4 text-right">
-                                <label for="editId">Guest ID: </label>
+                                <label for="editGuestId">Guest ID: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="number" id="editId" name="editId" disabled>
+                                <input type="text" id="editGuestId" class="form-control" name="editGuestId" disabled>
                             </div>
                         </div>
 
@@ -145,55 +129,55 @@
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editBirthDate">Date of Birth: </label>
+                                <label for="editGuestBirthDate">Date of Birth: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editBirthDate" class="form-control" name="editBirthDate">
+                                <input type="text" id="editGuestBirthDate" class="form-control" name="editGuestBirthDate">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editMail">E-mail: </label>
+                                <label for="editGuestMail">E-mail: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editMail" class="form-control" name="editMail">
+                                <input type="text" id="editGuestMail" class="form-control" name="editGuestMail">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editPhone">Phone number: </label>
+                                <label for="editGuestPhone">Phone number: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editPhone" class="form-control" name="editPhone">
+                                <input type="text" id="editGuestPhone" class="form-control" name="editGuestPhone">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editPassportNr">Passport Number: </label>
+                                <label for="editGuestPassportNr">Passport Number: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editPassportNr" class="form-control" name="editPassportNr">
+                                <input type="text" id="editGuestPassportNr" class="form-control" name="editGuestPassportNr">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editAddress">Street address: </label>
+                                <label for="editGuestAddress">Street address: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editAddress" class="form-control" name="editAddress">
+                                <input type="text" id="editGuestAddress" class="form-control" name="editGuestAddress">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-4 text-right">
-                                <label for="editCity">Current city: </label>
+                                <label for="editGuestCity">Current city: </label>
                             </div>
                             <div class="col-8 text-left">
-                                <input type="text" id="editCity" class="form-control" name="editCity">
+                                <input type="text" id="editGuestCity" class="form-control" name="editGuestCity">
                             </div>
                         </div>
 
@@ -201,8 +185,8 @@
             </div>
             <div class="modal-footer">
                 <!--            Save edit of guest    -->
-                <button type="button" id="saveGuest" class="btn btn-success" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                <button type="button" id="saveGuestButton" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-secondary guest-close-button" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -210,12 +194,12 @@
 
 
 <!-- Guest: DELETE Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteGuestModal" tabindex="-1" role="dialog" aria-labelledby="deleteGuestModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Guest Deletion</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="deleteGuestModalLabel">Guest Deletion</h5>
+                <button type="button" class="close guest-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -223,8 +207,8 @@
                 Are you sure you wish to delete this guest?
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" id="deleteGuestConfirm" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                <button type="button" id="deleteGuestConfirmButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-secondary guest-close-button" data-dismiss="modal">Cancel</button>
 
             </div>
         </div>
@@ -237,7 +221,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="noGuestSelectedModalLabel">Guest selection</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close guest-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -245,7 +229,7 @@
                 No guest selected.
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary guest-close-button" data-dismiss="modal">Cancel</button>
 
             </div>
         </div>

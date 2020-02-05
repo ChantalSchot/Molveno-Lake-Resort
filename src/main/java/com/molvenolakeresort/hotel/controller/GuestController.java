@@ -43,14 +43,14 @@ public class GuestController {
 
 	// Get list of guests
 	@GetMapping
-	public Iterable<Guest> findAll() {
+	public Iterable<Guest> getGuestList() {
 		return this.guestRepository.findAll();
 	}
 
 
 	// Get by ID
 	@GetMapping(value = "{id}", produces = "application/json")
-	public ResponseEntity<Guest> findById(@PathVariable long id) {
+	public ResponseEntity<Guest> getGuest(@PathVariable long id) {
 		Optional<Guest> optionalGuest = this.guestRepository.findById(id);
 
 		if (optionalGuest.isPresent()) {
@@ -63,7 +63,7 @@ public class GuestController {
 
 	// Create new guest
 	@PostMapping (consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Guest> createGuest(@RequestBody Guest guest) {
+	public ResponseEntity<Guest> postGuest(@RequestBody Guest guest) {
 		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
 
@@ -87,12 +87,11 @@ public class GuestController {
 
 	// Update  by ID
 	@PutMapping (consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Guest> updateById(@RequestBody Guest newGuest) {
+	public ResponseEntity<Guest> putGuest(@RequestBody Guest newGuest) {
 		Guest guest = this.guestRepository.save(newGuest);
 
 		return ResponseEntity.ok(guest);
 	}
-
 
 	@DeleteMapping (consumes = "application/json")
 	public void deleteGuest(@RequestBody Guest guest) {
@@ -120,66 +119,3 @@ public class GuestController {
 	}
 
 }
-	
-
-//	public void postGuest(Guest guest) {
-//		Guest newGuest = new Guest(name, birthDate, mail, phone, passportNr, address, city);
-//		guestList.add(guest);
-//	}
-
-//	public void putGuest(int guestID, String name, String birthDate, String mail, String phone, String passportNr, String address, String city) throws EntityNotFoundException {
-//		for (Guest guest : this.guestRepository.findAll()) {
-////			if (guest.getId() == guestID) {
-//				// Change if fields are changed and if new field is not empty
-//				System.out.print("Updated: ");
-//				if (!(guest.getName() == name) && !(name.isEmpty())) {
-//					guest.setName(name);
-//					System.out.print("name ");
-//				} if (!(guest.getBirthDate() == birthDate) && !(birthDate.isEmpty())) {
-//					guest.setBirthDate(birthDate);
-//					System.out.print("birth date ");
-//				} if (!(guest.getMail() == mail) && !(mail.isEmpty())) {
-//					guest.setMail(mail);
-//					System.out.print("mail ");
-//				} if (!(guest.getPhone() == phone) && !(phone.isEmpty())) {
-//					guest.setPhone(phone);
-//					System.out.print("phone ");
-//				} if (!(guest.getPassportNr() == passportNr) && !(passportNr.isEmpty())) {
-//					guest.setPassportNr(passportNr);
-//					System.out.print("passport number ");
-//				} if (!(guest.getAddress() == address) && !(address.isEmpty())) {
-//					guest.setAddress(address);
-//					System.out.print("address ");
-//				} if (!(guest.getCity() == city) && !(city.isEmpty())) {
-//					guest.setCity(city);
-//					System.out.print("city ");
-//				}
-//
-//				return;
-//			}
-//		}
-//		throw new EntityNotFoundException(exceptionError + guestID);
-//	}
-//
-//	public void deleteGuest(int guestID) throws EntityNotFoundException {
-//		for (Guest guest : this.guestRepository.findAll()) {
-//			if (guestID == guest.getId()) {
-//				this.guestRepository.delete(guest);
-//				return;
-//			}
-//		}
-//		throw new EntityNotFoundException(exceptionError + guestID);
-//	}
-//
-//	public List<Booking> getGuestBookings(long guestID) throws EntityNotFoundException{
-//		Guest guest = this.guestRepository.findById(guestID).get();
-//		if (guest.getBookings().toArray().length != 0) {
-//			return guest.getBookings();
-//		}
-//		else {
-//			throw new EntityNotFoundException(guest.getName() + " currently has no bookings.");
-//		}
-//
-//	}
-//
-//}

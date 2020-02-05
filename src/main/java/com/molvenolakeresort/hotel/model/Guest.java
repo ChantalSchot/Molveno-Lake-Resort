@@ -29,7 +29,6 @@ public class Guest implements Serializable {
         return  "Name: " + name + ". Birth date: " + birthDate + ". Mail: " + mail + ". Phone: " + phone + ".\nPassportnumber: " + passportNr + ". Address: " + address + ". City: " + city + ".";
     }
 
-
     // Guest constructors
     public Guest() {
     }
