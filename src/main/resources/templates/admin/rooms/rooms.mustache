@@ -10,22 +10,131 @@
                     <table id="roomTable" class="display mx-auto">
                     </table>
 
-                <!--Buttons underneath table for viewing, editing, deleting or adding guests
+                <!--Buttons underneath table for viewing, editing, deleting or adding rooms
                     <button id="fetchList" class="btn btn-primary">Fetch</button>
                     <button id="clearList" class="btn btn-warning">Clear</button>-->
 
-                    <!--Opens modal and gets guest details from selected row -->
-                    <button id="viewGuest" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">View</button>
+                    <!--Opens modal and gets room details from selected row -->
+                    <button id="viewRoom" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewRoomModal">View</button>
 
-                    <!--Opens modal to edit guest details from selected row -->
-                    <button type="button" class="btn btn-warning editGuest" data-toggle="modal" data-target="#editModal">Edit</button>
+                    <!--Opens modal to edit room details from selected row -->
+                    <button type="button" class="btn btn-warning editRoom" data-toggle="modal" data-target="#editRoomModal">Edit</button>
 
-                    <!--Opens modal to delete guest from selected row -->
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                    <button id="addGuest" class="btn btn-success">New</button>
+                    <!--Opens modal to delete room from selected row -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteRoomModal">Delete</button>
+                    <button id="addRoom" class="btn btn-success">New</button>
                     <hr>
             </div>
         <button onClick="roomCreate();">New room</button>
+
+        <!-- Room: VIEW Details Modal -->
+<div class="modal fade" id="viewRoomModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Room Details</h5>
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- All room information fields, filled in with JQuery from selected room ID -->
+                        <div class="col-6 text-right">
+                            <b>Room ID:</b>
+                        </div>
+                        <div id="viewRoomId" class="col-6 text-left">
+                            <i>Currently no room selected.</i>
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>Room name:</b>
+                        </div>
+                        <div id="viewRoomName" class="col-6 text-left">
+                            <i></i>
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>Availability:</b>
+                        </div>
+                        <div id="viewRoomAvailability" class="col-6 text-left">
+
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>No. single beds:</b>
+                        </div>
+                        <div id="viewSingleBeds" class="col-6 text-left">
+
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>No. double beds:</b>
+                        </div>
+                        <div id="viewDoubleBeds" class="col-6 text-left">
+
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>No. baby beds:</b>
+                        </div>
+                        <div id="viewBabyBeds" class="col-6 text-left">
+
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>Disabled room:</b>
+                        </div>
+                        <div id="viewDisabledRoom" class="col-6 text-left">
+
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <b>Facilities:</b>
+                        </div>
+                        <div id="viewFacilities" class="col-6 text-left">
+
+                        </div>
+                        
+                        <div class="col-6 text-right">
+                            <b>No. adults:</b>
+                        </div>
+                        <div id="viewNoAdults" class="col-6 text-left">
+
+                        </div>
+                        
+                        <div class="col-6 text-right">
+                            <b>No. Children:</b>
+                        </div>
+                        <div id="viewNoChildren" class="col-6 text-left">
+
+                        </div>
+                        <div class="col-6 text-right">
+                            <b>Room type:</b>
+                        </div>
+                        <div id="viewroomType" class="col-6 text-left">
+
+                        </div>
+                        <div class="col-6 text-right">
+                            <b>Status:</b>
+                        </div>
+                        <div id="viewStatus" class="col-6 text-left">
+
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+<!--            Edit button to open the edit modal:    -->
+                <button type="button" class="btn btn-warning editGuest" data-dismiss="modal" data-toggle="modal" data-target="#editRoomModal">Edit</button>
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {{>admin/footer-admin}}
