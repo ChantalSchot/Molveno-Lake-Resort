@@ -5,6 +5,7 @@ import com.molvenolakeresort.hotel.model.Guest;
 import com.molvenolakeresort.hotel.model.Room;
 import com.molvenolakeresort.hotel.model.RoomType;
 import com.molvenolakeresort.hotel.repository.BookingRepository;
+import com.molvenolakeresort.hotel.repository.GuestRepository;
 import com.molvenolakeresort.hotel.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/bookings")
 public class BookingController {
-    private List<Booking> bookingList;
-
+    @Autowired
+    private GuestRepository guestRepository;
+    @Autowired
+    private RoomRepository roomRepository;
     @Autowired
     private BookingRepository bookingRepository;
 
     public BookingController(){
-        bookingList = new ArrayList<>();
-
     }
 
     @GetMapping("{id}")
@@ -41,15 +42,16 @@ public class BookingController {
         }
     }
 
-    public Iterable<Booking> GetBookings(){
+    @GetMapping
+    public Iterable<Booking> getBookings(){
         Iterable<Booking> booking = bookingRepository.findAll();
         return booking;
     }
 
     @PutMapping
-    public ResponseEntity<Booking> putBooking(@RequestBody Booking newBooking) {
-        Booking booking = this.bookingRepository.save(newBooking);
-        return ResponseEntity.ok(booking);
+    public ResponseEntity<Booking> putBooking(@RequestBody Booking booking) {
+        Booking newBooking = this.bookingRepository.save(booking);
+        return ResponseEntity.ok(newBooking);
     }
 
     @PostMapping
@@ -57,30 +59,18 @@ public class BookingController {
         return ResponseEntity.ok(this.bookingRepository.save(booking));
     }
 
-    @DeleteMapping("{id}")
-    public void deleteBooking(long id) {
-        bookingRepository.deleteById(id);
+    @DeleteMapping()
+    public void deleteBooking(@RequestBody Booking booking) {
+        bookingRepository.delete(booking);
     }
 
     @PostConstruct
     public void init() {
-        try {
-            Guest guest1 = new Guest("Berard Broodje");
-            Guest guest2 = new Guest("Gerard Grootje");
-            Guest guest3 = new Guest("Piet Plezier");
-            List<Room> roomList = new ArrayList<>();
-            List<Room> roomList2 = new ArrayList<>();
-            roomList.add(new Room("201", RoomType.doubleRoom,2,1,0,2,1,false));
-            roomList.add(new Room("202", RoomType.doubleRoom,2,1,0,2,1,false));
-            roomList2.add(new Room("203", RoomType.doubleRoom,2,1,0,2,1,false));
 
-            bookingList.add(new Booking(guest1, 5, roomList, "12/05/2020", "19/05/2020"));
-            bookingList.add(new Booking(guest2, 5, roomList2, "12/05/2020", "19/05/2020"));
-            bookingList.add(new Booking(guest3, 5, roomList, "19/05/2020", "21/05/2020"));
-
-        } catch (ParseException e) {
-            System.out.println("Cannot make booking list because: " + e);
-        }
+        bookingRepository.save(new Booking());
+        bookingRepository.save(new Booking());
+        bookingRepository.save(new Booking());
+        bookingRepository.save(new Booking());
     }
 
 }

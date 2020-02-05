@@ -8,8 +8,8 @@ import java.util.List;
 public class Guest implements Serializable {
 //    static int guestIDgenerator = 1;
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
     
     private String name;

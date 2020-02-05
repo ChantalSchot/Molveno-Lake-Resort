@@ -9,6 +9,26 @@ $(document).ready(function() {
     getData();
 });
 
+function initDataTable() {
+// Create columns (with titles) for datatable: id, name, date of birth and city.
+    columns = [
+        { "title":  "Guest ID",
+        "data": "id" },
+        { "title":  "Guest Name",
+        "data": "name" },
+        { "title":  "Date of Birth",
+        "data": "birthDate" },
+        { "title":  "City",
+        "data": "city"},
+    ];
+
+    // Define new table with above columns
+   table = $("#dataTable").DataTable( {
+        "order": [[ 0, "asc" ]],
+        "columns": columns
+    } );
+}
+
 // Fetch guest data from API
 function getData() {
     $.get(
