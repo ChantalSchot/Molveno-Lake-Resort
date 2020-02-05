@@ -40,8 +40,8 @@ public class RoomController {
 	}
 
 	@GetMapping(value = "/availableRoomList")
-	public ResponseEntity<Iterable<Room>> getAvailableRooms() {
-		Iterable<Room> availableRooms = roomRepository.findByAvailableIsTrue();
+	public ResponseEntity<List<Room>> getAvailableRooms() {
+		List<Room> availableRooms = roomRepository.findByAvailable(true);
 		return ResponseEntity.ok(availableRooms);
 	}
 
@@ -65,7 +65,6 @@ public class RoomController {
 
 	@PostConstruct
 	public void init() {
-
 		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
 		roomRepository.save(new Room("101", RoomType.doubleRoom,2,1,0,2,1,false));
 		roomRepository.save(new Room("102", RoomType.singleRoom, 1, 1, 0, 1, 0,  false));
@@ -74,5 +73,5 @@ public class RoomController {
 		newRoom.setAvailable(false);
 		roomRepository.save(newRoom);
 	}
-	}
+}
 

@@ -2,12 +2,14 @@
 
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
 <div class="guest-table mx-auto my-5">
+    <button id="fetchList" class="btn btn-primary">Fetch data</button>
+    <button id="clearList" class="btn btn-warning">Clear data</button>
+
     <table id="dataTable" class="display mx-auto">
     </table>
 
-<!--Buttons underneath table for viewing, editing, deleting or adding guests
-    <button id="fetchList" class="btn btn-primary">Fetch</button>
-    <button id="clearList" class="btn btn-warning">Clear</button>-->
+<!--Buttons underneath table for viewing, editing, deleting or adding guests -->
+
 
     <!--Opens modal and gets guest details from selected row -->
     <button id="viewGuest" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">View</button>
@@ -116,84 +118,85 @@
             </div>
 
             <div class="modal-body">
-                <div class="container-fluid">
+                <div class="container-fluid w-75">
                         <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editId">Guest ID: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="number" id="editId" name="editId" disabled>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editGuestName">Guest Name: </label>
                             </div>
-                            <div class="col-6 text-left">
-                                <input type="text" id="editGuestName" class="form-control" name="editGuestName">
+                            <div class="col-8 text-left">
+                                <input type="text" id="editGuestName" class="form-control" name="editGuestName" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editBirthDate">Date of Birth: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editBirthDate" class="form-control" name="editBirthDate">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editMail">E-mail: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editMail" class="form-control" name="editMail">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editPhone">Phone number: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editPhone" class="form-control" name="editPhone">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
-                                <label for="editPassportNr">E-mail: </label>
+                            <div class="col-4 text-right">
+                                <label for="editPassportNr">Passport Number: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editPassportNr" class="form-control" name="editPassportNr">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editAddress">Street address: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editAddress" class="form-control" name="editAddress">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-6 text-right">
+                            <div class="col-4 text-right">
                                 <label for="editCity">Current city: </label>
                             </div>
-                            <div class="col-6 text-left">
+                            <div class="col-8 text-left">
                                 <input type="text" id="editCity" class="form-control" name="editCity">
                             </div>
                         </div>
 
                 </div>
+            </div>
             <div class="modal-footer">
                 <!--            Save edit of guest    -->
-                <button type="button" id="saveEdit" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" id="saveGuest" class="btn btn-success" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
             </div>
         </div>

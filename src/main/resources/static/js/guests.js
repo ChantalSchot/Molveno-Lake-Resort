@@ -1,12 +1,12 @@
-const api = "http://localhost:8080/controller/guests";
+const api = "http://localhost:8080/api/guests";
 
 var table;
 
 $(document).ready(function() {
     initDataTable();
 
-    // Enter current guest data into data table (from PostConstruct)
-    getData(api);
+    // Enter current guest API into data table (only data from PostConstruct for now)
+    getData();
 
     // Fetch  guests into datatable (currently not used)
     $("#fetchList").click(function() {
@@ -35,27 +35,33 @@ $(document).ready(function() {
      $("#viewGuest").click(function() {
         // Get guest info by ID
         viewGuest(table.row($('.selected')).data());
-        console.log("Viewing guest: " + row.name);
+        // console.log("Viewing guest: " + row.name);
       });
 
     // View guest details: get ID from selected row
     $(".editGuest").click(function() {
         // Get guest info by ID
-        editGuest(table.row($('.selected')).data());
-        console.log("Editing guest: " + row.name);
+        editGuestModal(table.row($('.selected')).data());
+        //console.log("Editing guest: " + row.name);
+    });
+
+    $("#saveGuest").click(function() {
+        saveGuest();
+        getData();
     });
 
     // Delete guest that is currently selected
      $("#deleteGuest").click(function() {
         // Delete guest from database & datatable
         deleteGuest(table.row($('.selected')).data());
-         console.log("Deleting guest: " + row.name);
+        // console.log("Deleting guest: " + row.name);
       });
 
      // When a modal is closed, the fields inside should be emptied
     $(".close-button").click(function() {
         // Empty modal fields
         emptyModals();
+        getData();
     });
 
 });
@@ -107,20 +113,22 @@ function getData() {
 function viewGuest(guest) {
     // Ensure that guest ID is a number (not string)
     // let guestId = +id;
+    if (guest.id != null) {
+        $.ajax({
+            url: api + "/" + guest.id,
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                // If guest was retrieved, add guest details to modal
+                showGuest(result);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
-    $.ajax({
-        url: api + "/" + guest.id,
-        type: "get",
-        dataType: "json",
-        contentType: "application/json",
-        success: function (result) {
-            // If guest was retrieved, add guest details to modal
-            showGuest(result);
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
 };
 
 // Enter guest information in the 'view guest' modal
@@ -134,41 +142,89 @@ function showGuest(result){
     $("#viewPassportNr").html(result.passportNr);
     $("#viewAddress").html(result.address);
     $("#viewCity").html(result.city);
-
 };
 
-//
-// function editGuest(id) {
-//     var updatedGuest = {
-//        id: $("#viewGuestName").val(result.id);
-//
-//     }
-// }
+
+function editGuestModal(guest) {
+    // Add guest information to View modal fields (if not empty0
+    if (guest !== undefined && guest !== "") {
+        $("#editId").val(guest.id);
+        $("#editGuestName").val(guest.name);
+        $("#editBirthDate").val(guest.birthDate);
+        $("#editMail").val(guest.mail);
+        $("#editPhone").val(guest.phone);
+        $("#editPassportNr").val(guest.passportNr);
+        $("#editAddress").val(guest.address);
+        $("#editCity").val(guest.city);
+    }
+}
+
+function saveGuest() {
+    let guestObject = {
+        id: +$("#editId").val(),
+        name: $("#editGuestName").val(),
+        birthDate: $("#editBirthDate").val(),
+        mail: $("#editMail").val(),
+        phone: $("#editPhone").val(),
+        passportNr: $("#editPassportNr").val(),
+        address: $("#editAddress").val(),
+        city: $("#editCity").val()
+    };
+    console.log("New guestObject: " + guestObject);
+
+    var jsonObject = JSON.stringify(guestObject);
+    console.log("new jsonObject: " + jsonObject)
+
+    $.ajax({
+        url: api,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "put",
+        dataType: "json",
+        data: jsonObject,
+        contentType: "application/json",
+        success: function(result) {
+            console.log("Guest posted / edited: " + result);
+            emptyModals();
+            getData();
+        }
+    });
+
+
+}
 
 
 // Delete selected guest with ID from datatable & database
 function deleteGuest(guest) {
     // Ensure that guest ID is a number (not string)
     // let guestId = +id;
+    // var guestObject = guest;
+    // var jsonObject = JSON.stringify(guestObject);
 
     // Delete guest, then refresh table with updated data
     $.ajax({
-        url: api + "/" + guest.id,
+        url: api,
         type:"delete",
         dataType: "json",
+        data: JSON.stringify(guest),
         contentType: "application/json",
         success: function() {
             getData();
         },
         error: function (error) {
             console.log(error);
+            getData();
         }
     });
+
+
 };
 
 // Empty modals after closing
 function emptyModals() {
-    // Add guest information to View modal fields
+    // Remove guest information from View modal fields
     $("#viewId").html("No guest selected.");
     $("#viewGuestName").empty();
     $("#viewBirthDate").empty();
@@ -177,4 +233,14 @@ function emptyModals() {
     $("#viewPassportNr").empty();
     $("#viewAddress").empty();
     $("#viewCity").empty();
+
+    // Remove guest information from Edit modal fields
+    $("#editId").val("");
+    $("#editGuestName").val("");
+    $("#editBirthDate").val("");
+    $("#editMail").val("");
+    $("#editPhone").val("");
+    $("#editPassportNr").val("");
+    $("#editAddress").val("");
+    $("#editCity").val("");
 };
