@@ -177,6 +177,9 @@ function saveGuest() {
 // Need to optimise date with datepicker instead of text input -
 // https://stackoverflow.com/questions/12346381/set-date-in-input-type-date (datepicker info)
 // https://www.scriptol.com/javascript/dates-difference.php (comparing years)
+    // https://bootstrap-datepicker.readthedocs.io/en/latest/
+    // https://jqueryui.com/datepicker/
+
 // Get current date: new Date();
 // toDo: birthdate input -> datePicker with valid input for JSON object
 
@@ -202,7 +205,7 @@ function saveGuest() {
     console.log("New guestObject: " + guestObject);
 
     var jsonObject = JSON.stringify(guestObject);
-    console.log("new jsonObject: " + jsonObject)
+    console.log("new jsonObject: " + jsonObject);
 
     $.ajax({
         url: guestApi,
@@ -224,14 +227,10 @@ function saveGuest() {
             getGuestData();
         }
     });
-
-
 }
-
 
 // Delete selected guest with ID from datatable & database
 function deleteGuest(guest) {
-
 
         $("#deleteGuestModal").modal("show");
         $.ajax({
@@ -248,7 +247,7 @@ function deleteGuest(guest) {
                 getGuestData();
             }
         });
-};
+}
 
 // Empty modals after closing
 function emptyGuestModals() {
