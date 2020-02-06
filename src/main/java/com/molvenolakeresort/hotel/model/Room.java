@@ -21,6 +21,7 @@ public class Room implements Serializable {
     private int noOfAdults;
     private int noOfChildren;
     private RoomType roomType;
+    private int price;
     //private RoomStatus roomStatus;
 
     @ManyToMany
@@ -142,5 +143,13 @@ public class Room implements Serializable {
     
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
