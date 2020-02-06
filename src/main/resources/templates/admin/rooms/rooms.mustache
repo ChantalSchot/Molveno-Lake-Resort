@@ -1,5 +1,10 @@
 {{>admin/header-admin}}
 
+<!--Page title-->
+    <div class="container portal-title my-3">
+        Rooms List
+    </div>
+
             <div class="data-table mx-auto my-5">
                     <table id="roomTable" class="display mx-auto">
                     </table>
@@ -12,7 +17,7 @@
                      <button id="viewRoomButton" type="button" class="btn btn-primary">View</button>
 
                     <!--Opens modal to edit room details from selected row -->
-                    <button type="button" class="btn btn-warning editRoom" >Edit</button>
+                    <button type="button" class="btn btn-warning editRoomButton" >Edit</button>
 
                     <!--Opens modal to delete room from selected row -->
                     <button id="deleteRoomButton" type="button" class="btn btn-danger">Delete</button>
@@ -27,7 +32,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="viewModalLabel">Room Details</h5>
-                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close room-close-button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -53,8 +58,8 @@
                                     <div class="col-6 text-right">
                                         <b>Room price:</b>
                                     </div>
-                                    <div id="viewRoomPrice" class="col-6 text-left">
-                                        <i></i>
+                                    <div class="col-6 text-left">
+                                        ¥<span id="viewRoomPrice"></span>
                                     </div>
 
                                     <div class="col-6 text-right">
@@ -86,7 +91,7 @@
                                     </div>
 
                                     <div class="col-6 text-right">
-                                        <b>Disabled room:</b>
+                                        <b>Disability-friendly room:</b>
                                     </div>
                                     <div id="viewDisabledRoom" class="col-6 text-left">
 
@@ -129,8 +134,8 @@
                         </div>
                         <div class="modal-footer">
             <!--            Edit button to open the edit modal:    -->
-                            <button type="button" class="btn btn-warning editGuest" data-dismiss="modal" data-toggle="modal" data-target="#editRoomModal">Edit</button>
-                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-warning editRoomButton" data-dismiss="modal">Edit</button>
+                            <button type="button" class="btn btn-secondary room-close-button" data-dismiss="modal">Close</button>
 
                         </div>
                     </div>
@@ -143,7 +148,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editModalLabel">Edit Room</h5>
-                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close room-close-button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -171,10 +176,10 @@
 
                                     <div class="form-group row">
                                         <div class="col-4 text-right">
-                                            <label for="editRoomPrice">Price: </label>
+                                            <label for="editRoomPrice">Price (¥):</label>
                                         </div>
                                         <div class="col-8 text-left">
-                                            <input type="number" id="editRoomPrice" class="form-control" name="editRoomPrice" min="0">
+                                           <input type="number" id="editRoomPrice" class="form-control form-control-sm" name="editRoomPrice" min="0">
                                         </div>
                                     </div>
 
@@ -216,7 +221,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-4 text-right">
-                                            <label for="editDisabledRoom">Disabled room: </label>
+                                            <label for="editDisabledRoom">Disability-friendly: </label>
                                         </div>
                                         <div class="col-8 text-left">
                                             <input type="checkbox" id="editDisabledRoom" class="check-input" name="editDisabledRoom">
@@ -258,7 +263,7 @@
                         <div class="modal-footer">
                             <!--            Save edit of guest    -->
                             <button type="button" id="saveRoom" class="btn btn-success" >Save</button>
-                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary room-close-button" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -270,7 +275,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteModalLabel">Room Deletion</h5>
-                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close room-close-button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -279,7 +284,7 @@
                         </div>
                         <div class="modal-footer justify-content-center">
                             <button type="button" id="deleteRoomConfirmButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary room-close-button" data-dismiss="modal">Cancel</button>
 
                         </div>
                     </div>
@@ -292,7 +297,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="noRoomSelectedModalLabel">Room selection</h5>
-                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close room-close-button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -300,7 +305,7 @@
                             No room selected.
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary room-close-button" data-dismiss="modal">Cancel</button>
 
                         </div>
                     </div>

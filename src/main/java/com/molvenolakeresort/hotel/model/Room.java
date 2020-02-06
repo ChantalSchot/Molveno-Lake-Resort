@@ -32,7 +32,7 @@ public class Room implements Serializable {
         //facilities = new Facilities(this);
     }
 
-    public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled) {
+    public Room(String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled, int price) {
         this.available = true;
         //this.facilities = new Facilities(this);
         this.roomType = roomType;
@@ -43,6 +43,7 @@ public class Room implements Serializable {
         this.numberOfDoubleBeds = doubleBeds;
         this.numberOfBabyBeds = babyBeds;
         this.disabledRoom = disabled;
+        this.price = price;
     }
 
     //public void setFacilities(Facilities facilities) {

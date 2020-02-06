@@ -2,20 +2,34 @@ var roomTable;
 
 $(document).ready(function() {
         
-        initRoomTable();
-        getRoomList();
+    initRoomTable();
+    getRoomList();
 
-        $("#roomTable tbody").on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-              $(this).removeClass('selected');
-              emptyRoomModals();
-            }
-            else {
-                roomTable.$('tr.selected').removeClass('selected');
-              emptyRoomModals();
-                $(this).addClass('selected');
-            }
-          });
+    $("#roomTable tbody").on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+          $(this).removeClass('selected');
+          emptyRoomModals();
+        }
+        else {
+            roomTable.$('tr.selected').removeClass('selected');
+          emptyRoomModals();
+            $(this).addClass('selected');
+        }
+      });
+
+    // Remove row selection if escape is pressed
+     document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        var isEscape = false;
+        if ("key" in evt) {
+            isEscape = (evt.key === "Escape" || evt.key === "Esc");
+        } else {
+            isEscape = (evt.keyCode === 27);
+        }
+        if (isEscape) {
+            roomTable.$('tr.selected').removeClass('selected');
+        }
+      }
 
         
     // View guest details: get ID from selected row
@@ -26,7 +40,7 @@ $(document).ready(function() {
       });
 
           // View guest details: get ID from selected row
-    $(".editRoom").click(function() {
+    $(".editRoomButton").click(function() {
         // Get guest info by ID
         editRoomModal(roomTable.row($('.selected')).data());
         //console.log("Editing guest: " + row.name);
@@ -53,7 +67,7 @@ $(document).ready(function() {
           });
 
         // When a modal is closed, the fields inside should be emptied
-        $(".close-button").click(function() {
+        $(".room-close-button").click(function() {
             emptyRoomModals();
         });
 
@@ -68,8 +82,18 @@ function initRoomTable() {
             "data": "id" },
             { "title":  "Room Name",
             "data": "roomNumber" },
-            { "title":  "Availability",
-            "data": "available" },
+            { "title":  "Available?",
+            "data": "available",
+            "render": function(data) {
+                if (data == true) {
+                return "Yes"
+                } else {
+                return "No"}
+            }},
+            { "title": "Price",
+            "data": "price",
+            "render": function(data) {
+            return "¥"+ data}}
         ];
     
         // Define new table with above columns
@@ -222,7 +246,7 @@ function updateRoom(){
     var room = {
         id : +$("#editRoomId").val(),
         roomNumber : $('#editRoomName').val(),
-        price : +$('#editRoomPrice').val(),
+        price : +('#editRoomPrice').val(),
         numberOfSingleBeds : +$('#editSingleBeds').val(),
         numberOfDoubleBeds : +$('#editDoubleBeds').val(),
         numberOfBabyBeds : +$('#editBabyBeds').val(),

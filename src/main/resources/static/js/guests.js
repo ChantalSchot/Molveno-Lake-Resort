@@ -5,8 +5,8 @@ var guestTable;
 $(document).ready(function() {
 
     initGuestTable();
-
     getGuestData();
+
 
     $("#fetchGuestList").click(function() {
         getGuestData();
@@ -29,21 +29,50 @@ $(document).ready(function() {
         }
       });
 
+      // Remove row selection if escape is pressed
+       document.onkeydown = function(evt) {
+          evt = evt || window.event;
+          var isEscape = false;
+          if ("key" in evt) {
+              isEscape = (evt.key === "Escape" || evt.key === "Esc");
+          } else {
+              isEscape = (evt.keyCode === 27);
+          }
+          if (isEscape) {
+              guestTable.$('tr.selected').removeClass('selected');
+          }
+        }
+
     // View guest details: get ID from selected row
-     $("#viewGuestButton").click(function() {
+     $("#viewGuestButton").click(function(event) {
         viewGuestModal(guestTable.row($('.selected')).data());
       });
 
-    // Edit guest details: get ID from selected row
-    $(".editGuestButton").click(function() {
-        editGuestModal(guestTable.row($('.selected')).data());
+      // Edit guest details: get ID from selected row
+       $(".editGuestButton").click(function(event) {
+          editGuestModal(guestTable.row($('.selected')).data());
+        });
+
+     // On submit of guest form:
+    $("#editGuestForm").submit(function(event) {
+        saveGuest();
+        event.preventDefault();
+    })
+
+
+    // Datepicker for date of birth
+    $("#editGuestBirthDate").datepicker({
+        dateFormat: "dd-mm-yy",
+        changeMonth: true,
+        changeYear: true,
+        maxDate: "-18Y"
     });
 
     // Save guest details after editing/adding new
-    $("#saveGuestButton").click(function() {
-        saveGuest();
-        getGuestData();
-    });
+//    $("#saveGuestButton").click(function() {
+//        saveGuest();
+//        getGuestData();
+//    });
 
     //Open 'delete confirmation' modal
     $("#deleteGuestButton").click(function() {
@@ -66,7 +95,7 @@ $(document).ready(function() {
         emptyGuestModals();
     });
 
-    console.log(new Date());
+
 
 });
 
@@ -174,22 +203,11 @@ function editGuestModal(guest) {
 }
 
 function saveGuest() {
-// Need to optimise date with datepicker instead of text input -
-// https://stackoverflow.com/questions/12346381/set-date-in-input-type-date (datepicker info)
-// https://www.scriptol.com/javascript/dates-difference.php (comparing years)
-    // https://bootstrap-datepicker.readthedocs.io/en/latest/
-    // https://jqueryui.com/datepicker/
-
-// Get current date: new Date();
-// toDo: birthdate input -> datePicker with valid input for JSON object
+// toDo: age-check in guestController
 
     // Create string that can be read from JSON parser (yyyy-MM-dd)
     var inputBirthDate = $("#editGuestBirthDate").val().split('-'); // currently dd-MM-yyyy
     var parsedBirthDate = inputBirthDate[2] + '-' + inputBirthDate[1] + '-' + inputBirthDate[0].slice(-2); // now yyyy-MM-dd
-
-    // var convertedEighteenDate = (+stringBirthDate[2]+18) + '-' + stringBirthDate[1] + '-' + stringBirthDate[0].slice(-2);
-
-
 
 
     let guestObject = {
@@ -219,10 +237,12 @@ function saveGuest() {
         contentType: "application/json",
         success: function(result) {
             console.log("Guest posted / edited: " + result);
+            $("#editGuestModal").modal("hide");
             emptyGuestModals();
             getGuestData();
         },
         error: function (error) {
+        // todo: add error message for checking in backend
             console.log(error);
             getGuestData();
         }

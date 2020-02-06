@@ -47,23 +47,20 @@ public class RoomController {
 	//Modify existing room with id with all the new info of newRoomInfo
 	@PutMapping
 	public ResponseEntity<?> putRoom(@RequestBody Room newRoomInfo) {
-		if(newRoomInfo.getId() != 0){
-			roomRepository.save(newRoomInfo);
-		}
-		else{
-			List<Room> rooms = (List<Room>) roomRepository.findAll();
-			for(Room room : rooms){
-				if(room.getRoomNumber().equals(newRoomInfo.getRoomNumber())){
-
+		List<Room> rooms = (List<Room>) roomRepository.findAll();
+		
+		for (Room room : rooms) {
+			// check if room number is equal to an existing room number
+			if (room.getRoomNumber().equals(newRoomInfo.getRoomNumber())) {
+				// check if the equal room numbers are from different rooms (different ID)
+				if (room.getId() != newRoomInfo.getId()) {
 					String error = "There is already a room with that name.";
 					return ResponseEntity.badRequest().body(error);
 				}
 			}
-			roomRepository.save(newRoomInfo);
-
 		}
-
-		return null;
+		;
+		return ResponseEntity.ok(roomRepository.save(newRoomInfo));
 	}
 
 	//Create room
@@ -81,10 +78,10 @@ public class RoomController {
 	@PostConstruct
 	public void init() {
 		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
-		roomRepository.save(new Room("101", RoomType.doubleRoom,2,1,0,2,1,false));
-		roomRepository.save(new Room("102", RoomType.singleRoom, 1, 1, 0, 1, 0,  false));
-		roomRepository.save(new Room("103", RoomType.doubleRoom, 2, 0,2,0,0,false));
-		Room newRoom = new Room("104", RoomType.familyRoom, 4, 2, 1, 2, 1, false);
+		roomRepository.save(new Room("101", RoomType.doubleRoom,2,1,0,1,1,false,849));
+		roomRepository.save(new Room("102", RoomType.singleRoom, 1, 1, 1, 0, 0,  false,1199));
+		roomRepository.save(new Room("103", RoomType.doubleRoom, 2, 0,2,0,0,false,1649));
+		Room newRoom = new Room("104", RoomType.familyRoom, 4, 2, 1, 2, 1, false,2399);
 		newRoom.setAvailable(false);
 		roomRepository.save(newRoom);
 	}
