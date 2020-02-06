@@ -1,7 +1,7 @@
 {{>admin/header-admin}}
 
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
-<div class="booking-table mx-auto my-5">
+<div class="data-table mx-auto my-5">
     <table id="bookingTable" class="display mx-auto">
     </table>
 
@@ -9,7 +9,7 @@
     <!--Opens modal and gets guest details from selected row
     Open modal through jQuery -->
     <button id="viewBookingButton" type="button" class="btn btn-primary">View</button>
-    <button type="button" class="btn btn-warning">Edit</button>
+    <button id="editBookingButton" type="button" class="btn btn-warning">Edit</button>
     <button id="deleteBookingButton" type="button" class="btn btn-danger">Delete</button>
     <button id="newBookingButton" type="button" class="btn btn-success">New</button>
 
@@ -18,7 +18,137 @@
         <button id="clearList" class="btn btn-warning mt-4">Clear data</button>
     </div>
 
-    <hr>
 </div>
+
+<!-- Booking: VIEW Details Modal -->
+<div class="modal fade" id="viewBookingModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Booking Details</h5>
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- All guest information fields, filled in with JQuery from selected guest ID -->
+                        <div class="col-6 text-right">
+                            <b>Booking ID:</b>
+                        </div>
+                        <div id="viewBookingId" class="col-6 text-left">
+                            <i>Currently no booking selected.</i>
+                        </div>
+                        <div class="col-6 text-right">
+                            <b>Guest Name:</b>
+                        </div>
+                        <div id="viewBookingGuest" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Total guests:</b>
+                        </div>
+                        <div id="viewBookingTotalGuests" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Booked Rooms:</b>
+                        </div>
+                        <div id="viewBookingRooms" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Invoice:</b>
+                        </div>
+                        <div id="viewBookingInvoice" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Status:</b>
+                        </div>
+                        <div id="viewBookingStatus" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Check-in:</b>
+                        </div>
+                        <div id="viewBookingCheckIn" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Check-out:</b>
+                        </div>
+                        <div id="viewBookingCheckOut" class="col-6 text-left"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Guest: EDIT Details Modal -->
+<div class="modal fade" id="editBookingModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Booking</h5>
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid w-75">
+                    <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingId">Booking ID:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="number" id="editBookingId" name="editId" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingGuest">Guest:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="text" id="editBookingGuest" class="form-control" name="editBookingGuest" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingTotalGuests">No. of guests:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="text" id="editBookingTotalGuests" class="form-control" name="editBookingTotalGuests" required>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--Save edit of booking-->
+                <button type="button" id="saveBooking" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- No booking selected Modal -->
+<div class="modal fade" id="noBookingSelectedModal" tabindex="-1" role="dialog" aria-labelledby="noBookingSelectedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noBookingSelectedModalLabel">Booking selection</h5>
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                No booking selected.
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {{>admin/footer-admin}}
