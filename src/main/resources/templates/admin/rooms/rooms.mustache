@@ -1,11 +1,5 @@
 {{>admin/header-admin}}
 
-
-        <p><b>Room, Available</b></p>
-            <div id="rooms">
-        
-
-            </div>
             <div class="data-table mx-auto my-5">
                     <table id="roomTable" class="display mx-auto">
                     </table>
@@ -15,230 +9,258 @@
                     <button id="clearList" class="btn btn-warning">Clear</button>-->
 
                     <!--Opens modal and gets room details from selected row -->
-                    <button id="viewRoom" type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewRoomModal">View</button>
+                     <button id="viewRoomButton" type="button" class="btn btn-primary">View</button>
 
                     <!--Opens modal to edit room details from selected row -->
-                    <button type="button" class="btn btn-warning editRoom" data-toggle="modal" data-target="#editRoomModal">Edit</button>
+                    <button type="button" class="btn btn-warning editRoom" >Edit</button>
 
                     <!--Opens modal to delete room from selected row -->
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteRoomModal">Delete</button>
-                    <button id="addRoom" class="btn btn-success">New</button>
+                    <button id="deleteRoomButton" type="button" class="btn btn-danger">Delete</button>
+                    
+                    <button id="newRoomButton" type="button" class="btn btn-success" data-toggle="modal" data-target="#editRoomModal">New</button>
                     <hr>
             </div>
-        <button onClick="roomCreate();">New room</button>
 
-        <!-- Room: VIEW Details Modal -->
-<div class="modal fade" id="viewRoomModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewModalLabel">Room Details</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- All room information fields, filled in with JQuery from selected room ID -->
-                        <div class="col-6 text-right">
-                            <b>Room ID:</b>
-                        </div>
-                        <div id="viewRoomId" class="col-6 text-left">
-                            <i>Currently no room selected.</i>
+                    <!-- Room: VIEW Details Modal -->
+            <div class="modal fade" id="viewRoomModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewModalLabel">Room Details</h5>
+                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
 
-                        <div class="col-6 text-right">
-                            <b>Room name:</b>
-                        </div>
-                        <div id="viewRoomName" class="col-6 text-left">
-                            <i></i>
-                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- All room information fields, filled in with JQuery from selected room ID -->
+                                    <div class="col-6 text-right">
+                                        <b>Room ID:</b>
+                                    </div>
+                                    <div id="viewRoomId" class="col-6 text-left">
+                                        <i>Currently no room selected.</i>
+                                    </div>
 
-                        <div class="col-6 text-right">
-                            <b>Availability:</b>
+                                    <div class="col-6 text-right">
+                                        <b>Room name:</b>
+                                    </div>
+                                    <div id="viewRoomName" class="col-6 text-left">
+                                        <i></i>
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>Room price:</b>
+                                    </div>
+                                    <div id="viewRoomPrice" class="col-6 text-left">
+                                        <i></i>
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>Availability:</b>
+                                    </div>
+                                    <div id="viewRoomAvailability" class="col-6 text-left">
+
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>No. single beds:</b>
+                                    </div>
+                                    <div id="viewSingleBeds" class="col-6 text-left">
+
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>No. double beds:</b>
+                                    </div>
+                                    <div id="viewDoubleBeds" class="col-6 text-left">
+
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>No. baby beds:</b>
+                                    </div>
+                                    <div id="viewBabyBeds" class="col-6 text-left">
+
+                                    </div>
+
+                                    <div class="col-6 text-right">
+                                        <b>Disabled room:</b>
+                                    </div>
+                                    <div id="viewDisabledRoom" class="col-6 text-left">
+
+                                    </div>
+                                    <!--
+                                    <div class="col-6 text-right">
+                                        <b>Facilities:</b>
+                                    </div>
+                                    <div id="viewFacilities" class="col-6 text-left">
+
+                                    </div>
+                                    -->
+                                    <div class="col-6 text-right">
+                                        <b>No. adults:</b>
+                                    </div>
+                                    <div id="viewNoAdults" class="col-6 text-left">
+
+                                    </div>
+                                    
+                                    <div class="col-6 text-right">
+                                        <b>No. Children:</b>
+                                    </div>
+                                    <div id="viewNoChildren" class="col-6 text-left">
+                                    <!--
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <b>Room type:</b>
+                                    </div>
+                                    <div id="viewroomType" class="col-6 text-left">
+
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <b>Status:</b>
+                                    </div>
+                                    <div id="viewStatus" class="col-6 text-left">
+                                    -->
+                                    </div>                        
+                                </div>
+                            </div>
                         </div>
-                        <div id="viewRoomAvailability" class="col-6 text-left">
+                        <div class="modal-footer">
+            <!--            Edit button to open the edit modal:    -->
+                            <button type="button" class="btn btn-warning editGuest" data-dismiss="modal" data-toggle="modal" data-target="#editRoomModal">Edit</button>
+                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
 
                         </div>
-
-                        <div class="col-6 text-right">
-                            <b>No. single beds:</b>
-                        </div>
-                        <div id="viewSingleBeds" class="col-6 text-left">
-
-                        </div>
-
-                        <div class="col-6 text-right">
-                            <b>No. double beds:</b>
-                        </div>
-                        <div id="viewDoubleBeds" class="col-6 text-left">
-
-                        </div>
-
-                        <div class="col-6 text-right">
-                            <b>No. baby beds:</b>
-                        </div>
-                        <div id="viewBabyBeds" class="col-6 text-left">
-
-                        </div>
-
-                        <div class="col-6 text-right">
-                            <b>Disabled room:</b>
-                        </div>
-                        <div id="viewDisabledRoom" class="col-6 text-left">
-
-                        </div>
-
-                        <div class="col-6 text-right">
-                            <b>Facilities:</b>
-                        </div>
-                        <div id="viewFacilities" class="col-6 text-left">
-
-                        </div>
-                        
-                        <div class="col-6 text-right">
-                            <b>No. adults:</b>
-                        </div>
-                        <div id="viewNoAdults" class="col-6 text-left">
-
-                        </div>
-                        
-                        <div class="col-6 text-right">
-                            <b>No. Children:</b>
-                        </div>
-                        <div id="viewNoChildren" class="col-6 text-left">
-
-                        </div>
-                        <div class="col-6 text-right">
-                            <b>Room type:</b>
-                        </div>
-                        <div id="viewroomType" class="col-6 text-left">
-
-                        </div>
-                        <div class="col-6 text-right">
-                            <b>Status:</b>
-                        </div>
-                        <div id="viewStatus" class="col-6 text-left">
-
-                        </div>                        
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-<!--            Edit button to open the edit modal:    -->
-                <button type="button" class="btn btn-warning editGuest" data-dismiss="modal" data-toggle="modal" data-target="#editRoomModal">Edit</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
 
-            </div>
-        </div>
-    </div>
-</div>
+            <!-- Guest: EDIT Details Modal -->
+            <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Room</h5>
+                            <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
-<!-- Guest: EDIT Details Modal -->
-<div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Room</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                        <div class="modal-body">
+                            <div class="container-fluid w-75">
+                                    <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editRoomId">Room ID: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="text" id="editRoomId" name="editRoomId" disabled>
+                                        </div>
+                                    </div>
 
-            <div class="modal-body">
-                <div class="container-fluid w-75">
-                        <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editRoomId">Room ID: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editRoomId" name="editRoomId" disabled>
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editRoomName">Room Name: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="text" id="editRoomName" class="form-control" name="editRoomName" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editRoomPrice">Price: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editRoomPrice" class="form-control" name="editRoomPrice" min="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editRoomAvailability">Availability: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="checkbox" id="editRoomAvailability" class="check-input" name="editRoomAvailability">
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editSingleBeds">No. single beds: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editSingleBeds" class="form-control" name="editSingleBeds" min="0" max="5">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editDoubleBeds">No. double beds: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editDoubleBeds" class="form-control" name="editDoubleBeds" min="0" max="5">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editBabyBeds">No. baby beds: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editBabyBeds" class="form-control" name="editBabyBeds" min="0" max="5">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editDisabledRoom">Disabled room: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="checkbox" id="editDisabledRoom" class="check-input" name="editDisabledRoom">
+                                        </div>
+                                    </div>
+                                
+
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editNoAdults">No. adults: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editNoAdults" class="form-control" name="editNoAdults" min="0" max="10">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editNoChildren">No. children: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="number" id="editNoChildren" class="form-control" name="editNoChildren" min="0" max="5">
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="form-group row">
+                                        <div class="col-4 text-right">
+                                            <label for="editroomType">Room type: </label>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <input type="text" id="editroomType" class="form-control" name="editroomType">
+                                        </div>
+                                    </div>
+                                    -->
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editRoomName">Room Name: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editRoomName" class="form-control" name="editRoomName" required>
-                            </div>
-                        </div>
+                        
 
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editRoomAvailability">Availability: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="checkbox" id="editRoomAvailability" class="form-control" name="editRoomAvailability">
-                            </div>
+                        <div class="modal-footer">
+                            <!--            Save edit of guest    -->
+                            <button type="button" id="saveRoom" class="btn btn-success" >Save</button>
+                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
                         </div>
-
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editSingleBeds">No. single beds: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editSingleBeds" class="form-control" name="editSingleBeds">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editDoubleBeds">No. double beds: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editDoubleBeds" class="form-control" name="editDoubleBeds">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editBabyBeds">No. baby beds: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editBabyBeds" class="form-control" name="editBabyBeds">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editDisabledRoom">Disabled room: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="checkbox" id="editDisabledRoom" class="form-control" name="editDisabledRoom">
-                            </div>
-                        </div>
-                    
-
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editNoAdults">No. adults: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editNoAdults" class="form-control" name="editNoAdults">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editNoChildren">No. children: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editNoChildren" class="form-control" name="editNoChildren">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-4 text-right">
-                                <label for="editroomType">Room type: </label>
-                            </div>
-                            <div class="col-8 text-left">
-                                <input type="text" id="editroomType" class="form-control" name="editroomType">
-                            </div>
-                        </div>
-
+                    </div>
                 </div>
             </div>
 
@@ -256,7 +278,7 @@
                             Are you sure you wish to delete this room?
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="button" id="deleteRoomConfirm" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                            <button type="button" id="deleteRoomConfirmButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
                             <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
 
                         </div>
@@ -284,15 +306,5 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal-footer">
-                <!--            Save edit of guest    -->
-                <button type="button" id="saveRoom" class="btn btn-success" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 {{>admin/footer-admin}}

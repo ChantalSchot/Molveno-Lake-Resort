@@ -1,4 +1,4 @@
-var roomtable;
+var roomTable;
 
 $(document).ready(function() {
         
@@ -11,7 +11,7 @@ $(document).ready(function() {
               emptyRoomModals();
             }
             else {
-                roomtable.$('tr.selected').removeClass('selected');
+                roomTable.$('tr.selected').removeClass('selected');
               emptyRoomModals();
                 $(this).addClass('selected');
             }
@@ -19,16 +19,16 @@ $(document).ready(function() {
 
         
     // View guest details: get ID from selected row
-     $("#viewRoom").click(function() {
+     $("#viewRoomButton").click(function() {
         // Get guest info by ID
-        getRoom(roomtable.row($('.selected')).data());
+        getRoom(roomTable.row($('.selected')).data());
         // console.log("Viewing guest: " + row.name);
       });
 
           // View guest details: get ID from selected row
     $(".editRoom").click(function() {
         // Get guest info by ID
-        editRoomModal(roomtable.row($('.selected')).data());
+        editRoomModal(roomTable.row($('.selected')).data());
         //console.log("Editing guest: " + row.name);
     });
 
@@ -36,21 +36,26 @@ $(document).ready(function() {
         updateRoom();
     });
 
-    $("#deleteRoom").click(function() {
-        // Check if guest is selected
-        if (roomtable.row($('.selected')).data() == undefined) {
-            $("#noRoomSelectedModal").modal("show");
-        } else {
-            $("#deleteRoomModal").modal("show");
-        }
-    });
+        //Open 'delete confirmation' modal
+        $("#deleteRoomButton").click(function() {
+            // Check if room is selected
+            if (roomTable.row($('.selected')).data() == undefined) {
+                $("#noRoomSelectedModal").modal("show");
+            } else {
+                // If room is selected, open modal to confirm deletion
+                $("#deleteRoomModal").modal("show");
+            }
+        });
+    
+        // Confirm deletion of room that is currently selected
+         $("#deleteRoomConfirmButton").click(function() {
+            deleteRoom(roomTable.row($('.selected')).data());
+          });
 
-    // Delete guest that is currently selected
-     $("#deleteRoomConfirm").click(function() {
-        // Delete guest from database & datatable
-        deleteRoom(roomtable.row($('.selected')).data());
-        // console.log("Deleting guest: " + row.name);
-      });
+        // When a modal is closed, the fields inside should be emptied
+        $(".close-button").click(function() {
+            emptyRoomModals();
+        });
 
       
 });
@@ -68,7 +73,7 @@ function initRoomTable() {
         ];
     
         // Define new table with above columns
-        roomtable = $("#roomTable").DataTable( {
+        roomTable = $("#roomTable").DataTable( {
             "order": [[ 0, "asc" ]],
             "columns": columns
         } );
@@ -85,10 +90,10 @@ function getRoomList() {
         contentType: "application/json",
         success: function (data) {
             if (data) {
-
-                roomtable.clear();
-                roomtable.rows.add(data);
-                roomtable.columns.adjust().draw();
+                //rooms = data;
+                roomTable.clear();
+                roomTable.rows.add(data);
+                roomTable.columns.adjust().draw();
             }
         },
 
@@ -100,7 +105,10 @@ function getRoomList() {
 
 
 function getRoom(room){
-    if(room.id !=null){
+    if (room == undefined) {
+        $("#noRoomSelectedModal").modal("show");
+    } else {
+        $("#viewRoomModal").modal("show");
     let api = "/api/rooms/" + room.id;
     $.ajax({
         url: api,
@@ -132,16 +140,17 @@ function showRoom(result){
     // Add guest information to View modal fields
     $("#viewRoomId").html(result.id);
     $("#viewRoomName").html(result.roomNumber);
+    $("#viewRoomPrice").html(result.price);
     $("#viewRoomAvailability").html(result.available);
     $("#viewSingleBeds").html(result.numberOfSingleBeds);
     $("#viewDoubleBeds").html(result.numberOfDoubleBeds);
     $("#viewBabyBeds").html(result.numberOfBabyBeds);
     $("#viewDisabledRoom").html(result.disabledRoom);
-    $("#viewFacilities").html(result.facilities);
+   // $("#viewFacilities").html(result.facilities);
     $("#viewNoAdults").html(result.noOfAdults);
     $("#viewNoChildren").html(result.noOfChildren);
-    $("#viewroomType").html(result.roomType);
-    $("#viewStatus").html(result.roomStatus);
+   // $("#viewroomType").html(result.roomType);
+   // $("#viewStatus").html(result.roomStatus);
 };
 
 
@@ -150,6 +159,7 @@ function emptyRoomModals() {
     // Remove room information from View modal fields
     $("#viewRoomId").empty();
     $("#viewRoomName").empty();
+    $("#viewRoomPrice").empty();
     $("#viewRoomAvailability").empty();
     $("#viewSingleBeds").empty();
     $("#viewDoubleBeds").empty();
@@ -158,8 +168,23 @@ function emptyRoomModals() {
  //   $("#viewFacilities").empty();
     $("#viewNoAdults").empty();
     $("#viewNoChildren").empty();
-    $("#viewroomType").empty();
+    //$("#viewroomType").empty();
   //  $("#viewStatus").empty();
+
+
+  $("#editRoomId").val("");
+  $("#editRoomName").val("");
+  $("#editRoomPrice").val("");
+  document.getElementById('editRoomAvailability').checked = false;
+  $("#editSingleBeds").val("");
+  $("#editDoubleBeds").val("");
+  $("#editBabyBeds").val("");
+  document.getElementById('editDisabledRoom').checked = false;
+//   $("#viewFacilities").val("");
+  $("#editNoAdults").val("");
+  $("#editNoChildren").val("");
+  //$("#viewroomType").val("");
+//  $("#viewStatus").val("");
 };
 
 function editRoomModal(room) {
@@ -179,13 +204,14 @@ function editRoomModal(room) {
         // Add guest information to View modal fields
         $("#editRoomId").val(room.id);
         $("#editRoomName").val(room.roomNumber);
+        $("#editRoomPrice").val(room.price);
         $("#editSingleBeds").val(room.numberOfSingleBeds);
         $("#editDoubleBeds").val(room.numberOfDoubleBeds);
         $("#editBabyBeds").val(room.numberOfBabyBeds);
       //  $("#editFacilities").val(room.facilities);
         $("#editNoAdults").val(room.noOfAdults);
         $("#editNoChildren").val(room.noOfChildren);
-        $("#editroomType").val(room.roomType);
+        //$("#editroomType").val(room.roomType);
       //  $("#editStatus").val(room.roomStatus);
     }
 
@@ -196,6 +222,7 @@ function updateRoom(){
     var room = {
         id : +$("#editRoomId").val(),
         roomNumber : $('#editRoomName').val(),
+        price : +$('#editRoomPrice').val(),
         numberOfSingleBeds : +$('#editSingleBeds').val(),
         numberOfDoubleBeds : +$('#editDoubleBeds').val(),
         numberOfBabyBeds : +$('#editBabyBeds').val(),
@@ -203,7 +230,7 @@ function updateRoom(){
         disabledRoom : $('#editDisabledRoom').prop('checked'),
         noOfAdults :  +$("#editNoAdults").val(),
         noOfChildren : +$("#editNoChildren").val(),
-        roomType : $("#editroomType").val()
+        //roomType : $("#editroomType").val()
     };
 
     
@@ -216,12 +243,13 @@ function updateRoom(){
         data: jsonObject,
         contentType: "application/json",
         success: function(data){
-            alert("Room is successfully updated.")
             getRoomList();
+            emptyRoomModals()
+            $("#editRoomModal").modal("hide");
         },
     
         error: function (error) {
-            console.log(error);
+            alert(error.responseText);
         }
     });
 
@@ -237,7 +265,7 @@ function deleteRoom(data){
         type: "delete",
         contentType: "application/json",
         success: function(data){
-            window.location.replace("/Admin/roomList.html");
+            getRoomList();
         },
     
         error: function (error) {
