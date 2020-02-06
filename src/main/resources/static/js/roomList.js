@@ -245,10 +245,11 @@ function updateRoom(){
         success: function(data){
             getRoomList();
             emptyRoomModals()
+            $("#editRoomModal").modal("hide");
         },
     
         error: function (error) {
-            console.log(error);
+            alert(error.responseText);
         }
     });
 

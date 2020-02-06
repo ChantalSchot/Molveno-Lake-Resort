@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +46,24 @@ public class RoomController {
 
 	//Modify existing room with id with all the new info of newRoomInfo
 	@PutMapping
-	public void putRoom(@RequestBody Room newRoomInfo) {
-		roomRepository.save(newRoomInfo);
+	public ResponseEntity<?> putRoom(@RequestBody Room newRoomInfo) {
+		if(newRoomInfo.getId() != 0){
+			roomRepository.save(newRoomInfo);
+		}
+		else{
+			List<Room> rooms = (List<Room>) roomRepository.findAll();
+			for(Room room : rooms){
+				if(room.getRoomNumber().equals(newRoomInfo.getRoomNumber())){
+
+					String error = "There is already a room with that name.";
+					return ResponseEntity.badRequest().body(error);
+				}
+			}
+			roomRepository.save(newRoomInfo);
+
+		}
+
+		return null;
 	}
 
 	//Create room
