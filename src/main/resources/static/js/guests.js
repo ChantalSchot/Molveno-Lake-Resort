@@ -58,13 +58,14 @@ $(document).ready(function() {
       // Edit guest details: get ID from selected row
        $(".editGuestButton").click(function(event) {
           $("form").removeClass("was-validated");
+           $("#guestValidationError").addClass("d-none");
           editGuestModal(guestTable.row($('.selected')).data());
         });
 
        // Open new guest form
     $("#newGuestButton").click(function(event) {
         emptyGuestModals();
-        $("form").removeClass("was-validated");
+
         $("#editGuestModal").modal("show");
 
     })
@@ -113,6 +114,7 @@ $(document).ready(function() {
 
 });
 
+// Validation of input fields
 (function() {
     'use strict';
     window.addEventListener('load', function() {
@@ -127,12 +129,16 @@ $(document).ready(function() {
                 } else if (new Date($("#editGuestBirthDate").val().split('-').reverse().join('-')) >= ageCheckDate) {
                     event.preventDefault();
                     event.stopPropagation();
+
+                    $("#guestValidationError").html("Guest must be 18 years or older.");
+                    $("#guestValidationError").removeClass("d-none");
                     console.log("input date after age check");
-                    $("#guestValidationError").html("Guest must be 18 years or older.").show();
+
                 }
                 else {
                     event.preventDefault();
                     saveGuest();
+                    $("#guestValidationError").addClass("d-none");
                 }
                 form.classList.add('was-validated');
             }, false);
@@ -225,7 +231,6 @@ function showGuestDetails(result){
 };
 
 function editGuestModal(guest) {
-
     // Check if guest is selected
     if (guest == undefined) {
         $("#noGuestSelectedModal").modal("show");
@@ -321,7 +326,8 @@ function emptyGuestModals() {
     $("#viewGuestPassportNr").empty();
     $("#viewGuestAddress").empty();
     $("#viewGuestCity").empty();
-    $("#guestValidationError").hide();
+
+
 
     // Remove guest information from Edit modal fields
     $("#editGuestId").val("");
@@ -332,6 +338,8 @@ function emptyGuestModals() {
     $("#editGuestPassportNr").val("");
     $("#editGuestAddress").val("");
     $("#editGuestCity").val("");
+    $("#guestValidationError").addClass("d-none");
+    $("form").removeClass("was-validated");
 
 
 };
