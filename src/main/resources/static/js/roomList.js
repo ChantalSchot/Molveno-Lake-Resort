@@ -246,7 +246,7 @@ function updateRoom(){
     var room = {
         id : +$("#editRoomId").val(),
         roomNumber : $('#editRoomName').val(),
-        price : +('#editRoomPrice').val(),
+        price : +$('#editRoomPrice').val(),
         numberOfSingleBeds : +$('#editSingleBeds').val(),
         numberOfDoubleBeds : +$('#editDoubleBeds').val(),
         numberOfBabyBeds : +$('#editBabyBeds').val(),

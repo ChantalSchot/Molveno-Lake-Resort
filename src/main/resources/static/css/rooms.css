@@ -1,21 +1,30 @@
 /* INPUT FORM */
 
 .input-section {
-    margin-bottom: 5rem;
+    margin: 4rem 0;
+}
+
+.input-row {
+	width: 50vw;
 }
 
 .form-inline {
     width: 80vw;
-    margin: 3rem auto 1rem;
-		justify-content: center;
+	justify-content: center;
+	margin: 0 auto 1rem;
 }
 
 .form-group {
 	justify-content: center;
 }
 
+.form-check {
+	margin-left: 1rem;
+}
+
 .number-input {
 	margin: auto;
+	width: auto;
 }
 
 #check-in,

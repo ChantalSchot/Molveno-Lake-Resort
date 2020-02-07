@@ -65,7 +65,8 @@ $(document).ready(function() {
         dateFormat: "dd-mm-yy",
         changeMonth: true,
         changeYear: true,
-        maxDate: "-18Y"
+        maxDate: "-18Y",
+        constrainInput: false
     });
 
     // Save guest details after editing/adding new
@@ -182,7 +183,6 @@ function showGuestDetails(result){
     $("#viewGuestAddress").html(result.address);
     $("#viewGuestCity").html(result.city);
 };
-
 
 function editGuestModal(guest) {
     // Check if guest is selected
