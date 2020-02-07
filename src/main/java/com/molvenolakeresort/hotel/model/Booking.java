@@ -18,7 +18,7 @@ public class Booking {
     private int totalGuests;
 
     @ManyToMany
-    private List<Room> bookedRooms; //ToDo : Is this needed?
+    private List<Room> bookedRooms;
 
     @OneToOne
     private Invoice invoice;

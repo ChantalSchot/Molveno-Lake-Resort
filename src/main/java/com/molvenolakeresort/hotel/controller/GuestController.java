@@ -68,24 +68,6 @@ public class GuestController {
 		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
 
-	// Get new updated printer by ID
-//	public Optional<Guest> updateById(long id, Guest newGuest) {
-//		Optional<Guest> optionalGuest = findById(id);
-//
-//		if (optionalGuest.isPresent()) {
-//			Guest guest = optionalGuest.get();
-//			guest.setName(newGuest.getName());
-//			guest.setBirthDate(newGuest.getBirthDate());
-//			guest.setMail(newGuest.getMail());
-//			guest.setPhone(newGuest.getPhone());
-//			guest.setAddress(newGuest.getAddress());
-//			guest.setCity(newGuest.getCity());
-//			return Optional.of(guest);
-//		} else {
-//			return Optional.empty();
-//		}
-//	}
-
 	// Update  by ID
 	@PutMapping (consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Guest> putGuest(@RequestBody Guest newGuest) {

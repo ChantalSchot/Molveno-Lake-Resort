@@ -24,7 +24,7 @@
 
     <!--Opens modal to delete guest from selected row -->
     <button id="deleteGuestButton" type="button" class="btn btn-danger">Delete</button>
-    <button id="newGuestButton" type="button" class="btn btn-success" data-toggle="modal" data-target="#editGuestModal">New</button>
+    <button id="newGuestButton" type="button" class="btn btn-success">New</button>
 
 <div>
     <button id="fetchGuestList" class="btn btn-primary mt-4">Fetch data</button>
@@ -105,7 +105,7 @@
 <div class="modal fade" id="editGuestModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form id="editGuestForm">
+            <form id="editGuestForm" class="needs-validation" novalidate>
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Enter Guest Details</h5>
                 <button type="button" class="close guest-close-button" data-dismiss="modal" aria-label="Close">
@@ -140,6 +140,8 @@
                             </div>
                             <div class="col-8 text-left">
                                 <input type="text" id="editGuestBirthDate" class="datepicker" name="editGuestBirthDate" placeholder="dd-MM-yyyy" required>
+                            </div>
+                            <div class="invalid-feedback" id="invalidGuestAge">
                             </div>
                         </div>
 
@@ -189,7 +191,7 @@
                         </div>
 
 
-                    <div id="guestValidationError"></div>
+                    <div id="guestValidationError" class="d-none text-danger border border-danger"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -240,7 +242,6 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary guest-close-button" data-dismiss="modal">Cancel</button>
-
             </div>
         </div>
     </div>

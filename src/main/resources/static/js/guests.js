@@ -2,6 +2,12 @@ const guestApi = "http://localhost:8080/api/guests";
 
 var guestTable;
 
+let today = new Date();
+console.log(today);
+let ageCheckDate = new Date(today.setMonth(today.getMonth()-216));
+console.log(ageCheckDate);
+
+
 $(document).ready(function() {
 
     initGuestTable();
@@ -40,8 +46,9 @@ $(document).ready(function() {
           }
           if (isEscape) {
               guestTable.$('tr.selected').removeClass('selected');
+              emptyGuestModals();
           }
-        }
+        };
 
     // View guest details: get ID from selected row
      $("#viewGuestButton").click(function(event) {
@@ -50,13 +57,16 @@ $(document).ready(function() {
 
       // Edit guest details: get ID from selected row
        $(".editGuestButton").click(function(event) {
+          $("form").removeClass("was-validated");
           editGuestModal(guestTable.row($('.selected')).data());
         });
 
-     // On submit of guest form:
-    $("#editGuestForm").submit(function(event) {
-        saveGuest();
-        event.preventDefault();
+       // Open new guest form
+    $("#newGuestButton").click(function(event) {
+        emptyGuestModals();
+        $("form").removeClass("was-validated");
+        $("#editGuestModal").modal("show");
+
     })
 
 
@@ -66,14 +76,17 @@ $(document).ready(function() {
         changeMonth: true,
         changeYear: true,
         maxDate: "-18Y",
-        constrainInput: false
+        constrainInput: false,
+        firstDay: 1,
+        autoSize: true,
+        beforeShowDay: function(date) {
+            if(date.getDay() == 6 || date.getDay() == 0) {
+                return [true, "Highlighted", ''];
+            } else {
+                return [true, '', ''];
+            }
+        }
     });
-
-    // Save guest details after editing/adding new
-//    $("#saveGuestButton").click(function() {
-//        saveGuest();
-//        getGuestData();
-//    });
 
     //Open 'delete confirmation' modal
     $("#deleteGuestButton").click(function() {
@@ -99,6 +112,33 @@ $(document).ready(function() {
 
 
 });
+
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (new Date($("#editGuestBirthDate").val().split('-').reverse().join('-')) >= ageCheckDate) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    console.log("input date after age check");
+                    $("#guestValidationError").html("Guest must be 18 years or older.").show();
+                }
+                else {
+                    event.preventDefault();
+                    saveGuest();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
 
 function initGuestTable() {
 // Create columns (with titles) for datatable: id, name, date of birth and city.
@@ -185,6 +225,7 @@ function showGuestDetails(result){
 };
 
 function editGuestModal(guest) {
+
     // Check if guest is selected
     if (guest == undefined) {
         $("#noGuestSelectedModal").modal("show");
@@ -206,14 +247,14 @@ function saveGuest() {
 // toDo: age-check in guestController
 
     // Create string that can be read from JSON parser (yyyy-MM-dd)
-    var inputBirthDate = $("#editGuestBirthDate").val().split('-'); // currently dd-MM-yyyy
-    var parsedBirthDate = inputBirthDate[2] + '-' + inputBirthDate[1] + '-' + inputBirthDate[0].slice(-2); // now yyyy-MM-dd
+    var inputBirthDate = $("#editGuestBirthDate").val().split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
+    console.log(inputBirthDate);
 
 
     let guestObject = {
         id: +$("#editGuestId").val(),
         name: $("#editGuestName").val(),
-        birthDate: parsedBirthDate,
+        birthDate: inputBirthDate,
         mail: $("#editGuestMail").val(),
         phone: $("#editGuestPhone").val(),
         passportNr: $("#editGuestPassportNr").val(),
@@ -280,6 +321,7 @@ function emptyGuestModals() {
     $("#viewGuestPassportNr").empty();
     $("#viewGuestAddress").empty();
     $("#viewGuestCity").empty();
+    $("#guestValidationError").hide();
 
     // Remove guest information from Edit modal fields
     $("#editGuestId").val("");
@@ -290,4 +332,6 @@ function emptyGuestModals() {
     $("#editGuestPassportNr").val("");
     $("#editGuestAddress").val("");
     $("#editGuestCity").val("");
+
+
 };
