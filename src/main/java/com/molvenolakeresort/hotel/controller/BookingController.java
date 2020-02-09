@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.awt.print.Book;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class BookingController {
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
+            System.out.println("Booking guest: " + booking.getGuest());
             return ResponseEntity.ok(booking);
         } else {
             return ResponseEntity.notFound().build();

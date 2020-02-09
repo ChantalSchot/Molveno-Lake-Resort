@@ -1,10 +1,11 @@
 package com.molvenolakeresort.hotel.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,8 +28,24 @@ public class Guest implements Serializable {
     private String address;
     private String city;
     
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany (mappedBy = "guest", fetch = FetchType.LAZY, orphanRemoval=true, cascade = CascadeType.ALL)
     private List<Booking> bookings;
+    
+    public void addBooking(Booking booking) {
+        if (!bookings.contains(booking)) {
+            bookings.add(booking);
+            
+            booking.setGuest(this);
+        }
+    }
+    
+    public void removeBooking(Booking booking) {
+        if (bookings.contains(booking)) {
+            bookings.remove(booking);
+        }
+        booking.setGuest(null);
+    }
 
 
     @Override

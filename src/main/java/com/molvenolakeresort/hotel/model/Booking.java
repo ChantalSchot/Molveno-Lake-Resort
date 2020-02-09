@@ -1,5 +1,6 @@
 package com.molvenolakeresort.hotel.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,19 +13,20 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private int totalGuests;
+    private Status status;
+    private Date checkInDate;
+    private Date checkOutDate;
 
+    @JsonBackReference
     @ManyToOne
     private Guest guest;
-    private int totalGuests;
 
     @ManyToMany
     private List<Room> bookedRooms;
 
     @OneToOne
     private Invoice invoice;
-    private Status status;
-    private Date checkInDate;
-    private Date checkOutDate;
 
     @Override
     public String toString(){
@@ -123,13 +125,25 @@ public class Booking {
         this.checkInDate = checkInDate;
     }
 
-
-
     public Invoice getInvoice() {
         return invoice;
     }
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+    
+    
+    // for one-to-many associations: https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Booking)) return false;
+        return id != null && id.equals(((Booking) obj).getId());
     }
 }
