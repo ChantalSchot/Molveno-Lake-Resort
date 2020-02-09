@@ -10,7 +10,7 @@ import java.util.List;
 public class Booking {
     //static int guestIDgenerator = 1;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

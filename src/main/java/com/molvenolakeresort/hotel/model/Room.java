@@ -20,6 +20,7 @@ public class Room implements Serializable {
    // private Facilities facilities;
     private int noOfAdults;
     private int noOfChildren;
+    @Enumerated(EnumType.STRING)
     private RoomType roomType;
     private int price;
     //private RoomStatus roomStatus;

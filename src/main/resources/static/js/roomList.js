@@ -90,10 +90,23 @@ function initRoomTable() {
                 } else {
                 return "No"}
             }},
-            { "title": "Price",
+            {"title": "Price",
             "data": "price",
             "render": function(data) {
-            return "¥"+ data}}
+            return "¥"+ data}},
+            { "title": "Type",
+            "data": "roomType",
+            "render": function(data) {
+            if (data == "singleRoom") {
+                return "Single"
+            } else if (data == "doubleRoom") {
+                return "Double"
+            } else if (data == "familyRoom") {
+                return "Family"
+            } else if (data == "penthouse") {
+                return "Penthouse"
+            }
+            }}
         ];
     
         // Define new table with above columns

@@ -43,6 +43,27 @@ public class RoomController {
 		List<Room> availableRooms = roomRepository.findByAvailable(true);
 		return ResponseEntity.ok(availableRooms);
 	}
+	
+	@GetMapping("/roomtype/{roomType}")
+	public ResponseEntity<?> getRoomTypeRooms(@PathVariable String roomType) {
+		
+		if (roomType.equals("single")) {
+			List<Room> roomList = roomRepository.findByRoomType(RoomType.singleRoom);
+			return ResponseEntity.ok(roomList);
+		} else if (roomType.equals("double")) {
+			List<Room> roomList = roomRepository.findByRoomType(RoomType.doubleRoom);
+			return ResponseEntity.ok(roomList);
+		} else if (roomType.equals("family")) {
+			List<Room> roomList = roomRepository.findByRoomType(RoomType.familyRoom);
+			return ResponseEntity.ok(roomList);
+		} else if (roomType.equals("penthouse")) {
+			List<Room> roomList = roomRepository.findByRoomType(RoomType.penthouse);
+			return ResponseEntity.ok(roomList);
+		} else {
+			String error = "Room type not recognised, roomtype entered: " + roomType;
+			return ResponseEntity.badRequest().body(error);
+		}
+	}
 
 	//Modify existing room with id with all the new info of newRoomInfo
 	@PutMapping
@@ -78,12 +99,18 @@ public class RoomController {
 	@PostConstruct
 	public void init() {
 		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
-		roomRepository.save(new Room("101", RoomType.doubleRoom,2,1,0,1,1,false,849));
-		roomRepository.save(new Room("102", RoomType.singleRoom, 1, 1, 1, 0, 0,  false,1199));
-		roomRepository.save(new Room("103", RoomType.doubleRoom, 2, 0,2,0,0,false,1649));
-		Room newRoom = new Room("104", RoomType.familyRoom, 4, 2, 1, 2, 1, false,2399);
+		roomRepository.save(new Room("101", RoomType.singleRoom,1,1,1,0,1,false,849));
+		roomRepository.save(new Room("102", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+		roomRepository.save(new Room("103", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+		Room newRoom = new Room("104", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399);
 		newRoom.setAvailable(false);
 		roomRepository.save(newRoom);
+		roomRepository.save(new Room("105", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+		roomRepository.save(new Room("106", RoomType.singleRoom,1,1,1,0,1,false,849));
+		roomRepository.save(new Room("107", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+		roomRepository.save(new Room("108", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+		roomRepository.save(new Room("109", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+		roomRepository.save(new Room("110", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399));
 	}
 }
 

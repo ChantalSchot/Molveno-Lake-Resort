@@ -8,7 +8,7 @@ import java.util.List;
 public class Invoice {
 	//Cost is in cents, 100 means 1 value of currency (e.g. Dollar or Chinese Yuan)
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private int totalCost;
 	private int totalPaid;
