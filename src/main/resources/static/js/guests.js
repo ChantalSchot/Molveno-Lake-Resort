@@ -149,6 +149,10 @@ $(document).ready(function() {
 function initGuestTable() {
 // Create columns (with titles) for datatable: id, name, date of birth and city.
     columns = [
+        { "title": "Guest ID",
+        "data": "id",
+        "visible": false,
+        "searchable": true},
         { "title":  "Guest Name",
         "data": "name" },
         { "title":  "Date of Birth",
