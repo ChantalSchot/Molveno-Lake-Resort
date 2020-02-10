@@ -1,6 +1,8 @@
 package com.molvenolakeresort.hotel.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +22,8 @@ public class Booking {
     private Date checkOutDate;
 
     @JsonBackReference
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "guestID")
     private Guest guest;
 
@@ -49,8 +52,15 @@ public class Booking {
 
     public Booking() {
     }
+    
+    public Booking(int totalGuests, Status status, String checkInDate, String checkOutDate) throws ParseException {
+        this.totalGuests = totalGuests;
+        this.status = status;
+        this.checkInDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkInDate);
+        this.checkOutDate = new SimpleDateFormat("dd/MM/yyyy").parse(checkOutDate);
+    }
 
-    public Booking(Guest guest, List<Room> bookedRoom, String checkI  ) throws ParseException {
+    public Booking(Guest guest, List<Room> bookedRoom) throws ParseException {
         //this.bookingNumber = guestIDgenerator++;
         this.guest = guest;
         this.totalGuests = 3;

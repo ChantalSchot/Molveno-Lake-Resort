@@ -1,9 +1,6 @@
 package com.molvenolakeresort.hotel.controller;
 
-import com.molvenolakeresort.hotel.model.Booking;
-import com.molvenolakeresort.hotel.model.Guest;
-import com.molvenolakeresort.hotel.model.Room;
-import com.molvenolakeresort.hotel.model.RoomType;
+import com.molvenolakeresort.hotel.model.*;
 import com.molvenolakeresort.hotel.repository.BookingRepository;
 import com.molvenolakeresort.hotel.repository.GuestRepository;
 import com.molvenolakeresort.hotel.repository.RoomRepository;
@@ -69,14 +66,6 @@ public class BookingController {
         }
     }
 
-//    @PutMapping
-//    public ResponseEntity<Booking> putBooking(@RequestBody Booking booking) {
-//        Guest foundGuest = this.guestRepository.findById(booking.getGuest().getId()).get();
-//        booking.setGuest(foundGuest);
-//        Booking savedBooking = this.bookingRepository.save(booking);
-//        return ResponseEntity.ok(savedBooking);
-//    }
-
     @PostMapping
     public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
         Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
@@ -84,6 +73,8 @@ public class BookingController {
         if (optionalGuest.isPresent()) {
             Guest foundGuest = optionalGuest.get();
             booking.setGuest(foundGuest);
+            foundGuest.addBooking(booking);
+            this.guestRepository.save(foundGuest);
             Booking savedBooking = this.bookingRepository.save(booking);
             return ResponseEntity.ok(savedBooking);
         } else {
@@ -99,12 +90,14 @@ public class BookingController {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws ParseException {
 
-        bookingRepository.save(new Booking());
-        bookingRepository.save(new Booking());
-        bookingRepository.save(new Booking());
-        bookingRepository.save(new Booking());
+        // int totalGuests, Status status, String checkInDate, String checkOutDate
+        bookingRepository.save(new Booking(1, Status.booked, "20/02/2020", "23/02/2020"));
+        bookingRepository.save(new Booking(2, Status.booked, "26/02/2020", "28/02/2020"));
+        bookingRepository.save(new Booking(1, Status.booked, "21/02/2020", "25/02/2020"));
+        bookingRepository.save(new Booking(3, Status.booked, "18/02/2020", "22/02/2020"));
+        
     }
 
 }

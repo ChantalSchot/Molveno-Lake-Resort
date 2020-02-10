@@ -149,8 +149,6 @@ $(document).ready(function() {
 function initGuestTable() {
 // Create columns (with titles) for datatable: id, name, date of birth and city.
     columns = [
-        { "title":  "Guest ID",
-        "data": "id" },
         { "title":  "Guest Name",
         "data": "name" },
         { "title":  "Date of Birth",
@@ -206,6 +204,8 @@ function viewGuestModal(guest) {
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
+                console.log("viewing guest:");
+                console.log(result);
                 // If guest was retrieved, add guest details to modal
                 showGuestDetails(result);
             },
@@ -219,6 +219,9 @@ function viewGuestModal(guest) {
 
 // Enter guest information in the 'view guest' modal
 function showGuestDetails(result){
+    let bookingIds = getBookingIdString(result.bookings);
+
+
     // Add guest information to View modal fields
     $("#viewGuestId").html(result.id);
     $("#viewGuestName").html(result.name);
@@ -228,7 +231,35 @@ function showGuestDetails(result){
     $("#viewGuestPassportNr").html(result.passportNr);
     $("#viewGuestAddress").html(result.address);
     $("#viewGuestCity").html(result.city);
+    $("#viewGuestBookings").html(bookingIds);
 };
+
+function getBookingIdString(bookings) {
+    // Get booking array:
+    let bookingArray = bookings;
+    console.log("guest booking array:");
+    console.log(bookingArray);
+
+    let bookingList = "";
+    // If no bookings exist:
+    if (bookingArray.length == 0) {
+        bookingList = "No bookings."
+    }
+    // If multiple bookings exist:
+    else if (bookingArray.length >= 2) {
+        $.each(bookingArray, function(index, value) {
+            bookingList += value.id + ", ";
+        });
+        // Cut last two characters off string so it does not end with ", "
+        bookingList = bookingList.substring(0, bookingList.length -2);
+    }
+    // If 1 booking exists:
+    else if (bookingArray.length == 1) {
+        bookingList = bookingArray[0].id;
+    }
+    console.log("Booking ID list: " + bookingList);
+    return bookingList;
+}
 
 function editGuestModal(guest) {
     // Check if guest is selected
@@ -253,7 +284,7 @@ function saveGuest() {
 
     // Create string that can be read from JSON parser (yyyy-MM-dd)
     var inputBirthDate = $("#editGuestBirthDate").val().split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
-    console.log(inputBirthDate);
+    console.log("input birthdate for JSON: " + inputBirthDate);
 
 
     let guestObject = {
@@ -266,7 +297,8 @@ function saveGuest() {
         address: $("#editGuestAddress").val(),
         city: $("#editGuestCity").val()
     };
-    console.log("New guestObject: " + guestObject);
+    console.log("New guestObject: ");
+    console.log(guestObject);
 
     var jsonObject = JSON.stringify(guestObject);
     console.log("new jsonObject: " + jsonObject);
@@ -277,12 +309,13 @@ function saveGuest() {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        type: "put",
+        type: "post",
         dataType: "json",
         data: jsonObject,
         contentType: "application/json",
         success: function(result) {
-            console.log("Guest posted / edited: " + result);
+            console.log("Guest posted / edited: ");
+            console.log(result);
             $("#editGuestModal").modal("hide");
             emptyGuestModals();
             getGuestData();

@@ -49,10 +49,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <!-- All guest information fields, filled in with JQuery from selected guest ID -->
-                        <div class="col-6 text-right">
-                            <b>Guest ID:</b>
+                        <div class="d-none">
+                            <div class="col-6 text-right">
+                                <b>Guest ID:</b>
+                            </div>
+                            <div id="viewGuestId" class="col-6 text-left"></div>
                         </div>
-                        <div id="viewGuestId" class="col-6 text-left"></div>
+
 
                         <div class="col-6 text-right">
                             <b>Guest name:</b>
@@ -88,7 +91,13 @@
                             <b>Current city:</b>
                         </div>
                         <div id="viewGuestCity" class="col-6 text-left"></div>
+
+                        <div class="col-6 text-right">
+                            <b>Current booking IDs:</b>
+                        </div>
+                        <div id="viewGuestBookings" class="col-6 text-left"></div>
                     </div>
+
                 </div>
             </div>
             <div class="modal-footer">

@@ -81,14 +81,7 @@ public class GuestController {
 	public ResponseEntity<Guest> postGuest(@RequestBody Guest guest) {
 		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
-
-	// Update  by ID
-	@PutMapping (consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Guest> putGuest(@RequestBody Guest newGuest) {
-		Guest guest = this.guestRepository.save(newGuest);
-
-		return ResponseEntity.ok(guest);
-	}
+	
 
 	@DeleteMapping (consumes = "application/json")
 	public void deleteGuest(@RequestBody Guest guest) {
