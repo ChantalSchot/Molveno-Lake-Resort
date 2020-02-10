@@ -29,17 +29,17 @@ public class Guest implements Serializable {
     private String city;
     
     @JsonManagedReference
-    @OneToMany (mappedBy = "guest", fetch = FetchType.LAZY, orphanRemoval=true, cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "guest")
     private List<Booking> bookings;
     
     public void addBooking(Booking booking) {
         if (!bookings.contains(booking)) {
             bookings.add(booking);
-            
+
             booking.setGuest(this);
         }
     }
-    
+
     public void removeBooking(Booking booking) {
         if (bookings.contains(booking)) {
             bookings.remove(booking);
@@ -48,10 +48,10 @@ public class Guest implements Serializable {
     }
 
 
-    @Override
-    public String toString(){
-        return  "Name: " + name + ". Birth date: " + birthDate + ". Mail: " + mail + ". Phone: " + phone + ".\nPassportnumber: " + passportNr + ". Address: " + address + ". City: " + city + ".";
-    }
+//    @Override
+//    public String toString(){
+//        return  "Name: " + name + ". Birth date: " + birthDate + ". Mail: " + mail + ". Phone: " + phone + ".\nPassportnumber: " + passportNr + ". Address: " + address + ". City: " + city + ".";
+//    }
 
     // Guest constructors
     public Guest() {

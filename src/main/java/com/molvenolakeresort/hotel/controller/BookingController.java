@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.xml.ws.Response;
 import java.awt.print.Book;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,15 +51,46 @@ public class BookingController {
         return booking;
     }
 
-    @PutMapping
-    public ResponseEntity<Booking> putBooking(@RequestBody Booking booking) {
-        Booking newBooking = this.bookingRepository.save(booking);
-        return ResponseEntity.ok(newBooking);
+    @GetMapping("{id}/guest")
+    public ResponseEntity<Guest> getBookingGuest(@PathVariable long id) throws EntityNotFoundException {
+        Optional<Booking> optionalBooking =  bookingRepository.findById(id);
+
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            if (booking.getGuest().getName() == null) {
+                Guest foundGuest = this.guestRepository.findById(booking.getGuest().getId()).get();
+                booking.setGuest(foundGuest);
+                this.bookingRepository.save(booking);
+            }
+
+            return ResponseEntity.ok(booking.getGuest());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+//    @PutMapping
+//    public ResponseEntity<Booking> putBooking(@RequestBody Booking booking) {
+//        Guest foundGuest = this.guestRepository.findById(booking.getGuest().getId()).get();
+//        booking.setGuest(foundGuest);
+//        Booking savedBooking = this.bookingRepository.save(booking);
+//        return ResponseEntity.ok(savedBooking);
+//    }
 
     @PostMapping
     public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
-        return ResponseEntity.ok(this.bookingRepository.save(booking));
+        Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
+
+        if (optionalGuest.isPresent()) {
+            Guest foundGuest = optionalGuest.get();
+            booking.setGuest(foundGuest);
+            Booking savedBooking = this.bookingRepository.save(booking);
+            return ResponseEntity.ok(savedBooking);
+        } else {
+            this.guestRepository.save(booking.getGuest());
+            this.bookingRepository.save(booking);
+            return ResponseEntity.ok(booking);
+        }
     }
 
     @DeleteMapping()

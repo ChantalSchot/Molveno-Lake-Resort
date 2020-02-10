@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.swing.text.html.Option;
 import javax.xml.ws.Response;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -57,6 +58,19 @@ public class GuestController {
 		if (optionalGuest.isPresent()) {
 			Guest guest = optionalGuest.get();
 			return ResponseEntity.ok(guest);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	// Get guest bookings
+	@GetMapping(value="{id}/bookings", produces = "application/json")
+	public ResponseEntity<List> getGuestBookings(@PathVariable long id) {
+		Optional<Guest> optionalGuest = this.guestRepository.findById(id);
+
+		if (optionalGuest.isPresent()) {
+			Guest guest = optionalGuest.get();
+			return ResponseEntity.ok(guest.getBookings());
 		} else {
 			return ResponseEntity.notFound().build();
 		}

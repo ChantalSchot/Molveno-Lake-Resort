@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Booking {
@@ -19,7 +20,8 @@ public class Booking {
     private Date checkOutDate;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "guestID")
     private Guest guest;
 
     @ManyToMany
@@ -28,14 +30,14 @@ public class Booking {
     @OneToOne
     private Invoice invoice;
 
-    @Override
-    public String toString(){
-        String rooms = printRooms(bookedRooms);
-        return  " Guest: " + guest.getName() + " Total Guests: " + totalGuests + " Check in date : "
-                + checkInDate.getDate()+ "-" + checkInDate.getMonth()+ "-"  + (checkInDate.getYear()+1900)
-                + " Check out date: " + checkOutDate.getDate()+ "-" + checkOutDate.getMonth()+ "-"  + (checkOutDate.getYear()+1900)
-                + " Status: " + status + "rooms: " +  rooms;
-    }
+//    @Override
+//    public String toString(){
+//        String rooms = printRooms(bookedRooms);
+//        return  " Guest: " + guest.getName() + " Total Guests: " + totalGuests + " Check in date : "
+//                + checkInDate.getDate()+ "-" + checkInDate.getMonth()+ "-"  + (checkInDate.getYear()+1900)
+//                + " Check out date: " + checkOutDate.getDate()+ "-" + checkOutDate.getMonth()+ "-"  + (checkOutDate.getYear()+1900)
+//                + " Status: " + status + "rooms: " +  rooms;
+//    }
 
     private String printRooms(List<Room> bookedRooms) {
         String rooms = "";
@@ -137,13 +139,14 @@ public class Booking {
     // for one-to-many associations: https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(id);
     }
     
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Booking)) return false;
-        return id != null && id.equals(((Booking) obj).getId());
+        if (obj == null || getClass() !=obj.getClass()) return false;
+        Booking booking = (Booking) obj;
+        return id == booking.id;
     }
 }
