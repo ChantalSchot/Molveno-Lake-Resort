@@ -1,6 +1,7 @@
 package com.molvenolakeresort.hotel.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -28,7 +29,9 @@ public class Room implements Serializable {
     private int price;
     //private RoomStatus roomStatus;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany (fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Booking> bookings;
 
     public Room() {
@@ -110,10 +113,6 @@ public class Room implements Serializable {
         this.disabledRoom = disabledRoom;
     }
 
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
    // public Facilities getFacilities() {
    //     return facilities;
    // }
@@ -156,5 +155,17 @@ public class Room implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void addBooking(Booking booking) {
+        if (!bookings.contains(booking)) {
+            bookings.add(booking);
+        }
+    }
+
+    public void removeBooking(Booking booking) {
+        if (bookings.contains(booking)) {
+            bookings.remove(booking);
+        }
     }
 }

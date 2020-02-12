@@ -1,6 +1,7 @@
 const guestApi = "http://localhost:8080/api/guests";
 
 var guestTable;
+var bookingIdString = "";
 
 let today = new Date();
 console.log(today);
@@ -223,8 +224,7 @@ function viewGuestModal(guest) {
 
 // Enter guest information in the 'view guest' modal
 function showGuestDetails(result){
-    let bookingIds = getBookingIdString(result.bookings);
-
+    getGuestBookings(result.id);
 
     // Add guest information to View modal fields
     $("#viewGuestId").html(result.id);
@@ -235,14 +235,29 @@ function showGuestDetails(result){
     $("#viewGuestPassportNr").html(result.passportNr);
     $("#viewGuestAddress").html(result.address);
     $("#viewGuestCity").html(result.city);
-    $("#viewGuestBookings").html(bookingIds);
 };
+
+function getGuestBookings(id) {
+
+        $.ajax({
+            url: guestApi + "/" + id + "/bookings",
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                console.log("Guest booking array:");
+                console.log(result);
+                getBookingIdString(result);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+}
 
 function getBookingIdString(bookings) {
     // Get booking array:
     let bookingArray = bookings;
-    console.log("guest booking array:");
-    console.log(bookingArray);
 
     let bookingList = "";
     // If no bookings exist:
@@ -261,8 +276,9 @@ function getBookingIdString(bookings) {
     else if (bookingArray.length == 1) {
         bookingList = bookingArray[0].id;
     }
-    console.log("Booking ID list: " + bookingList);
-    return bookingList;
+    bookingIdString = bookingList
+
+    $("#viewGuestBookings").html(bookingIdString);
 }
 
 function editGuestModal(guest) {
@@ -334,6 +350,8 @@ function saveGuest() {
 
 // Delete selected guest with ID from datatable & database
 function deleteGuest(guest) {
+    console.log("deleting guest: ");
+    console.log(guest);
 
         $("#deleteGuestModal").modal("show");
         $.ajax({
@@ -363,6 +381,8 @@ function emptyGuestModals() {
     $("#viewGuestPassportNr").empty();
     $("#viewGuestAddress").empty();
     $("#viewGuestCity").empty();
+    $("#viewGuestBookings").empty();
+    bookingIdString = "";
 
 
 

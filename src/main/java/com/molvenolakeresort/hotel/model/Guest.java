@@ -26,23 +26,11 @@ public class Guest implements Serializable {
     private String city;
     
 
+    @JsonIgnore
     @OneToMany (mappedBy = "guest")
     private List<Booking> bookings;
     
-    public void addBooking(Booking booking) {
-        if (!bookings.contains(booking)) {
-            bookings.add(booking);
 
-            booking.setGuest(this);
-        }
-    }
-
-    public void removeBooking(Booking booking) {
-        if (bookings.contains(booking)) {
-            bookings.remove(booking);
-        }
-        booking.setGuest(null);
-    }
 
 
 //    @Override
@@ -140,13 +128,27 @@ public class Guest implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-//
-//    public List<Booking> getBookings() {
-//        return bookings;
-//        }
-//
-//    public void setBookings(List<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
 
+    public List<Booking> getBookings() {
+        return bookings;
+        }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public void addBooking(Booking booking) {
+        if (!bookings.contains(booking)) {
+            bookings.add(booking);
+
+            booking.setGuest(this);
+        }
+    }
+
+    public void removeBooking(Booking booking) {
+        if (bookings.contains(booking)) {
+            bookings.remove(booking);
+        }
+        booking.setGuest(null);
+    }
 }

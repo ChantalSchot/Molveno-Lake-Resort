@@ -50,7 +50,7 @@ public class BookingController {
 
     @GetMapping("{id}/guest")
     public ResponseEntity<Guest> getBookingGuest(@PathVariable long id) throws EntityNotFoundException {
-        Optional<Booking> optionalBooking =  bookingRepository.findById(id);
+        Optional<Booking> optionalBooking =  this.bookingRepository.findById(id);
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
@@ -66,10 +66,31 @@ public class BookingController {
         }
     }
 
+    @GetMapping("{id}/rooms")
+    public ResponseEntity<List> getBookingRooms(@PathVariable long id) throws EntityNotFoundException {
+        Optional<Booking> optionalBooking = this.bookingRepository.findById(id);
+
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            if (booking.getBookedRooms().size() != 0) {
+                List<Room> foundRooms = new ArrayList<Room>();
+                for (Room room : booking.getBookedRooms()) {
+                    Room foundRoom = this.roomRepository.findById(room.getId()).get();
+                    foundRooms.add(foundRoom);
+                }
+                return ResponseEntity.ok(foundRooms);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
-        // toDo: check/find room information same as with guest
 
+        // Check if booking guest info is entered, and retrieve existing guest information:
         if (booking.getGuest() != null) {
             Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
 
@@ -78,27 +99,77 @@ public class BookingController {
                 booking.setGuest(foundGuest);
                 foundGuest.addBooking(booking);
                 this.guestRepository.save(foundGuest);
-                Booking savedBooking = this.bookingRepository.save(booking);
-                return ResponseEntity.ok(savedBooking);
+
             } else {
                 this.guestRepository.save(booking.getGuest());
-                this.bookingRepository.save(booking);
-                return ResponseEntity.ok(booking);
             }
         }
-         else {
+
+        // Check if booking rooms are entered, and retrieve existing room information
+        if(booking.getBookedRooms().size() != 0) {
+            List<Room> foundRooms = new ArrayList<Room>();
+
+            for (Room room : booking.getBookedRooms()) {
+                Optional<Room> optionalRoom = this.roomRepository.findById(room.getId());
+                if (optionalRoom.isPresent()) {
+                    Room foundRoom = optionalRoom.get();
+                    foundRooms.add(foundRoom);
+                    foundRoom.addBooking(booking);
+//                    this.roomRepository.save(foundRoom);
+
+                } else {
+                    foundRooms.add(room);
+                    room.addBooking(booking);
+//                    this.roomRepository.save(room);
+                }
+            }
+            booking.setBookedRooms(foundRooms);
+        }
+
+        // In the end, save booking:
             this.bookingRepository.save(booking);
             return ResponseEntity.ok(booking);
         }
-    }
+
 
     @DeleteMapping()
     public void deleteBooking(@RequestBody Booking booking) {
         bookingRepository.delete(booking);
     }
 
-//    @PostConstruct
-//    public void init() throws ParseException {
+    @PostConstruct
+    public void init() throws ParseException {
+    // TEST GUESTS:
+//  	Guest one = new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
+//				"AB9381B39", "Main Street 99", "New York");
+//		this.guestRepository.save(one);
+//		Guest two = new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
+//				"KH9274027", "Dorpsstraat 83", "Dordrecht");
+//		this.guestRepository.save(two);
+//		Guest three = new Guest("Nicholas Wiley", "09-01-1959", "nicwiley@email.com", "042 2934813",
+//				"IT392K382", "Ellsworth Summit", "Howemouth");
+//		this.guestRepository.save(three);
+//		Guest four = new Guest("Ervin Howell", "19-05-1978", "ervinh@email.com", "010 9320 592",
+//				"ABE382915", "Victor Plains 391", "Gwenborough");
+//		this.guestRepository.save(four);
+//		Guest five = new Guest("Patricia Lebsack", "29-11-1993", "patleb@email.com", "063 298 492143",
+//				"IW938G913", "Hager Mall", "Corkshire");
+//		this.guestRepository.save(five);
+
+
+//		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
+//		roomRepository.save(new Room("101", RoomType.singleRoom,1,1,1,0,1,false,849));
+//		roomRepository.save(new Room("102", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+//		roomRepository.save(new Room("103", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+//		Room newRoom = new Room("104", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399);
+//		newRoom.setAvailable(false);
+//		roomRepository.save(newRoom);
+//		roomRepository.save(new Room("105", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+//		roomRepository.save(new Room("106", RoomType.singleRoom,1,1,1,0,1,false,849));
+//		roomRepository.save(new Room("107", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+//		roomRepository.save(new Room("108", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+//		roomRepository.save(new Room("109", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+//		roomRepository.save(new Room("110", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399));
 //
 //        // int totalGuests, Status status, String checkInDate, String checkOutDate
 //        bookingRepository.save(new Booking(1, Status.booked, "20/02/2020", "23/02/2020"));
@@ -106,6 +177,6 @@ public class BookingController {
 //        bookingRepository.save(new Booking(1, Status.booked, "21/02/2020", "25/02/2020"));
 //        bookingRepository.save(new Booking(3, Status.booked, "18/02/2020", "22/02/2020"));
 //
-//    }
+    }
 
 }

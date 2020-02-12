@@ -29,6 +29,7 @@ public class Booking {
 
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @JoinColumn(name = "roomID")
     private List<Room> bookedRooms;
 
     @OneToOne
