@@ -68,17 +68,25 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
-        Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
+        // toDo: check/find room information same as with guest
 
-        if (optionalGuest.isPresent()) {
-            Guest foundGuest = optionalGuest.get();
-            booking.setGuest(foundGuest);
-            foundGuest.addBooking(booking);
-            this.guestRepository.save(foundGuest);
-            Booking savedBooking = this.bookingRepository.save(booking);
-            return ResponseEntity.ok(savedBooking);
-        } else {
-            this.guestRepository.save(booking.getGuest());
+        if (booking.getGuest() != null) {
+            Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
+
+            if (optionalGuest.isPresent()) {
+                Guest foundGuest = optionalGuest.get();
+                booking.setGuest(foundGuest);
+                foundGuest.addBooking(booking);
+                this.guestRepository.save(foundGuest);
+                Booking savedBooking = this.bookingRepository.save(booking);
+                return ResponseEntity.ok(savedBooking);
+            } else {
+                this.guestRepository.save(booking.getGuest());
+                this.bookingRepository.save(booking);
+                return ResponseEntity.ok(booking);
+            }
+        }
+         else {
             this.bookingRepository.save(booking);
             return ResponseEntity.ok(booking);
         }
@@ -89,15 +97,15 @@ public class BookingController {
         bookingRepository.delete(booking);
     }
 
-    @PostConstruct
-    public void init() throws ParseException {
-
-        // int totalGuests, Status status, String checkInDate, String checkOutDate
-        bookingRepository.save(new Booking(1, Status.booked, "20/02/2020", "23/02/2020"));
-        bookingRepository.save(new Booking(2, Status.booked, "26/02/2020", "28/02/2020"));
-        bookingRepository.save(new Booking(1, Status.booked, "21/02/2020", "25/02/2020"));
-        bookingRepository.save(new Booking(3, Status.booked, "18/02/2020", "22/02/2020"));
-        
-    }
+//    @PostConstruct
+//    public void init() throws ParseException {
+//
+//        // int totalGuests, Status status, String checkInDate, String checkOutDate
+//        bookingRepository.save(new Booking(1, Status.booked, "20/02/2020", "23/02/2020"));
+//        bookingRepository.save(new Booking(2, Status.booked, "26/02/2020", "28/02/2020"));
+//        bookingRepository.save(new Booking(1, Status.booked, "21/02/2020", "25/02/2020"));
+//        bookingRepository.save(new Booking(3, Status.booked, "18/02/2020", "22/02/2020"));
+//
+//    }
 
 }

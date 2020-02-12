@@ -96,21 +96,21 @@ public class RoomController {
 		roomRepository.deleteById(id);
 	}
 
-	@PostConstruct
-	public void init() {
-		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
-		roomRepository.save(new Room("101", RoomType.singleRoom,1,1,1,0,1,false,849));
-		roomRepository.save(new Room("102", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
-		roomRepository.save(new Room("103", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
-		Room newRoom = new Room("104", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399);
-		newRoom.setAvailable(false);
-		roomRepository.save(newRoom);
-		roomRepository.save(new Room("105", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
-		roomRepository.save(new Room("106", RoomType.singleRoom,1,1,1,0,1,false,849));
-		roomRepository.save(new Room("107", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
-		roomRepository.save(new Room("108", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
-		roomRepository.save(new Room("109", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
-		roomRepository.save(new Room("110", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399));
-	}
+//	@PostConstruct
+//	public void init() {
+//		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
+//		roomRepository.save(new Room("101", RoomType.singleRoom,1,1,1,0,1,false,849));
+//		roomRepository.save(new Room("102", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+//		roomRepository.save(new Room("103", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+//		Room newRoom = new Room("104", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399);
+//		newRoom.setAvailable(false);
+//		roomRepository.save(newRoom);
+//		roomRepository.save(new Room("105", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+//		roomRepository.save(new Room("106", RoomType.singleRoom,1,1,1,0,1,false,849));
+//		roomRepository.save(new Room("107", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
+//		roomRepository.save(new Room("108", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
+//		roomRepository.save(new Room("109", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
+//		roomRepository.save(new Room("110", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399));
+//	}
 }
 

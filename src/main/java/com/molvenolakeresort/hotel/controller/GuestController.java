@@ -64,17 +64,17 @@ public class GuestController {
 	}
 
 	// Get guest bookings
-	@GetMapping(value="{id}/bookings", produces = "application/json")
-	public ResponseEntity<List> getGuestBookings(@PathVariable long id) {
-		Optional<Guest> optionalGuest = this.guestRepository.findById(id);
-
-		if (optionalGuest.isPresent()) {
-			Guest guest = optionalGuest.get();
-			return ResponseEntity.ok(guest.getBookings());
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+//	@GetMapping(value="{id}/bookings", produces = "application/json")
+//	public ResponseEntity<List> getGuestBookings(@PathVariable long id) {
+//		Optional<Guest> optionalGuest = this.guestRepository.findById(id);
+//
+//		if (optionalGuest.isPresent()) {
+//			Guest guest = optionalGuest.get();
+//			return ResponseEntity.ok(guest.getBookings());
+//		} else {
+//			return ResponseEntity.notFound().build();
+//		}
+//	}
 
 	// Create new guest
 	@PostMapping (consumes = "application/json", produces = "application/json")
@@ -89,23 +89,23 @@ public class GuestController {
 	}
 
 	// Add some guests to the list when application starts
-	@PostConstruct
-	public void init() throws ParseException {
-		Guest one = new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
-				"AB9381B39", "Main Street 99", "New York");
-		this.guestRepository.save(one);
-		Guest two = new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
-				"KH9274027", "Dorpsstraat 83", "Dordrecht");
-		this.guestRepository.save(two);
-		Guest three = new Guest("Nicholas Wiley", "09-01-1959", "nicwiley@email.com", "042 2934813",
-				"IT392K382", "Ellsworth Summit", "Howemouth");
-		this.guestRepository.save(three);
-		Guest four = new Guest("Ervin Howell", "19-05-1978", "ervinh@email.com", "010 9320 592",
-				"ABE382915", "Victor Plains 391", "Gwenborough");
-		this.guestRepository.save(four);
-		Guest five = new Guest("Patricia Lebsack", "29-11-1993", "patleb@email.com", "063 298 492143",
-				"IW938G913", "Hager Mall", "Corkshire");
-		this.guestRepository.save(five);
-	}
+//	@PostConstruct
+//	public void init() throws ParseException {
+//		Guest one = new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
+//				"AB9381B39", "Main Street 99", "New York");
+//		this.guestRepository.save(one);
+//		Guest two = new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
+//				"KH9274027", "Dorpsstraat 83", "Dordrecht");
+//		this.guestRepository.save(two);
+//		Guest three = new Guest("Nicholas Wiley", "09-01-1959", "nicwiley@email.com", "042 2934813",
+//				"IT392K382", "Ellsworth Summit", "Howemouth");
+//		this.guestRepository.save(three);
+//		Guest four = new Guest("Ervin Howell", "19-05-1978", "ervinh@email.com", "010 9320 592",
+//				"ABE382915", "Victor Plains 391", "Gwenborough");
+//		this.guestRepository.save(four);
+//		Guest five = new Guest("Patricia Lebsack", "29-11-1993", "patleb@email.com", "063 298 492143",
+//				"IW938G913", "Hager Mall", "Corkshire");
+//		this.guestRepository.save(five);
+//	}
 
 }

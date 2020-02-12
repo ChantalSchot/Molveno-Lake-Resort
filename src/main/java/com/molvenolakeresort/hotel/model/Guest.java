@@ -1,9 +1,6 @@
 package com.molvenolakeresort.hotel.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,7 +25,7 @@ public class Guest implements Serializable {
     private String address;
     private String city;
     
-    @JsonManagedReference
+
     @OneToMany (mappedBy = "guest")
     private List<Booking> bookings;
     
@@ -143,13 +140,13 @@ public class Guest implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-
-    public List<Booking> getBookings() {
-        return bookings;
-        }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
+//
+//    public List<Booking> getBookings() {
+//        return bookings;
+//        }
+//
+//    public void setBookings(List<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
 
 }

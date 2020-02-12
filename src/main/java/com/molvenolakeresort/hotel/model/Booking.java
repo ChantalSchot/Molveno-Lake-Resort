@@ -1,6 +1,7 @@
 package com.molvenolakeresort.hotel.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -21,13 +22,13 @@ public class Booking {
     private Date checkInDate;
     private Date checkOutDate;
 
-    @JsonBackReference
     @ManyToOne
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "guestID")
     private Guest guest;
 
     @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Room> bookedRooms;
 
     @OneToOne
