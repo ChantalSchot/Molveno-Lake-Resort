@@ -23,10 +23,12 @@ public class Booking {
     private Date checkOutDate;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "guestID")
     private Guest guest;
 
     @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.DETACH)
     @JoinColumn(name = "roomID")
     private List<Room> bookedRooms;
 

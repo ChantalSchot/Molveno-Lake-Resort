@@ -1,20 +1,61 @@
-let today = new Date();
-let ageCheckDate = new Date(today.setMonth(today.getMonth()-216));
+const roomBookingApi = "http://localhost:8080/api/bookings";
+const roomListApi = "http://localhost:8080/api/rooms";
+
+var today = new Date();
+var ageCheckDate = new Date(today.setMonth(today.getMonth()-216));
 //$.format.date(today,"dd-MM-yyyy");
 
-$(document).ready(function() {
+var singleRoomList = [];
+var doubleRoomList = [];
+var familyRoomList = [];
+var penthouseRoomList = [];
+var sessionSelectedRoomArray;
+var parsedCheckInDate;
+var parsedCheckOutDate;
+//sessionStorage.setItem("selectedRooms",JSON.stringify(sessionSelectedRoomArray));
 
+$(document).ready(function() {
     initDatePickers();
 
+    if (window.location.href.indexOf("room-overview") > -1) {
+            sessionStorage.clear();
+        };
 
-
-
+    if (window.location.href.indexOf("book-room") > -1) {
+            fillBookingForm();
+        };
 });
 
-function initDatePickers() {
+// Button functions
+$("#findRooms").click(function() {
+    getAllRoomLists();
+    setAvailableRoomListSize();
+});
 
+$(".add-room").click(function() {
+    addRoomSelection($(this).attr('id'));
+});
+
+$("#newBookingButton").click(function() {
+    setSessionStorage();
+    window.location = "http://localhost:8080/public/rooms/book-room";
+});
+
+$("#submitBooking").click(function() {
+    postBooking();
+});
+
+$("#clearStorage").click(function() {
+    sessionStorage.clear();
+    console.log("Session storage cleared");
+})
+
+
+
+
+function initDatePickers() {
     // Datepicker for check-in
-    $("#checkInDate").datepicker({
+    $("#formCheckInDate").datepicker({
         dateFormat: "dd-mm-yy",
         changeMonth: true,
         changeYear: true,
@@ -33,7 +74,7 @@ function initDatePickers() {
     });
 
     // Datepicker for check-out-in
-        $("#checkOutDate").datepicker({
+        $("#formCheckOutDate").datepicker({
             dateFormat: "dd-mm-yy",
             changeMonth: true,
             changeYear: true,
@@ -51,10 +92,9 @@ function initDatePickers() {
             }
         });
 
-        $("#checkInDate").change(function() {
-
-             $("#checkOutDate").datepicker('option', {
-                minDate: $("#checkInDate").val()
+        $("#formCheckInDate").change(function() {
+             $("#formCheckOutDate").datepicker('option', {
+                minDate: $("#formCheckInDate").val()
                 });
         });
 
@@ -76,3 +116,252 @@ function initDatePickers() {
         }
     });
 }
+
+function getAllRoomLists() {
+// Single rooms:
+    $.ajax(
+        {
+            type: "get",
+            url: roomListApi + "/roomtype/single",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                console.log("singleRoomList: ");
+                console.log(result);
+                singleRoomList = result;
+                $("#singleRoomListSize").html(singleRoomList.length);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        }
+    );
+
+// Double rooms:
+    $.ajax(
+        {
+            type: "get",
+            url: roomListApi + "/roomtype/double",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                console.log("doubleRoomList: ");
+                console.log(result);
+                doubleRoomList = result;
+                $("#doubleRoomListSize").html(doubleRoomList.length);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        }
+    );
+
+// Family rooms:
+    $.ajax(
+        {
+            type: "get",
+            url: roomListApi + "/roomtype/family",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                console.log("familyRoomList: ");
+                console.log(result);
+                familyRoomList = result;
+                $("#familyRoomListSize").html(familyRoomList.length);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        }
+    );
+
+// Penthouse rooms:
+    $.ajax(
+        {
+            type: "get",
+            url: roomListApi + "/roomtype/penthouse",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                console.log("penthouseRoomList: ");
+                console.log(result);
+                penthouseRoomList = result;
+                $("#penthouseRoomListSize").html(penthouseRoomList.length);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        }
+    );
+
+}
+
+function setAvailableRoomListSize() {
+    $("#singleRoomListSize").html(singleRoomList.length);
+    $("#doubleRoomListSize").html(doubleRoomList.length);
+    $("#familyRoomListSize").html(familyRoomList.length);
+    $("#penthouseRoomListSize").html(penthouseRoomList.length);
+}
+
+function addRoomSelection(buttonId) {
+      var roomType = buttonId;
+      console.log("Adding room of type \"" + roomType + "\"...");
+
+//      Add room to session storage:
+        var selectedRoom;
+        if (roomType == "single") {
+            if (singleRoomList.length > 0) {
+                selectedRoom = singleRoomList[0];
+                singleRoomList.splice(0,1);
+            } else {
+            console.log("No single rooms available!");
+            }
+        } else if (roomType == "double") {
+            if (doubleRoomList.length > 0) {
+                selectedRoom = doubleRoomList[0];
+                doubleRoomList.splice(0,1);
+            } else {
+            console.log("No double rooms available!");
+            }
+        } else if (roomType == "family") {
+            if (familyRoomList.length > 0) {
+                selectedRoom = familyRoomList[0];
+                familyRoomList.splice(0,1);
+            } else {
+            console.log("No family rooms available!");
+            }
+        } else if (roomType == "penthouse") {
+            if (penthouseRoomList.length > 0) {
+                selectedRoom = penthouseRoomList[0];
+                penthouseRoomList.splice(0,1);
+            } else {
+            console.log("No penthouse rooms available!");
+            }
+        }
+        setAvailableRoomListSize();
+
+        if ((sessionStorage.getItem("selectedRooms") == "") || (sessionStorage.getItem("selectedRooms") == undefined)) {
+            sessionStorage.setItem("selectedRooms", []);
+        }
+
+        if (sessionStorage.getItem("selectedRooms").length != 0) {
+            sessionSelectedRoomArray = JSON.parse(sessionStorage.getItem("selectedRooms")); // get selectedArray from session storage
+        } else {
+            sessionSelectedRoomArray = [];
+        }
+
+        sessionSelectedRoomArray.push(selectedRoom); // add selected room to array
+        if (sessionSelectedRoomArray[sessionSelectedRoomArray.length-1] != null) {
+            sessionStorage.setItem("selectedRooms",JSON.stringify(sessionSelectedRoomArray)); // set session storage array with new selected room
+             console.log(sessionStorage.getItem("selectedRooms"));
+        }
+   }
+
+function setSessionStorage() {
+    sessionStorage.setItem("checkInDate",$("#formCheckInDate").val());
+    sessionStorage.setItem("checkOutDate",$("#formCheckOutDate").val());
+    sessionStorage.setItem("noOfAdults",$("#noOfAdults").val());
+    sessionStorage.setItem("noOfChildren",$("#noOfChildren").val());
+}
+
+function fillBookingForm() {
+    $("#bookingInfoCheckInDate").html(sessionStorage.getItem("checkInDate"));
+    $("#bookingInfoCheckOutDate").html(sessionStorage.getItem("checkOutDate"));
+    $("#bookingInfoAdults").html(sessionStorage.getItem("noOfAdults"));
+    $("#bookingInfoChildren").html(sessionStorage.getItem("noOfChildren"));
+
+    sessionSelectedRoomArray = JSON.parse(sessionStorage.getItem("selectedRooms"));
+    console.log(sessionSelectedRoomArray);
+
+    var pricePerDay = 0;
+
+    $.each(sessionSelectedRoomArray, function(index, value) {
+        // sum up price
+        pricePerDay += value.price;
+
+        // find roomType string
+        var roomType;
+        if (value.roomType == "singleRoom") {
+            roomType = "Single room";
+        } else if (value.roomType == "doubleRoom") {
+            roomType = "Double room";
+        } else if (value.roomType == "familyRoom") {
+            roomType = "Family room";
+        } else if (value.roomType == "penthouse") {
+            roomType = "Penthouse room";
+        }
+
+        // append HTML info
+        $(".booking-room-info").append('<div id="id' + value.id + '" class="my-3"><div class="row"><div class="col-4 text-right"><b>Room number:</b></div><div id="bookingRoomId" class="col-8 text-left">' + value.roomNumber + '</div></div><div class="row"><div class="col-4 text-right"><b>Room type:</b></div><div id="bookingInfoRoomType" class="col-8 text-left">' + roomType + '</div></div><div class="row"><div class="col-4 text-right"><b>Price / night:</b></div><div id="bookingInfoRoomPrice" class="col-8 text-left">¥' + value.price + '</div></div></div>');
+    });
+
+    parsedCheckInDate = sessionStorage.getItem("checkInDate").split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
+    parsedCheckOutDate = sessionStorage.getItem("checkOutDate").split('-').reverse().join('-');
+
+    var priceCheckInDate = new Date(parsedCheckInDate);
+    var priceCheckOutDate = new Date(parsedCheckOutDate);
+    var priceDifferenceInTime = priceCheckOutDate.getTime() - priceCheckInDate.getTime();
+    var priceDifferenceInDays = priceDifferenceInTime / (1000 * 3600 * 24);
+    var totalBookingPrice = priceDifferenceInDays * pricePerDay;
+    $("#bookingTotalPrice").html(totalBookingPrice);
+
+}
+
+function postBooking() {
+    var adults = +sessionStorage.getItem("noOfAdults");
+    var children = +sessionStorage.getItem("noOfChildren");
+    var sumTotalGuests = adults + children;
+    var inputBirthDate = $("#bookingGuestBirthDate").val().split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
+    var guestName = $("#bookingGuestName").val();
+
+
+    let bookingObject = {
+        totalGuests: sumTotalGuests,
+        status: "booked",
+        checkInDate: parsedCheckInDate,
+        checkOutDate: parsedCheckOutDate,
+        guest: {
+            id: $("#bookingGuestId").val(),
+            name: $("#bookingGuestName").val(),
+            birthDate: inputBirthDate,
+            mail: $("#bookingGuestMail").val(),
+            phone: $("#bookingGuestPhone").val(),
+            passportNr: $("#bookingGuestPassportNr").val(),
+            address: $("#bookingGuestAddress").val(),
+            city: $("#bookingGuestCity").val()
+        },
+        bookedRooms: JSON.parse(sessionStorage.getItem("selectedRooms")),
+        invoice: null
+    }
+
+    console.log("new bookingObject:");
+    console.log(bookingObject);
+
+     var jsonObject = JSON.stringify(bookingObject);
+
+     $.ajax({
+         url: roomBookingApi,
+         headers: {
+             'Accept': 'application/json',
+             'Content-Type': 'application/json'
+         },
+         type: "post",
+         dataType: "json",
+         data: jsonObject,
+         contentType: "application/json",
+         success: function(result) {
+             console.log("Booking posted / edited: ");
+             console.log(result);
+             // toDo: info modal
+
+         },
+         error: function (error) {
+             console.log(error);
+         }
+     });
+
+}
+
+//'<div id="id' + value.id + '><div class="row"><div class="col-4 text-right"><b>Room id:</b></div><div id="bookingRoomId" class="col-8 text-left">' + value.id + '</div></div><div class="row"><div class="col-4 text-right"><b>Room type:</b></div><div id="bookingInfoRoomType" class="col-8 text-left">' + value + '</div></div><div class="row"><div class="col-4 text-right"><b>Price / night:</b></div><div id="bookingInfoRoomPrice" class="col-8 text-left">' + value.price + '</div></div></div>'
+
+

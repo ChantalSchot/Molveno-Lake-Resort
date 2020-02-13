@@ -97,11 +97,11 @@ public class BookingController {
             if (optionalGuest.isPresent()) {
                 Guest foundGuest = optionalGuest.get();
                 booking.setGuest(foundGuest);
-                foundGuest.addBooking(booking);
-                this.guestRepository.save(foundGuest);
+//                foundGuest.addBooking(booking);
+//                this.guestRepository.save(foundGuest);
 
             } else {
-                this.guestRepository.save(booking.getGuest());
+//                this.guestRepository.save(booking.getGuest());
             }
         }
 
@@ -114,12 +114,12 @@ public class BookingController {
                 if (optionalRoom.isPresent()) {
                     Room foundRoom = optionalRoom.get();
                     foundRooms.add(foundRoom);
-                    foundRoom.addBooking(booking);
+//                    foundRoom.addBooking(booking);
 //                    this.roomRepository.save(foundRoom);
 
                 } else {
                     foundRooms.add(room);
-                    room.addBooking(booking);
+//                    room.addBooking(booking);
 //                    this.roomRepository.save(room);
                 }
             }
@@ -134,30 +134,31 @@ public class BookingController {
 
     @DeleteMapping()
     public void deleteBooking(@RequestBody Booking booking) {
+        if (booking.getGuest() != null) {
+            booking.getGuest().removeBooking(booking);
+        }
+        if (booking.getBookedRooms() != null) {
+            for (Room room : booking.getBookedRooms()) {
+                room.removeBooking(booking);
+            }
+        }
         bookingRepository.delete(booking);
     }
 
-    @PostConstruct
-    public void init() throws ParseException {
-    // TEST GUESTS:
-//  	Guest one = new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
-//				"AB9381B39", "Main Street 99", "New York");
-//		this.guestRepository.save(one);
-//		Guest two = new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
-//				"KH9274027", "Dorpsstraat 83", "Dordrecht");
-//		this.guestRepository.save(two);
-//		Guest three = new Guest("Nicholas Wiley", "09-01-1959", "nicwiley@email.com", "042 2934813",
-//				"IT392K382", "Ellsworth Summit", "Howemouth");
-//		this.guestRepository.save(three);
-//		Guest four = new Guest("Ervin Howell", "19-05-1978", "ervinh@email.com", "010 9320 592",
-//				"ABE382915", "Victor Plains 391", "Gwenborough");
-//		this.guestRepository.save(four);
-//		Guest five = new Guest("Patricia Lebsack", "29-11-1993", "patleb@email.com", "063 298 492143",
-//				"IW938G913", "Hager Mall", "Corkshire");
-//		this.guestRepository.save(five);
-
-
-//		///TESTROOMS! roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled
+//    @PostConstruct
+//    public void init() throws ParseException {
+//
+//        this.guestRepository.save(new Guest("Jane Doe", "31-01-1992", "janedoe@email.com", "+31 6 1234 5678",
+//				"AB9381B39", "Main Street 99", "New York"));
+//        this.guestRepository.save(new Guest("Jan Janssen", "02-10-1990", "jjanssen@email.com", "+31 72 5712345",
+//				"KH9274027", "Dorpsstraat 83", "Dordrecht"));
+//		this.guestRepository.save(new Guest("Nicholas Wiley", "09-01-1959", "nicwiley@email.com", "042 2934813",
+//				"IT392K382", "Ellsworth Summit", "Howemouth"));
+//		this.guestRepository.save(new Guest("Ervin Howell", "19-05-1978", "ervinh@email.com", "010 9320 592",
+//				"ABE382915", "Victor Plains 391", "Gwenborough"));
+//        this.guestRepository.save(new Guest("Patricia Lebsack", "29-11-1993", "patleb@email.com", "063 298 492143",
+//				"IW938G913", "Hager Mall", "Corkshire"));//
+//
 //		roomRepository.save(new Room("101", RoomType.singleRoom,1,1,1,0,1,false,849));
 //		roomRepository.save(new Room("102", RoomType.doubleRoom, 2, 1, 2, 0, 1,  false,1199));
 //		roomRepository.save(new Room("103", RoomType.familyRoom, 4, 1,2,1,1,false,1649));
@@ -171,12 +172,11 @@ public class BookingController {
 //		roomRepository.save(new Room("109", RoomType.singleRoom, 1, 1,1,0,1,false,1199));
 //		roomRepository.save(new Room("110", RoomType.penthouse, 8, 2, 4, 2, 2, false,2399));
 //
-//        // int totalGuests, Status status, String checkInDate, String checkOutDate
 //        bookingRepository.save(new Booking(1, Status.booked, "20/02/2020", "23/02/2020"));
 //        bookingRepository.save(new Booking(2, Status.booked, "26/02/2020", "28/02/2020"));
 //        bookingRepository.save(new Booking(1, Status.booked, "21/02/2020", "25/02/2020"));
 //        bookingRepository.save(new Booking(3, Status.booked, "18/02/2020", "22/02/2020"));
 //
-    }
+//    }
 
 }
