@@ -1,5 +1,7 @@
 var roomTable;
 var roomTypeData = "";
+var roomTypeString = "singleRoom";
+
 
 $(document).ready(function() {
         
@@ -263,6 +265,10 @@ function editRoomModal(room) {
 
 
 function updateRoom(){
+if (roomTypeString == "") {
+    roomTypeString = "single";
+}
+
     var room = {
         id : +$("#editRoomId").val(),
         roomNumber : $('#editRoomName').val(),
