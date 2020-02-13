@@ -20,6 +20,11 @@ public class MustacheController {
 	public String getRoomOverview() {
 		return "/public/rooms/room-overview";
 	}
+
+	@GetMapping("/public/rooms/book-room")
+	public String getBookRoom() {
+		return "/public/rooms/book-room";
+	}
 	
 	@GetMapping("/admin")
 	public String getEmployeeIndex() {

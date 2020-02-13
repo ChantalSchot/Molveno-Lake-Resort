@@ -23,6 +23,8 @@ $(document).ready(function() {
         clearGuestTable();
     });
 
+
+
     // Add 'selected' class on row (for selection of data/guest ID)
     $("#guestTable tbody").on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {

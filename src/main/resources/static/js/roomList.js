@@ -1,4 +1,5 @@
 var roomTable;
+var roomTypeData = "";
 
 $(document).ready(function() {
         
@@ -222,6 +223,8 @@ function emptyRoomModals() {
   $("#editNoChildren").val("");
   //$("#viewroomType").val("");
 //  $("#viewStatus").val("");
+
+   roomTypeString = "";
 };
 
 function editRoomModal(room) {
@@ -249,11 +252,15 @@ function editRoomModal(room) {
         $("#editNoAdults").val(room.noOfAdults);
         $("#editNoChildren").val(room.noOfChildren);
         //$("#editroomType").val(room.roomType);
-      //  $("#editStatus").val(room.roomStatus);
+      //  $("#editStatus").val(room.roomStatus);\
+        roomTypeString = room.roomType;
+        console.log(roomTypeString);
     }
 
 
 }
+
+
 
 function updateRoom(){
     var room = {
@@ -267,7 +274,7 @@ function updateRoom(){
         disabledRoom : $('#editDisabledRoom').prop('checked'),
         noOfAdults :  +$("#editNoAdults").val(),
         noOfChildren : +$("#editNoChildren").val(),
-        //roomType : $("#editroomType").val()
+        roomType : roomTypeString
     };
 
     
@@ -276,7 +283,7 @@ function updateRoom(){
     let api = "/api/rooms/";
     $.ajax({
         url: api,
-        type: "put",
+        type: "post",
         data: jsonObject,
         contentType: "application/json",
         success: function(data){

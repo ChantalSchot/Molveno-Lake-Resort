@@ -1,6 +1,7 @@
 package com.molvenolakeresort.hotel.model;
 
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class Guest implements Serializable {
 
     @JsonIgnore
     @OneToMany (mappedBy = "guest")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Booking> bookings;
     
 
