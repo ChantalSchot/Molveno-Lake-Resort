@@ -5,6 +5,8 @@ var today = new Date();
 var ageCheckDate = new Date(today.setMonth(today.getMonth()-216));
 //$.format.date(today,"dd-MM-yyyy");
 
+var formValid = false;
+
 var singleRoomList = [];
 var doubleRoomList = [];
 var familyRoomList = [];
@@ -28,8 +30,13 @@ $(document).ready(function() {
 
 // Button functions
 $("#findRooms").click(function() {
-    getAllRoomLists();
-    setAvailableRoomListSize();
+    if (($("#formCheckInDate").val() != "") && ($("#formCheckOutDate").val() != "")) {
+        getAllRoomLists();
+        setAvailableRoomListSize();
+    } else {
+        $("#warningModalBody").html("Select a check-in and check-out date first.")
+        $("#warningModal").modal("show");
+    }
 });
 
 $(".add-room").click(function() {
@@ -37,12 +44,23 @@ $(".add-room").click(function() {
 });
 
 $("#newBookingButton").click(function() {
-    setSessionStorage();
-    window.location = "http://localhost:8080/public/rooms/book-room";
+    if ((sessionStorage.getItem("selectedRooms") == "") || (sessionStorage.getItem("selectedRooms") == undefined || (sessionStorage.getItem("selectedRooms").length == 0) )) {
+        $("#warningModalBody").html("You need to select at least one room.")
+        $("#warningModal").modal("show");
+    } else {
+        setSessionStorage();
+        window.location = "http://localhost:8080/public/rooms/book-room";
+    }
 });
 
 $("#submitBooking").click(function() {
-    postBooking();
+    checkFormValid();
+//    if (formValid) {
+        postBooking();
+//    } else {
+//        $("#warningModalBody").html("Make sure all guest information is filled in completely.")
+//        $("#warningModal").modal("show");
+//    }
 });
 
 $("#clearStorage").click(function() {
@@ -208,6 +226,7 @@ function addRoomSelection(buttonId) {
       console.log("Adding room of type \"" + roomType + "\"...");
 
 //      Add room to session storage:
+
         var selectedRoom;
         if (roomType == "single") {
             if (singleRoomList.length > 0) {
@@ -215,6 +234,9 @@ function addRoomSelection(buttonId) {
                 singleRoomList.splice(0,1);
             } else {
             console.log("No single rooms available!");
+            $("#warningModalBody").html("No single rooms available for your selected dates.")
+            $("#warningModal").modal("show");
+            return;
             }
         } else if (roomType == "double") {
             if (doubleRoomList.length > 0) {
@@ -222,6 +244,9 @@ function addRoomSelection(buttonId) {
                 doubleRoomList.splice(0,1);
             } else {
             console.log("No double rooms available!");
+            $("#warningModalBody").html("No double rooms available for your selected dates.")
+            $("#warningModal").modal("show");
+            return;
             }
         } else if (roomType == "family") {
             if (familyRoomList.length > 0) {
@@ -229,6 +254,9 @@ function addRoomSelection(buttonId) {
                 familyRoomList.splice(0,1);
             } else {
             console.log("No family rooms available!");
+            $("#warningModalBody").html("No family rooms available for your selected dates.")
+            $("#warningModal").modal("show");
+            return;
             }
         } else if (roomType == "penthouse") {
             if (penthouseRoomList.length > 0) {
@@ -236,6 +264,9 @@ function addRoomSelection(buttonId) {
                 penthouseRoomList.splice(0,1);
             } else {
             console.log("No penthouse rooms available!");
+            $("#warningModalBody").html("No penthouse rooms available for your selected dates.")
+            $("#warningModal").modal("show");
+            return;
             }
         }
         setAvailableRoomListSize();
@@ -254,7 +285,13 @@ function addRoomSelection(buttonId) {
         if (sessionSelectedRoomArray[sessionSelectedRoomArray.length-1] != null) {
             sessionStorage.setItem("selectedRooms",JSON.stringify(sessionSelectedRoomArray)); // set session storage array with new selected room
              console.log(sessionStorage.getItem("selectedRooms"));
+
+             var roomType = stringRoomType(selectedRoom.roomType);
+
+             $("#selectedRoomList").append('<li id="id'+ selectedRoom.id + '"><b>Room ' + selectedRoom.roomNumber + '</b> - Type: ' + roomType + '</li>');
         }
+
+
    }
 
 function setSessionStorage() {
@@ -280,16 +317,7 @@ function fillBookingForm() {
         pricePerDay += value.price;
 
         // find roomType string
-        var roomType;
-        if (value.roomType == "singleRoom") {
-            roomType = "Single room";
-        } else if (value.roomType == "doubleRoom") {
-            roomType = "Double room";
-        } else if (value.roomType == "familyRoom") {
-            roomType = "Family room";
-        } else if (value.roomType == "penthouse") {
-            roomType = "Penthouse room";
-        }
+        var roomType = stringRoomType(value.roomType);
 
         // append HTML info
         $(".booking-room-info").append('<div id="id' + value.id + '" class="my-3"><div class="row"><div class="col-4 text-right"><b>Room number:</b></div><div id="bookingRoomId" class="col-8 text-left">' + value.roomNumber + '</div></div><div class="row"><div class="col-4 text-right"><b>Room type:</b></div><div id="bookingInfoRoomType" class="col-8 text-left">' + roomType + '</div></div><div class="row"><div class="col-4 text-right"><b>Price / night:</b></div><div id="bookingInfoRoomPrice" class="col-8 text-left">¥' + value.price + '</div></div></div>');
@@ -352,6 +380,7 @@ function postBooking() {
          success: function(result) {
              console.log("Booking posted / edited: ");
              console.log(result);
+             confirmBookingModal(result);
              // toDo: info modal
 
          },
@@ -362,6 +391,55 @@ function postBooking() {
 
 }
 
-//'<div id="id' + value.id + '><div class="row"><div class="col-4 text-right"><b>Room id:</b></div><div id="bookingRoomId" class="col-8 text-left">' + value.id + '</div></div><div class="row"><div class="col-4 text-right"><b>Room type:</b></div><div id="bookingInfoRoomType" class="col-8 text-left">' + value + '</div></div><div class="row"><div class="col-4 text-right"><b>Price / night:</b></div><div id="bookingInfoRoomPrice" class="col-8 text-left">' + value.price + '</div></div></div>'
+function confirmBookingModal(booking) {
+    var confirmedBookingRooms = [];
+    confirmedBookingRooms = booking.bookedRooms;
+    var confirmedBookingRoomsList = "";
+
+
+    $.each(confirmedBookingRooms, function(index, value) {
+        var roomType = stringRoomType(value.roomType);
+        $("#bookingConfirmedRoomList").append('<li><b>Room ' + value.roomNumber + '</b> - Type: ' + roomType + '</li>');
+    });
+
+    console.log(confirmedBookingRoomsList);
+
+    // Add information to View modal fields
+    $("#bookingConfirmedCheckInDate").html($.format.date(booking.checkInDate,"dd-MM-yyyy"));
+    $("#bookingConfirmedCheckOutDate").html($.format.date(booking.checkOutDate,"dd-MM-yyyy"));
+    $("#bookingConfirmedTotalGuests").html(booking.totalGuests);
+
+    $("bookingConfirmedRoomList").html(confirmedBookingRoomsList);
+
+    $("#bookingConfirmedGuestName").html(booking.guest.name);
+    $("#bookingConfirmedGuestBirthDate").html($.format.date(booking.guest.birthDate,"dd-MM-yyyy"));
+    $("#bookingConfirmedGuestMail").html(booking.guest.mail);
+    $("#bookingConfirmedGuestPassportNr").html(booking.guest.passportNr);
+    $("#bookingConfirmedGuestAddress").html(booking.guest.address);
+    $("#bookingConfirmedGuestCity").html(booking.guest.city);
+
+    $("#bookingConfirmedModal").modal("show");
+}
+
+function checkFormValid() {
+ if (($("#formCheckInDate").val() != "")) {
+
+ }
+}
+
+function stringRoomType(roomRoomType) {
+    var roomType;
+    if (roomRoomType == "singleRoom") {
+        return "Single room";
+    } else if (roomRoomType == "doubleRoom") {
+        return "Double room";
+    } else if (roomRoomType == "familyRoom") {
+        return "Family room";
+    } else if (roomRoomType == "penthouse") {
+        return "Penthouse room";
+    }
+}
+
+
 
 

@@ -31,7 +31,8 @@ public class Room implements Serializable {
 
     @JsonIgnore
     @ManyToMany (fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+//    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Booking> bookings;
 
     public Room() {

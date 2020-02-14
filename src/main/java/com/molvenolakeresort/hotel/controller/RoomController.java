@@ -99,14 +99,11 @@ public class RoomController {
 		Optional<Room> optionalRoom = this.roomRepository.findById(newRoomInfo.getId());
 		if (optionalRoom.isPresent()) {
 			Room foundRoom = optionalRoom.get();
-			if (foundRoom.getBookings() != null) {
-				// If there are bookings, set them to newRoomInfo
-				List<Booking> foundBookings = foundRoom.getBookings();
-				newRoomInfo.setBookings(foundBookings);
-			}
+			return ResponseEntity.ok(roomRepository.save(foundRoom));
+		} else {
+			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(roomRepository.save(newRoomInfo));
 	}
 
 	//Delete room

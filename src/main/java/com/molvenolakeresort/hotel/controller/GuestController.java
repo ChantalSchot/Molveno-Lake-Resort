@@ -78,19 +78,15 @@ public class GuestController {
 
 	// Create new guest
 	@PostMapping (consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> postGuest(@RequestBody Guest guest) {
+	public ResponseEntity<Guest> postGuest(@RequestBody Guest guest) {
 		Optional<Guest> optionalGuest = this.guestRepository.findById(guest.getId());
 
 		if (optionalGuest.isPresent()) {
-			// check of posted guest has bookings
-			if (optionalGuest.get().getBookings() != null) {
-				List<Booking> foundBookings = optionalGuest.get().getBookings();
-				// is booking list not empty?
-				if (!foundBookings.isEmpty()) {
-					guest.setBookings(foundBookings);
-				}
-			}
-		} return ResponseEntity.ok(this.guestRepository.save(guest));
+			Guest postedGuest = optionalGuest.get();
+			return ResponseEntity.ok(this.guestRepository.save(guest));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 
