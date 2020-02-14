@@ -133,7 +133,7 @@ public class BookingController {
 
 
     @DeleteMapping()
-    public void deleteBooking(@RequestBody Booking booking) {
+    public ResponseEntity<?> deleteBooking(@RequestBody Booking booking) {
         if (booking.getGuest() != null) {
             booking.getGuest().removeBooking(booking);
         }
@@ -143,6 +143,7 @@ public class BookingController {
             }
         }
         bookingRepository.delete(booking);
+        return ResponseEntity.ok(booking);
     }
 
 //    @PostConstruct

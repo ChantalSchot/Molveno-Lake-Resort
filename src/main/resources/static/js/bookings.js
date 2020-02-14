@@ -39,21 +39,36 @@ $(document).ready(function() {
     $("#editBookingButton").click(function() {
         editBookingModal(bookingTable.row($('.selected')).data());
     });
+
+    // Save editted information
+    $("#saveBookingButton").click(function() {
+        saveBooking(bookingTable.row($('.selected')).data());
+    });
+
+    // Save editted information
+    $("#deleteBookingButton").click(function() {
+        deleteBooking(bookingTable.row($('.selected')).data());
+    });
 });
 
 function initDataTable() {
 // Create columns (with titles) for datatable
     columns = [
-        { "title":  "Booking ID",
-        "data": "id" },
+        { "title":  "Booking Number",
+        "data": "id",
+        "width": "10%"},
         { "title":  "Guest Name",
-        "data": "guest" },
-        { "title":  "No. of guests",
-        "data": "totalGuests" },
+        "data": "guest.name" },
         { "title":  "Check-In",
-        "data": "checkInDate"},
+        "data": "checkInDate",
+        "render": function(data) {
+            return $.format.date(data,"E dd-MM-yyyy");
+        }},
         { "title":  "Check-Out",
-        "data": "checkOutDate"}
+        "data": "checkOutDate",
+        "render": function(data) {
+            return $.format.date(data,"E dd-MM-yyyy");
+        }}
     ];
 
     // Define new table with above columns
@@ -102,13 +117,13 @@ function emptyModals() {
 // Enter booking information in the 'view booking' modal
 function showBooking(result){
     $("#viewBookingId").html(result.id);
-    $("#viewBookingGuest").html(result.guest);
+    $("#viewBookingGuest").html(result.guest.name);
     $("#viewBookingTotalGuests").html(result.totalGuests);
-    $("#viewBookingRooms").html(result.bookedRooms);
-    $("#viewBookingInvoice").html(result.invoice);
+    $("#viewBookingRooms").html(getBookedRooms(result));
+    $("#viewBookingInvoice").html(getInvoiceTotal(result));
     $("#viewBookingStatus").html(result.status);
-    $("#viewBookingCheckIn").html(result.checkInDate);
-    $("#viewBookingCheckOut").html(result.checkOutDate);
+    $("#viewBookingCheckIn").html($.format.date(result.checkInDate,"E dd-MM-yyyy"));
+    $("#viewBookingCheckOut").html($.format.date(result.checkOutDate,"E dd-MM-yyyy"));
 };
 
 // View booking details with ID from selected row
@@ -142,44 +157,153 @@ function editBookingModal(booking) {
         $("#editBookingModal").modal("show");
         // pre-fill booking to modal fields
         $("#editBookingId").val(booking.id);
-        $("#editBookingGuest").val(booking.guest);
+        $("#editBookingGuest").val(booking.guest.name);
         $("#editBookingTotalGuests").val(booking.totalGuests);
-        $("#editBookingRooms").val(booking.bookedRooms);
+        $("#editBookingRooms").val(getBookedRooms(booking));
         $("#editBookingInvoice").val(booking.invoice);
-        $("#editBookingStatus").val(booking.status);
-        $("#editBookingCheckIn").val(booking.checkInDate);
-        $("#editBookingCheckOut").val(booking.checkOutDate);
+        $("#editBookingStatus").val(getBookingStatus(booking));
+        $("#editBookingCheckIn").val($.format.date(booking.checkInDate,"E dd-MM-yyyy"));
+        $("#editBookingCheckOut").val($.format.date(booking.checkOutDate,"E dd-MM-yyyy"));
     }
 };
 
-function saveBooking() {
+function saveBooking(booking) {
     let bookingObject = {
-        id: +$("#editBookingId").val(),
-        totalGuests: $("#editBookingTotalGuests").val()
+        id: booking.id,
+        guest: booking.guest,
+        totalGuests: $("#editBookingTotalGuests").val(),
+        status: getRadioValue(),
+        checkInDate: booking.checkInDate,
+        checkOutDate: booking.checkOutDate,
+        bookedRooms: booking.bookedRooms,
+        invoice: booking.invoice
     };
     console.log("New bookingObject: " + bookingObject);
 
-    var jsonObject = JSON.stringify(guestObject);
+    var jsonObject = JSON.stringify(bookingObject);
     console.log("new jsonObject: " + jsonObject)
 
-    $.ajax({
+    $.post({
         url: bookingApi,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "put",
         dataType: "json",
         data: jsonObject,
         contentType: "application/json",
         success: function(result) {
-            console.log("Guest posted / edited: " + result);
-            emptyModals();
+            console.log("Booking posted / edited: " + result);
             getData();
         },
         error: function (error) {
             console.log(error);
+        }
+    });
+}
+
+function getGuestByBookingId(data) {
+    $.ajax({
+        url: bookingApi + "/" + data + "/guest",
+        type: "get",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (result) {
+            console.log(result);
+            console.log("regel 201 " + result.name);
+            return result.name;
+        },
+        error: function (error) {
+           console.log(error);
+        }
+    });
+}
+
+function renderDateTime(data) {
+    return($.format.date(data, "E yyyy/MM/dd"));
+}
+
+function getInvoiceTotal(booking) {
+    if(booking.bookedRooms != undefined) {
+        var totalprice = 0;
+        $.each(booking.bookedRooms, function(index, value) {
+            console.log("value.price = " + value.price + " getTotalDays = " + getTotalDays(booking.checkInDate, booking.checkOutDate));
+            totalprice += value.price * (getTotalDays(booking.checkInDate, booking.checkOutDate));
+            console.log(totalprice);
+        });
+        return totalprice;
+    } else {
+        return 0;
+    }
+}
+
+function getTotalDays(date1, date2) {
+    var priceCheckInDate = new Date(date1);
+    var priceCheckOutDate = new Date(date2);
+    var priceDifferenceInTime = priceCheckOutDate.getTime() - priceCheckInDate.getTime();
+    return priceDifferenceInTime / (1000 * 3600 * 24);
+}
+
+function getBookedRooms(booking) {
+    var roomsString = "";
+    $.each(booking.bookedRooms, function(index, value) {
+        roomsString += value.roomNumber;
+        if (!(index === booking.bookedRooms.length - 1)) {
+            roomsString += ", ";
+        }
+    });
+    return roomsString;
+}
+
+function getBookingStatus(booking) {
+    if(booking.status == "booked"){
+        document.getElementById('editBookingStatusBooked').checked = true;
+        document.getElementById('editBookingStatusReserved').checked = false;
+        document.getElementById('editBookingStatusCanceled').checked = false;
+    } else if (booking.status == "reserved") {
+        document.getElementById('editBookingStatusBooked').checked = false;
+        document.getElementById('editBookingStatusReserved').checked = true;
+        document.getElementById('editBookingStatusCanceled').checked = false;
+    } else {
+        document.getElementById('editBookingStatusBooked').checked = false;
+        document.getElementById('editBookingStatusReserved').checked = false;
+        document.getElementById('editBookingStatusCanceled').checked = true;
+    }
+}
+
+function getRadioValue() {
+    var radios = document.getElementsByName('editBookingStatus');
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+        return radios[i].value;
+      }
+    }
+}
+
+function deleteBooking(booking) {
+    let bookingObject = {
+        id: booking.id,
+//        guest: booking.guest,
+//        totalGuests: $("#editBookingTotalGuests").val(),
+//        status: getRadioValue(),
+//        checkInDate: booking.checkInDate,
+//        checkOutDate: booking.checkOutDate,
+//        bookedRooms: booking.bookedRooms,
+//        invoice: booking.invoice
+    };
+    console.log("Deleted bookingObject: " + bookingObject);
+
+    var jsonObject = JSON.stringify(bookingObject);
+    console.log("Delete jsonObject: " + jsonObject)
+
+    $.ajax({
+        url: bookingApi,
+        type: "DELETE",
+        dataType: "json",
+        data: jsonObject,
+        contentType: "application/json",
+        success: function(result) {
+            console.log("Booking deleted " + result);
             getData();
+        },
+        error: function (error) {
+            console.log(error);
         }
     });
 }

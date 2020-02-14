@@ -1,31 +1,61 @@
-//package com.molvenolakeresort.hotel.controller;
-//
-//import com.molvenolakeresort.hotel.model.Room;
-//import com.molvenolakeresort.hotel.model.RoomType;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//class RoomControllerTest {
-//    RoomController roomController;
-//
-//    @BeforeEach
-//    public void init() {
-//        roomController = new RoomController();
-//    }
-//
-//    @Test
-//    public void getRoom() {
-//        Room room;
-//        room = roomController.getRoom(1).getBody();
-//        assertEquals("101", room.getRoomNumber());
-//        System.out.println("De kamer die is opgehaald heeft kamernummer " + room.getRoomNumber() + ".\nAvailable: " + room.isAvailable() + "\n" + room.getFacilities());
-//    }
-//
+package com.molvenolakeresort.hotel.controller;
+
+import com.molvenolakeresort.hotel.model.Room;
+import com.molvenolakeresort.hotel.model.RoomType;
+import com.molvenolakeresort.hotel.repository.RoomRepository;
+import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+class RoomControllerTest {
+    @InjectMocks
+    private RoomController roomController;
+
+    @Mock
+    private RoomRepository roomRepository;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    public void init() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(roomController).build();
+    }
+
+    @Test
+    public void getSingleRoomById() throws Exception {
+        //String roomNumber, RoomType roomType, int noOfAdults, int noOfChildren, int singleBeds, int doubleBeds, int babyBeds, boolean disabled, int price
+        Room room = new Room("100", RoomType.doubleRoom,2,0,0,1,1, false, 500);
+        room.setId(15);
+        when(roomRepository.findById((long)15)).thenReturn(java.util.Optional.of(room));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/rooms/15"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roomNumber").value(room.getRoomNumber()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
 //    @Test
 //    public void getRoomList() {
 //        List<Room> list = new ArrayList<>();
@@ -85,7 +115,7 @@
 //            }
 //        }
 //    }
-
+//
 //    @Test
 //    public void postRoom() {
 //        System.out.println("Nieuwe kamer toevoegen:");
@@ -126,6 +156,4 @@
 //            }
 //        }
 //    }
-
- 
-//}
+}
