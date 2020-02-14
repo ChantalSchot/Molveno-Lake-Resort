@@ -44,6 +44,11 @@ $(document).ready(function() {
     $("#saveBookingButton").click(function() {
         saveBooking(bookingTable.row($('.selected')).data());
     });
+
+    // Save editted information
+    $("#deleteBookingButton").click(function() {
+        deleteBooking(bookingTable.row($('.selected')).data());
+    });
 });
 
 function initDataTable() {
@@ -269,4 +274,36 @@ function getRadioValue() {
         return radios[i].value;
       }
     }
+}
+
+function deleteBooking(booking) {
+    let bookingObject = {
+        id: booking.id,
+//        guest: booking.guest,
+//        totalGuests: $("#editBookingTotalGuests").val(),
+//        status: getRadioValue(),
+//        checkInDate: booking.checkInDate,
+//        checkOutDate: booking.checkOutDate,
+//        bookedRooms: booking.bookedRooms,
+//        invoice: booking.invoice
+    };
+    console.log("Deleted bookingObject: " + bookingObject);
+
+    var jsonObject = JSON.stringify(bookingObject);
+    console.log("Delete jsonObject: " + jsonObject)
+
+    $.ajax({
+        url: bookingApi,
+        type: "DELETE",
+        dataType: "json",
+        data: jsonObject,
+        contentType: "application/json",
+        success: function(result) {
+            console.log("Booking deleted " + result);
+            getData();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
 }
