@@ -1,5 +1,8 @@
 {{>admin/header-admin}}
 
+<div class="container portal-title my-3">
+    Booking list
+</div>
 <!-- Data table die wordt ingelezen vanuit Datatable Library -->
 <div class="data-table mx-auto my-5">
     <table id="bookingTable" class="display mx-auto">
@@ -11,7 +14,7 @@
     <button id="viewBookingButton" type="button" class="btn btn-primary">View</button>
     <button id="editBookingButton" type="button" class="btn btn-warning">Edit</button>
     <button id="deleteBookingButton" type="button" class="btn btn-danger">Delete</button>
-    <button id="newBookingButton" type="button" class="btn btn-success">New</button>
+<!--    <button id="newBookingButton" type="button" class="btn btn-success">New</button>-->
 
     <div>
         <button id="fetchList" class="btn btn-primary mt-4">Fetch data</button>
@@ -36,7 +39,7 @@
                     <div class="row">
                         <!-- All guest information fields, filled in with JQuery from selected guest ID -->
                         <div class="col-6 text-right">
-                            <b>Booking ID:</b>
+                            <b>Booking Number:</b>
                         </div>
                         <div id="viewBookingId" class="col-6 text-left">
                             <i>Currently no booking selected.</i>
@@ -45,18 +48,6 @@
                             <b>Guest Name:</b>
                         </div>
                         <div id="viewBookingGuest" class="col-6 text-left"></div>
-                        <div class="col-6 text-right">
-                            <b>Total guests:</b>
-                        </div>
-                        <div id="viewBookingTotalGuests" class="col-6 text-left"></div>
-                        <div class="col-6 text-right">
-                            <b>Booked Rooms:</b>
-                        </div>
-                        <div id="viewBookingRooms" class="col-6 text-left"></div>
-                        <div class="col-6 text-right">
-                            <b>Invoice:</b>
-                        </div>
-                        <div id="viewBookingInvoice" class="col-6 text-left"></div>
                         <div class="col-6 text-right">
                             <b>Status:</b>
                         </div>
@@ -69,6 +60,18 @@
                             <b>Check-out:</b>
                         </div>
                         <div id="viewBookingCheckOut" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Total guests:</b>
+                        </div>
+                        <div id="viewBookingTotalGuests" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Booked Rooms:</b>
+                        </div>
+                        <div id="viewBookingRooms" class="col-6 text-left"></div>
+                        <div class="col-6 text-right">
+                            <b>Total Cost (¥):</b>
+                        </div>
+                        <div id="viewBookingInvoice" class="col-6 text-left"></div>
                     </div>
                 </div>
             </div>
@@ -92,10 +95,24 @@
                     <!-- All guest information input fields, filled in with JQuery from selected guest ID -->
                     <div class="form-group row">
                         <div class="col-4 text-right">
-                            <label for="editBookingId">Booking ID:</label>
+                            <label for="editBookingId">Booking Number:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="number" id="editBookingId" name="editId" disabled>
+                            <input type="number" id="editBookingId" class="form-control" name="editId" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingStatus">Status:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="radio" id="editBookingStatusBooked" name="editBookingStatus" value="booked" required>
+                            <label for="editBookingStatusBooked">Booked</label>
+                            <input type="radio" id="editBookingStatusReserved" name="editBookingStatus" value="reserved" required>
+                            <label for="editBookingStatusReserved">Reserved</label>
+                            <input type="radio" id="editBookingStatusCanceled" name="editBookingStatus" value="cancelled" required>
+                            <label for="editBookingStatusCanceled">Cancelled</label>
                         </div>
                     </div>
 
@@ -117,11 +134,38 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingRooms">Rooms:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="text" id="editBookingRooms" class="form-control" name="editBookingRooms" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingCheckIn">Check-in:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="text" id="editBookingCheckIn" class="form-control" name="editBookingCheckIn" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
+                            <label for="editBookingCheckOut">Check-out:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="text" id="editBookingCheckOut" class="form-control" name="editBookingCheckOut" disabled>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
                 <!--Save edit of booking-->
-                <button type="button" id="saveBooking" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" id="saveBookingButton" class="btn btn-success" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
             </div>
         </div>
