@@ -82,7 +82,9 @@ $(document).ready(function() {
 function initRoomTable() {
         columns = [
             { "title":  "Room ID",
-            "data": "id" },
+            "data": "id",
+            "visible": false,
+            "searchable": true },
             { "title":  "Room Name",
             "data": "roomNumber" },
             { "title":  "Available?",

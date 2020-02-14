@@ -195,4 +195,27 @@
 </div>
 
 
+<!-- booking: DELETE Confirmation Modal -->
+<div class="modal fade" id="deleteBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBookingModalLabel">Booking Deletion</h5>
+                <button type="button" class="close booking-close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to delete this booking?
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" id="deleteBookingConfirmationButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-secondary booking-close-button" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {{>admin/footer-admin}}

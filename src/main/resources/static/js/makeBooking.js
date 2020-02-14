@@ -55,12 +55,12 @@ $("#newBookingButton").click(function() {
 
 $("#submitBooking").click(function() {
     checkFormValid();
-//    if (formValid) {
+    if (formValid == true) {
         postBooking();
-//    } else {
-//        $("#warningModalBody").html("Make sure all guest information is filled in completely.")
-//        $("#warningModal").modal("show");
-//    }
+    } else {
+        $("#warningModalBody").html("Make sure all guest information is filled in and correct.")
+        $("#warningModal").modal("show");
+    }
 });
 
 $("#clearStorage").click(function() {
@@ -381,7 +381,7 @@ function postBooking() {
              console.log("Booking posted / edited: ");
              console.log(result);
              confirmBookingModal(result);
-             // toDo: info modal
+             formValid = false;
 
          },
          error: function (error) {
@@ -422,9 +422,27 @@ function confirmBookingModal(booking) {
 }
 
 function checkFormValid() {
- if (($("#formCheckInDate").val() != "")) {
+    formValid = false;
+     if ($("#bookingGuestName").val() == "") {
+        return formValid = false;
+     } else if ($("#bookingGuestBirthDate").val() == "") {
+        return formValid = false;
+     } else if (new Date($("#bookingGuestBirthDate").val().split('-').reverse().join('-')) >= ageCheckDate) {
+        return formValid = false;
+     } else if ($("#bookingGuestMail").val() == "") {
+        return formValid = false;
+     } else if ($("#bookingGuestPhone").val() == "") {
+        return formValid = false;
+     } else if ($("#bookingGuestPassportNr").val() == "") {
+        return formValid = false;
+     } else if ($("#bookingGuestAddress").val() == "") {
+        return formValid = false;
+     } else if ($("#bookingGuestCity").val() == "") {
+        return formValid = false;
+     } else {
+        return formValid = true;
+     }
 
- }
 }
 
 function stringRoomType(roomRoomType) {

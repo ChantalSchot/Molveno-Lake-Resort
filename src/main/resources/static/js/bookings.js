@@ -47,8 +47,21 @@ $(document).ready(function() {
 
     // Save editted information
     $("#deleteBookingButton").click(function() {
+
+            // Check if booking is selected
+            if (bookingTable.row($('.selected')).data() == undefined) {
+                $("#noBookingSelectedModal").modal("show");
+
+            } else {
+                // If guest is selected, open modal to confirm deletion
+                $("#deleteBookingModal").modal("show");
+            }
+        });
+
+    $("#deleteBookingConfirmationButton").click(function() {
         deleteBooking(bookingTable.row($('.selected')).data());
-    });
+  });
+
 });
 
 function initDataTable() {
