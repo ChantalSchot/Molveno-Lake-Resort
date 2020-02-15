@@ -22,10 +22,10 @@ $(document).ready(function() {
     $("#bookingTable tbody").on('click', 'tr', function () {
         if($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            emptyModals();
+            emptyBookingModals();
         } else {
             bookingTable.$('tr.selected').removeClass('selected');
-            emptyModals();
+            emptyBookingModals();
             $(this).addClass('selected');
         }
     });
@@ -45,6 +45,11 @@ $(document).ready(function() {
         saveBooking(bookingTable.row($('.selected')).data());
     });
 
+       $("#newBookingButton").click(function() {
+            $("#editBookingModal").modal("show");
+        });
+
+
     // Save editted information
     $("#deleteBookingButton").click(function() {
 
@@ -60,7 +65,15 @@ $(document).ready(function() {
 
     $("#deleteBookingConfirmationButton").click(function() {
         deleteBooking(bookingTable.row($('.selected')).data());
-  });
+    });
+
+    $(".booking-close-button").click(function() {
+        emptyBookingModals();
+    });
+
+     $(".modal").on('hide.bs.modal', function() {
+        emptyBookingModals();
+     });
 
 });
 
@@ -71,7 +84,14 @@ function initDataTable() {
         "data": "id",
         "width": "10%"},
         { "title":  "Guest Name",
-        "data": "guest.name" },
+        "data": "guest",
+        "render": function(data) {
+            if (data == null) {
+            return "No guest";
+            } else {
+            return data.name;
+            }
+        }},
         { "title":  "Check-In",
         "data": "checkInDate",
         "render": function(data) {
@@ -115,21 +135,22 @@ function clear() {
 }
 
 // Empty modals after closing
-function emptyModals() {
-    // Remove guest information from View modal fields
-    $("#viewBookingId").html("No booking selected.");
-    $("#viewGuestName").empty();
-    $("#viewBirthDate").empty();
-    $("#viewMail").empty();
-    $("#viewPhone").empty();
-    $("#viewPassportNr").empty();
-    $("#viewAddress").empty();
-    $("#viewCity").empty();
+function emptyBookingModals() {
+    // Remove information from View modal fields
+    $("#viewBookingId").empty();
+    $("#viewBookingGuest").empty();
+    $("#viewBookingStatus").empty();
+    $("#viewBookingCheckIn").empty();
+    $("#viewBookingCheckOut").empty();
+    $("#viewBookingTotalGuests").empty();
+    $("#viewBookingRooms").empty();
+    $("#viewBookingInvoice").empty();
 };
 
 // Enter booking information in the 'view booking' modal
 function showBooking(result){
     $("#viewBookingId").html(result.id);
+    $("#viewBookingGuestId").html(result.guest.id);
     $("#viewBookingGuest").html(result.guest.name);
     $("#viewBookingTotalGuests").html(result.totalGuests);
     $("#viewBookingRooms").html(getBookedRooms(result));
@@ -137,6 +158,8 @@ function showBooking(result){
     $("#viewBookingStatus").html(result.status);
     $("#viewBookingCheckIn").html($.format.date(result.checkInDate,"E dd-MM-yyyy"));
     $("#viewBookingCheckOut").html($.format.date(result.checkOutDate,"E dd-MM-yyyy"));
+    parseBookedRooms(getBookedRooms(result));
+    console.log(result);
 };
 
 // View booking details with ID from selected row
@@ -170,6 +193,7 @@ function editBookingModal(booking) {
         $("#editBookingModal").modal("show");
         // pre-fill booking to modal fields
         $("#editBookingId").val(booking.id);
+        $("#editBookingGuestId").val(booking.guest.id);
         $("#editBookingGuest").val(booking.guest.name);
         $("#editBookingTotalGuests").val(booking.totalGuests);
         $("#editBookingRooms").val(getBookedRooms(booking));
@@ -177,18 +201,33 @@ function editBookingModal(booking) {
         $("#editBookingStatus").val(getBookingStatus(booking));
         $("#editBookingCheckIn").val($.format.date(booking.checkInDate,"E dd-MM-yyyy"));
         $("#editBookingCheckOut").val($.format.date(booking.checkOutDate,"E dd-MM-yyyy"));
+        parseBookedRooms(getBookedRooms(booking));
+        console.log(JSON.stringify(booking));
     }
 };
 
+
 function saveBooking(booking) {
+
+    var bookedRoomsArray;
+    if ($("#editBookingRooms").val() != "") {
+        bookedRoomsArray = parseBookedRooms(($("#editBookingRooms").val()));
+    } else {
+    bookedRoomsArray = booking.bookedRooms;
+    }
+
+
     let bookingObject = {
-        id: booking.id,
-        guest: booking.guest,
+        id: $("#editBookingId").val(),
+        guest: {
+            id: $("#editBookingGuestId").val(),
+            name: $("#editBookingGuest").val()
+        },
         totalGuests: $("#editBookingTotalGuests").val(),
         status: getRadioValue(),
         checkInDate: booking.checkInDate,
         checkOutDate: booking.checkOutDate,
-        bookedRooms: booking.bookedRooms,
+        bookedRooms: bookedRoomsArray,
         invoice: booking.invoice
     };
     console.log("New bookingObject: " + bookingObject);
@@ -262,6 +301,19 @@ function getBookedRooms(booking) {
         }
     });
     return roomsString;
+}
+
+function parseBookedRooms(roomString) {
+    var roomArray = roomString.split(', ');
+    var parsedRoomArray = [];
+    $.each(roomArray, function(index, value) {
+       parsedRoomArray.push({
+       roomNumber: roomArray[index]
+       })
+    });
+    console.log(parsedRoomArray);
+
+    return parsedRoomArray;
 }
 
 function getBookingStatus(booking) {

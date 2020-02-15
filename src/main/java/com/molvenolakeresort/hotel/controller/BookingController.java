@@ -4,6 +4,7 @@ import com.molvenolakeresort.hotel.model.*;
 import com.molvenolakeresort.hotel.repository.BookingRepository;
 import com.molvenolakeresort.hotel.repository.GuestRepository;
 import com.molvenolakeresort.hotel.repository.RoomRepository;
+import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,38 +90,38 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Booking> postBooking(@RequestBody Booking booking){
-
-        // Check if booking guest info is entered, and retrieve existing guest information:
+    
+//        Check if booking guest info is entered, and retrieve existing guest information:
         if (booking.getGuest() != null) {
             Optional<Guest> optionalGuest = this.guestRepository.findById(booking.getGuest().getId());
+            Optional<Guest> optionalGuestName = this.guestRepository.findByName(booking.getGuest().getName());
 
             if (optionalGuest.isPresent()) {
                 Guest foundGuest = optionalGuest.get();
                 booking.setGuest(foundGuest);
-//                foundGuest.addBooking(booking);
-//                this.guestRepository.save(foundGuest);
-
+            } else if (optionalGuestName.isPresent()){
+                Guest foundGuestName = optionalGuestName.get();
+                booking.setGuest(foundGuestName);
             } else {
-//                this.guestRepository.save(booking.getGuest());
+                booking.setGuest(null);
             }
         }
 
-        // Check if booking rooms are entered, and retrieve existing room information
+//         Check if booking rooms are entered, and retrieve existing room information
         if(booking.getBookedRooms().size() != 0) {
             List<Room> foundRooms = new ArrayList<Room>();
 
             for (Room room : booking.getBookedRooms()) {
                 Optional<Room> optionalRoom = this.roomRepository.findById(room.getId());
+                Optional<Room> optionalRoomNumber = this.roomRepository.findByRoomNumber(room.getRoomNumber());
                 if (optionalRoom.isPresent()) {
                     Room foundRoom = optionalRoom.get();
                     foundRooms.add(foundRoom);
-//                    foundRoom.addBooking(booking);
-//                    this.roomRepository.save(foundRoom);
-
+                } else if (optionalRoomNumber.isPresent()) {
+                    Room foundRoomNumber = this.roomRepository.findById(optionalRoomNumber.get().getId()).get();
+                    foundRooms.add(foundRoomNumber);
                 } else {
                     foundRooms.add(room);
-//                    room.addBooking(booking);
-//                    this.roomRepository.save(room);
                 }
             }
             booking.setBookedRooms(foundRooms);
@@ -134,14 +135,14 @@ public class BookingController {
 
     @DeleteMapping()
     public ResponseEntity<?> deleteBooking(@RequestBody Booking booking) {
-        if (booking.getGuest() != null) {
-            booking.getGuest().removeBooking(booking);
-        }
-        if (booking.getBookedRooms() != null) {
-            for (Room room : booking.getBookedRooms()) {
-                room.removeBooking(booking);
-            }
-        }
+//        if (booking.getGuest() != null) {
+//            booking.getGuest().removeBooking(booking);
+//        }
+//        if (booking.getBookedRooms() != null) {
+//            for (Room room : booking.getBookedRooms()) {
+//                room.removeBooking(booking);
+//            }
+//        }
         bookingRepository.delete(booking);
         return ResponseEntity.ok(booking);
     }

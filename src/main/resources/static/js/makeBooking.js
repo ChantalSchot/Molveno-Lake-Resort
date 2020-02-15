@@ -26,6 +26,11 @@ $(document).ready(function() {
     if (window.location.href.indexOf("book-room") > -1) {
             fillBookingForm();
         };
+
+     $("#bookingConfirmedModal").on('hide.bs.modal', function() {
+        sessionStorage.clear();
+        emptyFields();
+     });
 });
 
 // Button functions
@@ -340,7 +345,6 @@ function postBooking() {
     var children = +sessionStorage.getItem("noOfChildren");
     var sumTotalGuests = adults + children;
     var inputBirthDate = $("#bookingGuestBirthDate").val().split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
-    var guestName = $("#bookingGuestName").val();
 
 
     let bookingObject = {
@@ -443,6 +447,33 @@ function checkFormValid() {
         return formValid = true;
      }
 
+}
+
+function emptyFields() {
+    $("#bookingConfirmedCheckInDate").html("");
+    $("#bookingConfirmedCheckOutDate").html("");
+    $("#bookingConfirmedTotalGuests").html("");
+    $("bookingConfirmedRoomList").html("");
+    $("#bookingConfirmedGuestName").html("");
+    $("#bookingConfirmedGuestBirthDate").html("");
+    $("#bookingConfirmedGuestMail").html("");
+    $("#bookingConfirmedGuestPassportNr").html("");
+    $("#bookingConfirmedGuestAddress").html("");
+    $("#bookingConfirmedGuestCity").html("");
+    $("#bookingInfoCheckInDate").html("");
+    $("#bookingInfoCheckOutDate").html("");
+    $("#bookingInfoAdults").html("");
+    $("#bookingInfoChildren").html("");
+    $(".booking-room-info").html("");
+    $("#bookingGuestBirthDate").val()
+    $("#bookingGuestId").val("");
+    $("#bookingGuestName").val("");
+    $("#bookingGuestBirthDate").val("");
+    $("#bookingGuestMail").val("");
+    $("#bookingGuestPhone").val("");
+    $("#bookingGuestPassportNr").val("");
+    $("#bookingGuestAddress").val("");
+    $("#bookingGuestCity").val("");
 }
 
 function stringRoomType(roomRoomType) {

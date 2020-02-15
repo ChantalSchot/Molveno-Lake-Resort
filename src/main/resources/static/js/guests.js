@@ -366,7 +366,9 @@ function deleteGuest(guest) {
                 getGuestData();
             },
             error: function (error) {
-                console.log(error);
+                console.log(error.responseText);
+                $("#guestWarningModal .modal-body").html(error.responseText);
+                $("#guestWarningModal").modal('show');
                 getGuestData();
             }
         });
@@ -384,6 +386,7 @@ function emptyGuestModals() {
     $("#viewGuestAddress").empty();
     $("#viewGuestCity").empty();
     $("#viewGuestBookings").empty();
+    $("#guestWarningModal .modal-body").empty();
     bookingIdString = "";
 
 

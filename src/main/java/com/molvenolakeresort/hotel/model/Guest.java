@@ -28,9 +28,7 @@ public class Guest implements Serializable {
     
 
     @JsonIgnore
-//    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @OneToMany (mappedBy = "guest")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany (mappedBy = "guest", cascade = CascadeType.ALL)
     private List<Booking> bookings;
     
 

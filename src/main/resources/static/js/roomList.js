@@ -268,7 +268,7 @@ function editRoomModal(room) {
 
 function updateRoom(){
 if (roomTypeString == "") {
-    roomTypeString = "single";
+    roomTypeString = "singleRoom";
 }
 
     var room = {
@@ -301,7 +301,10 @@ if (roomTypeString == "") {
         },
     
         error: function (error) {
-            alert(error.responseText);
+            console.log(error);
+            if ((error.responseText).includes("with that name")) {
+                alert(error.responseText);
+            }
         }
     });
 

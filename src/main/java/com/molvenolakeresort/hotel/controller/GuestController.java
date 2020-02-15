@@ -5,6 +5,8 @@ import com.molvenolakeresort.hotel.model.Guest;
 import com.molvenolakeresort.hotel.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -79,26 +81,23 @@ public class GuestController {
 	// Create new guest
 	@PostMapping (consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Guest> postGuest(@RequestBody Guest guest) {
-		Optional<Guest> optionalGuest = this.guestRepository.findById(guest.getId());
-
-		if (optionalGuest.isPresent()) {
-			Guest postedGuest = optionalGuest.get();
-			return ResponseEntity.ok(this.guestRepository.save(guest));
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		return ResponseEntity.ok(this.guestRepository.save(guest));
 	}
 	
 
 	@DeleteMapping (consumes = "application/json")
-	public void deleteGuest(@RequestBody Guest guest) {
-		this.guestRepository.delete(guest);
+	public ResponseEntity<?> deleteGuest(@RequestBody Guest guest) {
+		Guest deletingGuest = this.guestRepository.findById(guest.getId()).get();
+		
+		if (deletingGuest.getBookings() == null || deletingGuest.getBookings().size() == 0) {
+			this.guestRepository.delete(guest);
+			return new ResponseEntity<>("Guest was deleted.", HttpStatus.OK);
+			
+		} else {
+			return new ResponseEntity<>("Guest currently has bookings and cannot be deleted.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
-//	 Add some guests to the list when application starts
-//	@PostConstruct
-//	public void init() throws ParseException {
 
-//	}
 
 }

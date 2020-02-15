@@ -14,7 +14,7 @@
     <button id="viewBookingButton" type="button" class="btn btn-primary">View</button>
     <button id="editBookingButton" type="button" class="btn btn-warning">Edit</button>
     <button id="deleteBookingButton" type="button" class="btn btn-danger">Delete</button>
-<!--    <button id="newBookingButton" type="button" class="btn btn-success">New</button>-->
+    <button id="newBookingButton" type="button" class="btn btn-success">New</button>
 
 <!--    <div>-->
 <!--        <button id="fetchList" class="btn btn-primary mt-4">Fetch data</button>-->
@@ -29,7 +29,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="viewModalLabel">Booking Details</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-button booking-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -44,6 +44,10 @@
                         <div id="viewBookingId" class="col-6 text-left">
                             <i>Currently no booking selected.</i>
                         </div>
+                        <div class="col-6 text-right">
+                            <b>Guest ID:</b>
+                        </div>
+                        <div id="viewBookingGuestId" class="col-6 text-left"></div>
                         <div class="col-6 text-right">
                             <b>Guest Name:</b>
                         </div>
@@ -85,7 +89,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit Booking</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-button booking-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -98,7 +102,7 @@
                             <label for="editBookingId">Booking Number:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="number" id="editBookingId" class="form-control" name="editId" disabled>
+                            <input type="number" id="editBookingId" class="form-control" name="editId">
                         </div>
                     </div>
 
@@ -118,10 +122,19 @@
 
                     <div class="form-group row">
                         <div class="col-4 text-right">
+                            <label for="editBookingGuestId">Guest ID:</label>
+                        </div>
+                        <div class="col-8 text-left">
+                            <input type="number" id="editBookingGuestId" class="form-control" name="editBookingGuestId">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4 text-right">
                             <label for="editBookingGuest">Guest:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="text" id="editBookingGuest" class="form-control" name="editBookingGuest" disabled>
+                            <input type="text" id="editBookingGuest" class="form-control" name="editBookingGuest">
                         </div>
                     </div>
 
@@ -130,7 +143,7 @@
                             <label for="editBookingTotalGuests">No. of guests:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="text" id="editBookingTotalGuests" class="form-control" name="editBookingTotalGuests" required>
+                            <input type="text" id="editBookingTotalGuests" class="form-control" name="editBookingTotalGuests">
                         </div>
                     </div>
 
@@ -139,7 +152,7 @@
                             <label for="editBookingRooms">Rooms:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="text" id="editBookingRooms" class="form-control" name="editBookingRooms" disabled>
+                            <input type="text" id="editBookingRooms" class="form-control" name="editBookingRooms">
                         </div>
                     </div>
 
@@ -148,7 +161,7 @@
                             <label for="editBookingCheckIn">Check-in:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="text" id="editBookingCheckIn" class="form-control" name="editBookingCheckIn" disabled>
+                            <input type="text" id="editBookingCheckIn" class="form-control" name="editBookingCheckIn">
                         </div>
                     </div>
 
@@ -157,7 +170,7 @@
                             <label for="editBookingCheckOut">Check-out:</label>
                         </div>
                         <div class="col-8 text-left">
-                            <input type="text" id="editBookingCheckOut" class="form-control" name="editBookingCheckOut" disabled>
+                            <input type="text" id="editBookingCheckOut" class="form-control" name="editBookingCheckOut">
                         </div>
                     </div>
 
@@ -166,7 +179,7 @@
             <div class="modal-footer">
                 <!--Save edit of booking-->
                 <button type="button" id="saveBookingButton" class="btn btn-success" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary close-button booking-close-button" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -179,7 +192,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="noBookingSelectedModalLabel">Booking selection</h5>
-                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-button booking-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -187,7 +200,7 @@
                 No booking selected.
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary close-button booking-close-button" data-dismiss="modal">Cancel</button>
 
             </div>
         </div>
@@ -201,7 +214,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteBookingModalLabel">Booking Deletion</h5>
-                <button type="button" class="close booking-close-button" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close booking-close-button booking-close-button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -210,7 +223,7 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" id="deleteBookingConfirmationButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                <button type="button" class="btn btn-secondary booking-close-button" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary booking-close-button booking-close-button" data-dismiss="modal">Cancel</button>
 
             </div>
         </div>

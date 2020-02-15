@@ -95,14 +95,8 @@ public class RoomController {
 				}
 			}
 		}
-		// Check if room has existing bookings
-		Optional<Room> optionalRoom = this.roomRepository.findById(newRoomInfo.getId());
-		if (optionalRoom.isPresent()) {
-			Room foundRoom = optionalRoom.get();
-			return ResponseEntity.ok(roomRepository.save(foundRoom));
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		
+		return ResponseEntity.ok(this.roomRepository.save(newRoomInfo));
 
 	}
 
@@ -112,8 +106,6 @@ public class RoomController {
 		roomRepository.deleteById(id);
 	}
 
-//	@PostConstruct
-//	public void init() {
-//	}
+
 }
 

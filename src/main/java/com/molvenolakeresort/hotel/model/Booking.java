@@ -1,10 +1,16 @@
 package com.molvenolakeresort.hotel.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,14 +28,12 @@ public class Booking {
     private Date checkInDate;
     private Date checkOutDate;
 
-    @ManyToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "guestID")
     private Guest guest;
 
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @JoinColumn(name = "roomID")
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinColumn(name = "roomIDs")
     private List<Room> bookedRooms;
 
     @OneToOne
@@ -145,6 +149,18 @@ public class Booking {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+    
+    public void addRoom(Room room) {
+        if (!bookedRooms.contains(room)) {
+            bookedRooms.add(room);
+        }
+    }
+    
+    public void removeBooking(Room room) {
+        if (bookedRooms.contains(room)) {
+            bookedRooms.remove(room);
+        }
     }
     
     
