@@ -18,14 +18,18 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Booking {
+@Table(name = "booking")
+public class Booking implements Serializable {
     //static int guestIDgenerator = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     private int totalGuests;
     private Status status;
+    @Column(name = "check_in_date")
     private Date checkInDate;
+    @Column(name = "check_out_date")
     private Date checkOutDate;
 
     @ManyToOne (cascade = CascadeType.ALL)
@@ -33,7 +37,16 @@ public class Booking {
     private Guest guest;
 
     @ManyToMany (cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomIDs")
+    @JoinTable(name = "booked_rooms",
+            joinColumns = {
+                @JoinColumn(name = "booking_id", referencedColumnName = "id"),
+//                @JoinColumn(name = "check_in_date", referencedColumnName = "check_in_date"),
+//                @JoinColumn(name = "check_out_date", referencedColumnName = "check_out_date"),
+            },
+            inverseJoinColumns = {
+            @JoinColumn(name = "room_id", referencedColumnName = "id"),
+//            @JoinColumn(name = "room_type", referencedColumnName = "room_type")
+            })
     private List<Room> bookedRooms;
 
     @OneToOne

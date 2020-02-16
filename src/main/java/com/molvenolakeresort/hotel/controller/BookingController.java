@@ -14,6 +14,7 @@ import javax.xml.ws.Response;
 import java.awt.print.Book;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,12 +104,12 @@ public class BookingController {
                 Guest foundGuestName = optionalGuestName.get();
                 booking.setGuest(foundGuestName);
             } else {
-                booking.setGuest(null);
+                booking.setGuest(booking.getGuest());
             }
         }
 
 //         Check if booking rooms are entered, and retrieve existing room information
-        if(booking.getBookedRooms().size() != 0) {
+        if(booking.getBookedRooms().size() > 0) {
             List<Room> foundRooms = new ArrayList<Room>();
 
             for (Room room : booking.getBookedRooms()) {
@@ -125,6 +126,9 @@ public class BookingController {
                 }
             }
             booking.setBookedRooms(foundRooms);
+        }
+        else {
+            booking.setBookedRooms(null);
         }
 
         // In the end, save booking:

@@ -4,25 +4,20 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "room")
 public class Room implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
     private String roomNumber;
+    @Column(name = "available")
     private boolean available;
     private int numberOfSingleBeds;
     private int numberOfDoubleBeds;
@@ -33,12 +28,13 @@ public class Room implements Serializable {
     private int noOfAdults;
     private int noOfChildren;
     @Enumerated(EnumType.STRING)
+    @Column(name = "room_type")
     private RoomType roomType;
     private int price;
     //private RoomStatus roomStatus;
 
     @JsonIgnore
-    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany (mappedBy = "bookedRooms", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
     public Room() {

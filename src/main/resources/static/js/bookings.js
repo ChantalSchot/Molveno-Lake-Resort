@@ -270,7 +270,7 @@ function saveBooking(booking) {
         checkInDate: editCheckInDate,
         checkOutDate: editCheckOutDate,
         bookedRooms: bookedRoomsArray,
-        invoice: booking.invoice
+        invoice: null
     };
     console.log("New bookingObject: " + bookingObject);
 
@@ -349,11 +349,13 @@ function getBookedRooms(booking) {
 function parseBookedRooms(roomString) {
     var roomArray = roomString.split(', ');
     var parsedRoomArray = [];
-    $.each(roomArray, function(index, value) {
-       parsedRoomArray.push({
-       roomNumber: roomArray[index]
-       })
-    });
+    if (roomArray != "") {
+        $.each(roomArray, function(index, value) {
+           parsedRoomArray.push({
+           roomNumber: roomArray[index]
+           })
+        });
+    }
     console.log(parsedRoomArray);
 
     return parsedRoomArray;

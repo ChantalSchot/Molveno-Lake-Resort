@@ -6,10 +6,16 @@ import com.molvenolakeresort.hotel.model.Room;
 import com.molvenolakeresort.hotel.model.RoomType;
 import com.molvenolakeresort.hotel.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +85,37 @@ public class RoomController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	@GetMapping("available-rooms")
+	public ResponseEntity<List<Room>> getAvailableRooms(@RequestParam("newCheckIn") String newCheckIn, @RequestParam("newCheckOut") String newCheckOut, @RequestParam("roomType") String roomTypeString) throws ParseException {
+		Date checkIn = new SimpleDateFormat("yyyy-MM-dd").parse(newCheckIn);
+		Date checkOut = new SimpleDateFormat("yyyy-MM-dd").parse(newCheckOut);
+		RoomType roomType = RoomType.singleRoom;
+		
+		if (roomTypeString.equals("single")) {
+			roomType = RoomType.singleRoom;
+		} else if (roomTypeString.equals("double")) {
+			roomType = RoomType.doubleRoom;
+		} else if (roomTypeString.equals("family")) {
+			roomType = RoomType.familyRoom;
+		} else if (roomTypeString.equals("penthouse")) {
+			roomType = RoomType.penthouse;
+		}
+		
+		List<Room> bookedRooms = this.roomRepository.findBookedRooms(checkIn, checkOut, roomType);
+		
+		List<Room> availableRooms = new ArrayList<Room>();
+		Iterable<Room> allRooms = this.roomRepository.findByRoomType(roomType);
+		
+		for (Room room : allRooms) {
+			if (!bookedRooms.contains(room)) {
+				availableRooms.add(room);
+			}
+		}
+		
+		return ResponseEntity.ok(availableRooms);
+	}
+	
 
 	//Modify existing room with id with all the new info of newRoomInfo
 	@PostMapping

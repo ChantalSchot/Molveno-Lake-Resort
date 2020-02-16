@@ -60,6 +60,7 @@ $("#newBookingButton").click(function() {
 
 $("#submitBooking").click(function() {
     checkFormValid();
+    formValid = true;
     if (formValid == true) {
         postBooking();
     } else {
@@ -141,11 +142,19 @@ function initDatePickers() {
 }
 
 function getAllRoomLists() {
+    parsedCheckInDate = $("#formCheckInDate").val().split('-').reverse().join('-'); //  dd-MM-yyyy ---> yyyy-MM-dd
+    parsedCheckOutDate = $("#formCheckOutDate").val().split('-').reverse().join('-');
+
+
 // Single rooms:
     $.ajax(
         {
             type: "get",
-            url: roomListApi + "/roomtype/single",
+            url: roomListApi + "/available-rooms",
+            data: {
+            newCheckIn: parsedCheckInDate,
+            newCheckOut: parsedCheckOutDate,
+            roomType: "single"},
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
@@ -164,7 +173,11 @@ function getAllRoomLists() {
     $.ajax(
         {
             type: "get",
-            url: roomListApi + "/roomtype/double",
+            url: roomListApi + "/available-rooms",
+            data: {
+            newCheckIn: parsedCheckInDate,
+            newCheckOut: parsedCheckOutDate,
+            roomType: "double"},
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
@@ -183,7 +196,11 @@ function getAllRoomLists() {
     $.ajax(
         {
             type: "get",
-            url: roomListApi + "/roomtype/family",
+            url: roomListApi + "/available-rooms",
+            data: {
+            newCheckIn: parsedCheckInDate,
+            newCheckOut: parsedCheckOutDate,
+            roomType: "family"},
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
@@ -202,7 +219,11 @@ function getAllRoomLists() {
     $.ajax(
         {
             type: "get",
-            url: roomListApi + "/roomtype/penthouse",
+            url: roomListApi + "/available-rooms",
+            data: {
+            newCheckIn: parsedCheckInDate,
+            newCheckOut: parsedCheckOutDate,
+            roomType: "penthouse"},
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
@@ -217,6 +238,7 @@ function getAllRoomLists() {
         }
     );
 
+
 }
 
 function setAvailableRoomListSize() {
@@ -225,6 +247,7 @@ function setAvailableRoomListSize() {
     $("#familyRoomListSize").html(familyRoomList.length);
     $("#penthouseRoomListSize").html(penthouseRoomList.length);
 }
+
 
 function addRoomSelection(buttonId) {
       var roomType = buttonId;
@@ -353,7 +376,7 @@ function postBooking() {
         checkInDate: parsedCheckInDate,
         checkOutDate: parsedCheckOutDate,
         guest: {
-            id: $("#bookingGuestId").val(),
+//            id: $("#bookingGuestId").val(),
             name: $("#bookingGuestName").val(),
             birthDate: inputBirthDate,
             mail: $("#bookingGuestMail").val(),

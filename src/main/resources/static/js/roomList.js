@@ -110,7 +110,10 @@ function initRoomTable() {
                 return "Family"
             } else if (data == "penthouse") {
                 return "Penthouse"
+            } else {
+                return ""
             }
+
             }}
         ];
     
