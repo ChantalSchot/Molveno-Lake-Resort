@@ -4,6 +4,7 @@ var bookingTable;
 
 $(document).ready(function() {
     initDataTable();
+    initBookingDatePickers();
 
     // Enter current guest API into data table (only data from PostConstruct for now)
     getData();
@@ -128,24 +129,58 @@ function getData() {
     );
 }
 
+function initBookingDatePickers() {
+    // Datepicker for check-in
+    $("#editBookingCheckIn").datepicker({
+        dateFormat: "D dd-mm-yy",
+        changeMonth: true,
+        changeYear: true,
+        maxDate: "+6M",
+        minDate: 0,
+        constrainInput: false,
+        firstDay: 1,
+        autoSize: true,
+        beforeShowDay: function(date) {
+            if(date.getDay() == 6 || date.getDay() == 0) {
+                return [true, "Highlighted", ''];
+            } else {
+                return [true, '', ''];
+            }
+        }
+    });
+
+    // Datepicker for check-out-in
+        $("#editBookingCheckOut").datepicker({
+            dateFormat: "D dd-mm-yy",
+            changeMonth: true,
+            changeYear: true,
+            maxDate: "+6M",
+            minDate: 0,
+            constrainInput: false,
+            firstDay: 1,
+            autoSize: true,
+            beforeShowDay: function(date) {
+                if(date.getDay() == 6 || date.getDay() == 0) {
+                    return [true, "Highlighted", ''];
+                } else {
+                    return [true, '', ''];
+                }
+            }
+        });
+
+        $("#editBookingCheckIn").change(function() {
+             $("#editBookingCheckOut").datepicker('option', {
+                minDate: $("#editBookingCheckIn").val()
+                });
+        });
+}
+
 // Clear all data from table
 function clear() {
     bookingTable.clear();
     bookingTable.columns.adjust().draw();
 }
 
-// Empty modals after closing
-function emptyBookingModals() {
-    // Remove information from View modal fields
-    $("#viewBookingId").empty();
-    $("#viewBookingGuest").empty();
-    $("#viewBookingStatus").empty();
-    $("#viewBookingCheckIn").empty();
-    $("#viewBookingCheckOut").empty();
-    $("#viewBookingTotalGuests").empty();
-    $("#viewBookingRooms").empty();
-    $("#viewBookingInvoice").empty();
-};
 
 // Enter booking information in the 'view booking' modal
 function showBooking(result){
@@ -204,17 +239,24 @@ function editBookingModal(booking) {
         parseBookedRooms(getBookedRooms(booking));
         console.log(JSON.stringify(booking));
     }
+
+
 };
 
 
 function saveBooking(booking) {
+// toDo: fix date input for check-in and check-out date
 
     var bookedRoomsArray;
-    if ($("#editBookingRooms").val() != "") {
-        bookedRoomsArray = parseBookedRooms(($("#editBookingRooms").val()));
-    } else {
-    bookedRoomsArray = booking.bookedRooms;
+    bookedRoomsArray = parseBookedRooms(($("#editBookingRooms").val()));
+
+    Date.prototype.addHours = function(h) {
+      this.setTime(this.getTime() + (h*60*60*1000));
+      return this;
     }
+
+    var editCheckInDate = ($.datepicker.parseDate("D dd-mm-yy", $("#editBookingCheckIn").val())).addHours(1);
+    var editCheckOutDate = ($.datepicker.parseDate("D dd-mm-yy", $("#editBookingCheckOut").val())).addHours(1);
 
 
     let bookingObject = {
@@ -225,8 +267,8 @@ function saveBooking(booking) {
         },
         totalGuests: $("#editBookingTotalGuests").val(),
         status: getRadioValue(),
-        checkInDate: booking.checkInDate,
-        checkOutDate: booking.checkOutDate,
+        checkInDate: editCheckInDate,
+        checkOutDate: editCheckOutDate,
         bookedRooms: bookedRoomsArray,
         invoice: booking.invoice
     };
@@ -241,7 +283,8 @@ function saveBooking(booking) {
         data: jsonObject,
         contentType: "application/json",
         success: function(result) {
-            console.log("Booking posted / edited: " + result);
+            console.log("Booking posted / edited: ");
+            console.log(result);
             getData();
         },
         error: function (error) {
@@ -258,7 +301,7 @@ function getGuestByBookingId(data) {
         contentType: "application/json",
         success: function (result) {
             console.log(result);
-            console.log("regel 201 " + result.name);
+            console.log("Guest by booking ID: " + result.name);
             return result.name;
         },
         error: function (error) {
@@ -343,14 +386,7 @@ function getRadioValue() {
 
 function deleteBooking(booking) {
     let bookingObject = {
-        id: booking.id,
-//        guest: booking.guest,
-//        totalGuests: $("#editBookingTotalGuests").val(),
-//        status: getRadioValue(),
-//        checkInDate: booking.checkInDate,
-//        checkOutDate: booking.checkOutDate,
-//        bookedRooms: booking.bookedRooms,
-//        invoice: booking.invoice
+        id: booking.id
     };
     console.log("Deleted bookingObject: " + bookingObject);
 
@@ -372,3 +408,27 @@ function deleteBooking(booking) {
         }
     });
 }
+
+
+// Empty modals after closing
+function emptyBookingModals() {
+    // Remove information from View modal fields
+    $("#viewBookingId").empty();
+    $("#viewBookingGuest").empty();
+    $("#viewBookingStatus").empty();
+    $("#viewBookingCheckIn").empty();
+    $("#viewBookingCheckOut").empty();
+    $("#viewBookingTotalGuests").empty();
+    $("#viewBookingRooms").empty();
+    $("#viewBookingInvoice").empty();
+
+    $("#editBookingId").val("");
+    $("#editBookingGuestId").val("");
+    $("#editBookingGuest").val("");
+    $("#editBookingTotalGuests").val("");
+    $("#editBookingRooms").val("");
+    $("#editBookingInvoice").val("");
+    $("#editBookingStatus").val("");
+    $("#editBookingCheckIn").val("");
+    $("#editBookingCheckOut").val("");
+};

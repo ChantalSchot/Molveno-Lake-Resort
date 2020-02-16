@@ -269,16 +269,18 @@ function getBookingIdString(bookings) {
     // If multiple bookings exist:
     else if (bookingArray.length >= 2) {
         $.each(bookingArray, function(index, value) {
-            bookingList += value.id + ", ";
+            bookingList += value.id;
+            if (!(index === bookingArray.length - 1)) {
+                bookingList += ", ";
+            }
         });
-        // Cut last two characters off string so it does not end with ", "
-        bookingList = bookingList.substring(0, bookingList.length -2);
     }
     // If 1 booking exists:
     else if (bookingArray.length == 1) {
         bookingList = bookingArray[0].id;
     }
-    bookingIdString = bookingList
+
+    bookingIdString = bookingList;
 
     $("#viewGuestBookings").html(bookingIdString);
 }
