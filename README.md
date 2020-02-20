@@ -12,3 +12,4 @@ JDBC URL: jdbc:h2:mem:molveno
 Username: molveno
 
 Mustache is used for front-end templates (header/footer), not the base .html files.
+To run the application, make sure all maven projects are imported through the pom.xml file.
