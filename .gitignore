@@ -2,6 +2,7 @@
 /workspace.xml
 /.idea
 *.class
+*.iml
 /target/
 sonarlint/
 /MolvenoLakeResort.iml

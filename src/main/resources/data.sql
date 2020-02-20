@@ -54,7 +54,7 @@ VALUES (5, 5);
 INSERT INTO booked_rooms (booking_id, room_id)
 VALUES (5, 7);
 
-SELECT molveno.booked_rooms.booking_id, molveno.booked_rooms.room_id, molveno.booking.check_in_date, molveno.booking.check_out_date, molveno.room.room_type
-FROM molveno.room
-JOIN molveno.booked_rooms ON molveno.room.id = molveno.booked_rooms.room_id
-JOIN molveno.booking ON molveno.booked_rooms.booking_id = molveno.booking.id;
+--SELECT molveno.booked_rooms.booking_id, molveno.booked_rooms.room_id, molveno.booking.check_in_date, molveno.booking.check_out_date, molveno.room.room_type
+--FROM molveno.room
+--JOIN molveno.booked_rooms ON molveno.room.id = molveno.booked_rooms.room_id
+--JOIN molveno.booking ON molveno.booked_rooms.booking_id = molveno.booking.id;
